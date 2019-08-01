@@ -55,3 +55,4 @@ G:\Projects\WebRentManager\obj\Debug\netcoreapp2.2\WebRentManager.dll
 G:\Projects\WebRentManager\obj\Debug\netcoreapp2.2\WebRentManager.pdb
 G:\Projects\WebRentManager\obj\Debug\netcoreapp2.2\WebRentManager.csproj.CopyComplete
 G:\Projects\WebRentManager\obj\Debug\netcoreapp2.2\Razor\Views\Cars\Details.g.cshtml.cs
+C:\Users\Piotrek\Desktop\WebRentManager\obj\Debug\netcoreapp2.2\Razor\Views\Cars\Details.g.cshtml.cs

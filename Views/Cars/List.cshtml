@@ -10,6 +10,29 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<div class="row">
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <td>Samochody</td>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>@item.RegistrationNumber</td>
+                <td>@item.Make</td>
+                <td>@item.Model</td>
+                <td>@item.ProductionYear</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<h1>Stara tabela poniżej</h1>
+
 <table class="table">
     <thead>
         <tr>

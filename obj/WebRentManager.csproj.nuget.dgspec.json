@@ -1,26 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "G:\\Projects\\WebRentManager\\WebRentManager.csproj": {}
+    "C:\\Users\\Piotrek\\Desktop\\WebRentManager\\WebRentManager.csproj": {}
   },
   "projects": {
-    "G:\\Projects\\WebRentManager\\WebRentManager.csproj": {
+    "C:\\Users\\Piotrek\\Desktop\\WebRentManager\\WebRentManager.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "G:\\Projects\\WebRentManager\\WebRentManager.csproj",
+        "projectUniqueName": "C:\\Users\\Piotrek\\Desktop\\WebRentManager\\WebRentManager.csproj",
         "projectName": "WebRentManager",
-        "projectPath": "G:\\Projects\\WebRentManager\\WebRentManager.csproj",
+        "projectPath": "C:\\Users\\Piotrek\\Desktop\\WebRentManager\\WebRentManager.csproj",
         "packagesPath": "C:\\Users\\Piotrek\\.nuget\\packages\\",
-        "outputPath": "G:\\Projects\\WebRentManager\\obj\\",
+        "outputPath": "C:\\Users\\Piotrek\\Desktop\\WebRentManager\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
           "C:\\Users\\Piotrek\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.2"
