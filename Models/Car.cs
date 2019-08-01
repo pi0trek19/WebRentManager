@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,10 +11,14 @@ namespace WebRentManager.Models
         public Guid Id { get; set; }
         //public bool IsAvailable { get; set; }
         //public bool Enabled { get; set; }
+        [DisplayName("Nr rejestracyjny")]
         public string RegistrationNumber { get; set; }
         //public string VIN { get; set; }
+        [DisplayName("Marka")]
         public string Make { get; set; }
+        [DisplayName("Model")]
         public string Model { get; set; }
+        [DisplayName("Rok Produkcji")]
         public int ProductionYear { get; set; }
         //public int Milage { get; set; }
         //public int NextServiceMilage { get; set; }

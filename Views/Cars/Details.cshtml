@@ -1,0 +1,11 @@
+﻿@model CarDetailsViewModel
+
+@{
+    ViewBag.Title = Model.PageTitle;
+}
+
+<h1>Dane samochodu @Model.Car.RegistrationNumber</h1>
+<h4>Nr. rej: @Model.Car.RegistrationNumber</h4>
+<h4>Marka: @Model.Car.Make</h4>
+<h4>Model: @Model.Car.Model</h4>
+<h4>Data rejestracji: @Model.Car.ProductionYear</h4>
