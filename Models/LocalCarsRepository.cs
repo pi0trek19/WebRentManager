@@ -17,9 +17,9 @@ namespace WebRentManager.Models
             _carsList = new List<Car>()
             {
                 
-                new Car(){Id=tmp,Make="VW",Model="Golf",RegistrationNumber="WI323HY",ProductionYear=2019},
-                new Car(){Id=tmp1,Make="Opel",Model="Astra",RegistrationNumber="WI902GW",ProductionYear=2017},
-                new Car(){Id=tmp2,Make="Kia",Model="Optima",RegistrationNumber="WI789JJ",ProductionYear=2019}
+                new Car(){Id=tmp,Make="VW",Model="Golf",RegistrationNumber="AA12345",ProductionYear=2018},
+                new Car(){Id=tmp1,Make="Opel",Model="Astra",RegistrationNumber="BB12345",ProductionYear=2017},
+                new Car(){Id=tmp2,Make="Kia",Model="Optima",RegistrationNumber="CC12345",ProductionYear=2019}
             };
         }
         public Car Add(Car car)

@@ -16,9 +16,26 @@ namespace WebRentManager.Controllers
         {
             this._carsrepository = _carsrepository;
         }
-        public ViewResult List()
+        public ViewResult List(string sortOrder)
         {
+            ViewBag.RegSortParm = String.IsNullOrEmpty(sortOrder) ? "reg_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Prod_Date" ? "Prod_date_desc" : "Prod_Date";
             var model = _carsrepository.GetAllCars();
+            switch (sortOrder)
+            {
+                case "reg_desc":
+                    model = model.OrderByDescending(c => c.RegistrationNumber);
+                    break;
+                case "Prod_Date":
+                    model = model.OrderBy(s => s.ProductionYear);
+                    break;
+                case "Prod_date_desc":
+                    model = model.OrderByDescending(s => s.ProductionYear);
+                    break;
+                default:
+                    model = model.OrderBy(s => s.RegistrationNumber);
+                    break;
+            }
             return View(model);
         }
 
