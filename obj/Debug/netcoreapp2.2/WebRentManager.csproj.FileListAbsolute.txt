@@ -2,7 +2,6 @@ C:\Users\Piotrek\Desktop\WebRentManager\bin\Debug\netcoreapp2.2\WebRentManager.d
 C:\Users\Piotrek\Desktop\WebRentManager\bin\Debug\netcoreapp2.2\WebRentManager.runtimeconfig.json
 C:\Users\Piotrek\Desktop\WebRentManager\bin\Debug\netcoreapp2.2\WebRentManager.runtimeconfig.dev.json
 C:\Users\Piotrek\Desktop\WebRentManager\bin\Debug\netcoreapp2.2\WebRentManager.dll
-C:\Users\Piotrek\Desktop\WebRentManager\obj\Debug\netcoreapp2.2\WebRentManager.csprojAssemblyReference.cache
 C:\Users\Piotrek\Desktop\WebRentManager\obj\Debug\netcoreapp2.2\WebRentManager.csproj.CoreCompileInputs.cache
 C:\Users\Piotrek\Desktop\WebRentManager\obj\Debug\netcoreapp2.2\WebRentManager.RazorAssemblyInfo.cache
 C:\Users\Piotrek\Desktop\WebRentManager\obj\Debug\netcoreapp2.2\WebRentManager.RazorAssemblyInfo.cs
@@ -56,3 +55,9 @@ G:\Projects\WebRentManager\obj\Debug\netcoreapp2.2\WebRentManager.pdb
 G:\Projects\WebRentManager\obj\Debug\netcoreapp2.2\WebRentManager.csproj.CopyComplete
 G:\Projects\WebRentManager\obj\Debug\netcoreapp2.2\Razor\Views\Cars\Details.g.cshtml.cs
 C:\Users\Piotrek\Desktop\WebRentManager\obj\Debug\netcoreapp2.2\Razor\Views\Cars\Details.g.cshtml.cs
+C:\Users\Piotrek\Desktop\WebRentManager\obj\Debug\netcoreapp2.2\Razor\Views\Cars\Create.g.cshtml.cs
+C:\Users\Piotrek\Desktop\WebRentManager\obj\Debug\netcoreapp2.2\Razor\Views\Cars\_Layout.g.cshtml.cs
+C:\Users\Piotrek\Desktop\WebRentManager\obj\Debug\netcoreapp2.2\Razor\Views\ServiceFacilities\Index.g.cshtml.cs
+C:\Users\Piotrek\Desktop\WebRentManager\obj\Debug\netcoreapp2.2\Razor\Views\ServiceFacilities\Create.g.cshtml.cs
+C:\Users\Piotrek\Desktop\WebRentManager\obj\Debug\netcoreapp2.2\Razor\Views\Cars\AddService.g.cshtml.cs
+C:\Users\Piotrek\Desktop\WebRentManager\obj\Debug\netcoreapp2.2\WebRentManager.csprojAssemblyReference.cache

@@ -30,7 +30,7 @@ namespace WebRentManager.Models
         //public string FuelType { get; set; }
         //public string GearboxType { get; set; }
         //public DateTime NextTechCheckDate { get; set; }
-
+        public List<Service> Services { get; set; }
 
     }
 }

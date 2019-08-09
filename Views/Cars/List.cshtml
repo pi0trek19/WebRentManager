@@ -28,7 +28,7 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td><a asp-action="details" asp-controller="cars" asp-route-giud="@item.Id">@item.RegistrationNumber</a></td>
+                    <td><a asp-action="details" asp-controller="cars" asp-route-guid="@item.Id">@item.RegistrationNumber</a></td>
                     <td>@item.Make</td>
                     <td>@item.Model</td>
                     <td>@item.ProductionYear</td>

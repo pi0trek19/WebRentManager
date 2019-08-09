@@ -9,6 +9,7 @@ namespace WebRentManager.ViewModels
     public class CarDetailsViewModel
     {
         public Car Car { get; set; }
+        public IEnumerable<Service> Services { get; set; }
         public string PageTitle { get; set; }
     }
 }

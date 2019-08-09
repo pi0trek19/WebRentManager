@@ -10,8 +10,15 @@ namespace WebRentManager.Models
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
+
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
         }
         public DbSet<Car> Cars { get; set; }
-
+        public DbSet<ServiceFacility> ServiceFacilities { get; set; }
+        public DbSet<Service> Services { get; set; }
     }
 }

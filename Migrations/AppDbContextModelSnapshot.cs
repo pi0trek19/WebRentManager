@@ -36,6 +36,61 @@ namespace WebRentManager.Migrations
 
                     b.ToTable("Cars");
                 });
+
+            modelBuilder.Entity("WebRentManager.Models.Service", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("CarId");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<int>("Milage");
+
+                    b.Property<Guid>("ServiceFacilityId");
+
+                    b.Property<int>("ServiceType");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarId");
+
+                    b.HasIndex("ServiceFacilityId");
+
+                    b.ToTable("Services");
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.ServiceFacility", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("City");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Street");
+
+                    b.Property<string>("ZipCode");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ServiceFacilities");
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.Service", b =>
+                {
+                    b.HasOne("WebRentManager.Models.Car")
+                        .WithMany("Services")
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WebRentManager.Models.ServiceFacility", "ServiceFacility")
+                        .WithMany()
+                        .HasForeignKey("ServiceFacilityId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
 #pragma warning restore 612, 618
         }
     }

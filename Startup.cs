@@ -27,8 +27,12 @@ namespace WebRentManager
         {
             services.AddDbContextPool<AppDbContext>(
             options => options.UseSqlServer(_config.GetConnectionString("RentManagerConnection")));
-            services.AddMvc();
+
+            services.AddMvc(/*config => config.ModelBinderProviders.Insert(0, new GuidModelBinderProvider())*/);
             services.AddScoped<ICarsRepository, CarsRepository>();
+            services.AddScoped<IServiceFacilitiesRepository, ServiceFacilitesRepository>();
+            services.AddScoped<IServicesRepository, ServicesRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,7 +43,9 @@ namespace WebRentManager
                 app.UseDeveloperExceptionPage();
             }
             app.UseStaticFiles();
-            app.UseMvcWithDefaultRoute();
+            app.UseMvc(
+                routes => { routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}"); }
+                );
         }
     }
 }
