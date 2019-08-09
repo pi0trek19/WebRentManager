@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/lib/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/twitter-bootstrap/js/bootstrap.js"></script>
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class=" collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a asp-action="list" asp-controller="cars" class="nav-link">Samochody</a>
+                </li>
+                <li class="nav-item">
+                    <a asp-action="create" asp-controller="cars" class="nav-link">Dodaj samochód</a>
+                </li>
+                <li class="nav-item">
+                    <a asp-action="list" asp-controller="rents" class="nav-link">Wynajmy</a>
+                </li>
+                <li class="nav-item">
+                    <a asp-action="list" asp-controller="clients" class="nav-link">Klienci</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        @RenderBody()
+    </div>
+</body>
+</html>
