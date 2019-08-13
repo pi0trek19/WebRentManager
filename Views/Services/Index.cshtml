@@ -1,1 +1,29 @@
-﻿
+﻿@model List<Service>
+
+
+    <h2>Lista przeglądów</h2>
+    <div class="row">
+        <table class="table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th class="text-center text-dark">Serwis</th>
+                    <th class="text-center text-dark">Samochód</th>
+                    <th class="text-center text-dark">Przebieg</th>
+                    <th class="text-center text-dark">Data</th>
+                    <th class="text-center text-dark">Typ</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><a asp-action="details" asp-controller="service" asp-route-guid="@item.ServiceFacilityId">@item.ServiceFacility.Name @item.ServiceFacility.Street @item.ServiceFacility.City</a></td>
+                        <td><a asp-action="details" asp-controller="cars" asp-route-guid="@item.CarId">@item.Car.Make @item.Car.Model @item.Car.RegistrationNumber</a></td>
+                        <td>@item.Milage km</td>
+                        <td>@item.Date.ToString("dd.MM.yyyy")</td>
+                        <td>@item.ServiceType.ToString()</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>

@@ -20,5 +20,7 @@ namespace WebRentManager.Models
         public DbSet<Car> Cars { get; set; }
         public DbSet<ServiceFacility> ServiceFacilities { get; set; }
         public DbSet<Service> Services { get; set; }
+        public DbSet<TyreInfo> TyreInfos { get; set; }
+        public DbSet<TyreShop> TyreShops { get; set; }
     }
 }

@@ -24,8 +24,14 @@ namespace WebRentManager.Controllers
 
         public ViewResult Index()
         {
-            var model = _sevicesRepository.GetAll();
-            return View(model);
+            List <Service> services = _sevicesRepository.GetAll().ToList();
+
+            foreach (var item in services)
+            {
+                item.Car = _carsrepository.GetCar(item.CarId);
+                item.ServiceFacility = _serviceFacilitiesRepository.GetServiceFacility(item.ServiceFacilityId);
+            }
+            return View(services);
         }
 
         public ViewResult Details(Guid guid)

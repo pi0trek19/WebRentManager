@@ -1,0 +1,59 @@
+﻿@model  ServiceDetailsViewModel
+
+    <div class="container">
+        <div class="row">
+            <table class="col-lg-4 col-md-12 table-hover table-striped table-bordered">
+                <tbody>
+                    <tr>
+                        <th class="text-center text-dark">Nr rej.</th>
+                        <td>@Model._Car.RegistrationNumber</td>
+                    </tr>
+                    <tr>
+                        <th class="text-center text-dark">Marka</th>
+                        <td>@Model._Car.Make</td>
+                    </tr>
+                    <tr>
+                        <th class="text-center text-dark">Model</th>
+                        <td>@Model._Car.Model</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="col-lg-4 col-md-12 table-hover table-striped table-bordered">
+                <tbody>
+                    <tr>
+                        <th class="text-center text-dark">Nazwa serwisu</th>
+                        <td>@Model._ServiceFacility.Name</td>
+                    </tr>
+                    <tr>
+                        <th class="text-center text-dark">Adres</th>
+                        <td>@Model._ServiceFacility.Street</td>
+                    </tr>
+                    <tr>
+                        <th class="text-center text-dark">Kod pocztowy</th>
+                        <td>@Model._ServiceFacility.ZipCode</td>
+                    </tr>
+                    <tr>
+                        <th class="text-center text-dark">Miasto</th>
+                        <td>@Model._ServiceFacility.City</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="col-lg-4 col-md-12 table-hover table-striped table-bordered">
+                <tbody>
+                    <tr>
+                        <th class="text-center text-dark">Data</th>
+                        <td>@Model._Service.Date.ToString("dd.MM.yyyy")</td>
+                    </tr>
+                    <tr>
+                        <th class="text-center text-dark">Przebieg</th>
+                        <td>@Model._Service.Milage</td>
+                    </tr>
+                    <tr>
+                        <th class="text-center text-dark">Typ serwisu</th>
+                        <td>@Model._Service.ServiceType.ToString()</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>

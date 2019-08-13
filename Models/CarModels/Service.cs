@@ -13,7 +13,7 @@ namespace WebRentManager.Models
         public Guid ServiceFacilityId { get; set; }
         public ServiceFacility ServiceFacility { get; set; }
         public ServiceType ServiceType { get; set; }
-
+        public Car Car { get; set; }
         public Guid CarId { get; set; }
 
     }

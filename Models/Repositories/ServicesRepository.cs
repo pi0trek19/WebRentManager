@@ -28,7 +28,7 @@ namespace WebRentManager.Models
 
         public IEnumerable<Service> GetAllbyFacility(Guid facilityId)
         {
-            return context.Services.AsQueryable().Where(service => service.ServiceFacilityId == facilityId);
+            return context.Services.AsQueryable().Where(service => service.ServiceFacilityId == facilityId).ToList();
         }
 
         public IEnumerable<Service> GetAllbyCar(Guid carId)
