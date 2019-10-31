@@ -1,9 +1,12 @@
 ﻿@model CarDetailsViewModel
 
 @{
+    var XLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.MilageHistory.Select(x => x.Date.Date.ToString("yyyy-MM-dd")).ToList());
+    var YValues = Newtonsoft.Json.JsonConvert.SerializeObject(Model.MilageHistory.Select(x => x.Milage).ToList());
     ViewBag.Title = Model.PageTitle;
 }
 
+<div class="container">
     <div>
         <h1>Dane samochodu @Model.Car.RegistrationNumber</h1>
         <h4>Nr. rej: @Model.Car.RegistrationNumber</h4>
@@ -20,7 +23,7 @@
             </div>
             <div id="collapseService" class="collapse hide" data-parent="#accordion">
                 <div class="card-body">
-                    <a asp-action="addservice" asp-controller="cars" asp-route-guid="@Model.Car.Id" class="btn btn-primary">Dodaj serwis</a>
+                    <a asp-action="addservice" asp-controller="services" asp-route-guid="@Model.Car.Id" class="btn btn-primary">Dodaj serwis</a>
                     <div class="row">
                         @if (Model.Services.Count() != 0)
                         {
@@ -58,29 +61,252 @@
 
                 </div>
             </div>
-        </div>
+        </div> <!--dane dotyczące serwisów-->
         <div class="card">
+
             <div class="card-header">
                 <a class="card-link" data-toggle="collapse" href="#collapseTyres">
                     Opony
                 </a>
             </div>
-            <div id="collapseTyres" class="collapse hide" data-parent="#accordion">
+            <div id="collapseTyres" class="collapse" data-parent="#accordion">
                 <div class="card-body">
-                    <p> Dane opon do uzupełnienia</p>
+                    @if (Model.TyreInfos.Count() < 2)
+                    {
+                        <a asp-action="AddTyreInfo" asp-controller="TyreInfos" asp-route-carId="@Model.Car.Id" class="btn btn-primary">Dodaj opony</a>
+                    }
+                    <div class="row">
+                        @foreach (var item in Model.TyreInfos)
+                        {
+                            <div class="col-sm-6">
+                                @if (item.TyreType == TyreType.Letnia)
+                                {
+                                    <h3>Opony letnie</h3>
+                                }
+                                else
+                                {
+                                    <h3>Opony zimowe</h3>
+                                }
+                                <table class="table table-bordered table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <th class="text-dark">Status opony</th>
+                                            <td>@item.TyreStatus.ToString()</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-dark">Nazwa</th>
+                                            <td>@item.TyreName</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-dark">Wielkość</th>
+                                            <td>@item.Width/@item.Profile/@item.Diameter</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-dark">Indeks prędkości</th>
+                                            <td>@item.SpeedIndex</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-dark">Data Produkcji</th>
+                                            <td>@item.Dot</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-dark">Aktualny serwis</th>
+                                            @if (item.TyreShop == null)
+                                            {
+                                                <td> </td>
+                                            }
+                                            else
+                                            {
+                                                <td>@item.TyreShop.Name @item.TyreShop.City @item.TyreShop.Street</td>
+                                            }
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    </div>
+                    <a asp-controller="tyreinfos" asp-action="changetyres" asp-route-carId="@Model.Car.Id" class="btn btn-primary">Wymiana opon</a>
                 </div>
             </div>
-        </div>
+        </div><!--dane dotyczące opon-->
         <div class="card">
             <div class="card-header">
                 <a class="card-link" data-toggle="collapse" href="#collapseFinance">
-                    Opony
+                    Dane Finansowe
                 </a>
             </div>
-            <div id="collapseFinance" class="collapse hide" data-parent="#accordion">
+            <div id="collapseFinance" class="collapse" data-parent="#accordion">
                 <div class="card-body">
-                    <p> Dane opon do uzupełnienia</p>
+                    @if (@Model.FinancialInfo == null)
+                    {
+                        <a asp-action="Create" asp-controller="FinancialInfos" asp-route-carId="@Model.Car.Id" class="btn btn-primary">Dodaj informacje finansowe</a>
+                    }
+                    else
+                    {
+                        <a asp-action="Edit" asp-controller="FinancialInfos" asp-route-id="@Model.FinancialInfo.Id" class="btn btn-primary">Edytuj informacje finansowe</a>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <table class="table-bordered table-striped table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <th>Finansujący</th>
+                                            <td>@Model.FinancialInfo.BankName</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Leasingobiorca</th>
+                                            <td>@Model.FinancialInfo.Company</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Początek finansowania</th>
+                                            <td>@Model.FinancialInfo.LeaseStartDate.ToString("dd-MM-yyyy")</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Koniec finansowania</th>
+                                            <td>@Model.FinancialInfo.LeaseEndDate.ToString("dd-MM-yyyy")</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Ilość miesięcy</th>
+                                            <td>@Model.FinancialInfo.LeaseTime</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-sm-6">
+                                <table class="table-bordered table-striped table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <th>Typ finansowania</th>
+                                            <td>@Model.FinancialInfo.LeaseType</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Wartość początkowa [netto]</th>
+                                            <td>@Model.FinancialInfo.StartNetPrice</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Wykup [netto]</th>
+                                            <td>@Model.FinancialInfo.EndBuyoutNetPrice</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Rata miesięczna</th>
+                                            <td>@Model.FinancialInfo.MonthlyLeaseFee</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    }
+
                 </div>
             </div>
+        </div><!--dane dotyczące finansów-->
+    </div>
+    <a asp-action="updatemilage" asp-controller="cars" asp-route-guid="@Model.Car.Id" class="btn btn-primary">Aktualizuj przebieg</a>
+    <div class="row">
+        <table class="table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th class="col-sm-4 text-dark text-center">Data</th>
+                    <th class="col-sm-4 text-dark text-center">Przebieg</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in @Model.MilageHistory)
+                {
+                    <tr>
+                        <td class="col-sm-4">@item.Date.ToString("yyyy-MM-dd")</td>
+                        <td class="col-sm-4">@item.Milage.ToString()</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div><!--tabela z historią przebiegów-->
+    <div class="box-body">
+        <div class="chart-container">
+            <canvas id="chart" style="width:100%; height:500px"></canvas>
         </div>
     </div>
+</div>
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <script type="text/javascript">
+
+        $(function () {
+    var chartName = "chart";
+        var ctx = document.getElementById(chartName).getContext('2d');
+        var data = {
+                labels: @Html.Raw(XLabels),
+                datasets: [{
+                    label: "Historia przebiegu",
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 0, 0)',
+                        'rgba(0, 255, 0)',
+                        'rgba(0, 0, 255)',
+                        'rgba(192, 192, 192)',
+                        'rgba(255, 255, 0)',
+                        'rgba(255, 0, 255)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255, 0, 0)',
+                        'rgba(0, 255, 0)',
+                        'rgba(0, 0, 255)',
+                        'rgba(192, 192, 192)',
+                        'rgba(255, 255, 0)',
+                        'rgba(255, 0, 255)'
+                    ],
+                    borderWidth: 1,
+                    data: @Html.Raw(YValues)
+    }]
+            };
+
+var options = {
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: 0,
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            display: true,
+                            color: "rgba(255,99,164,0.2)"
+                        }
+}],
+                    xAxes: [{
+                        ticks: {
+                            min: 0,
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            display: false
+                        }
+                    }]
+                }
+            };
+
+       var myChart = new  Chart(ctx, {
+                options: options,
+           data: data,
+           fill: false,
+                type:'line'
+
+
+            });
+        });
+    </script> <!--tworzenie wykresu przebiegu-->
+}

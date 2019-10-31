@@ -1,0 +1,57 @@
+﻿@model  TyreShopDetailsViewModel
+
+    <div class="container">
+        <h1>@Model.TyreShop.Name</h1>
+        <h3>Adres: @Model.TyreShop.Street, @Model.TyreShop.ZipCode @Model.TyreShop.City</h3>
+        <h3>Godziny otwarcia:</h3>
+        <h3>Pn-Pt: @Model.TyreShop.WeekHours</h3>
+        @if (@Model.TyreShop.SaturdayHours == null)
+        {
+            <h3>Sob: nieczynne</h3>
+        }
+        else
+        {
+            <h3>Sob: @Model.TyreShop.SaturdayHours</h3>
+        }
+        @if (@Model.TyreShop.SundayHours == null)
+        {
+            <h3>Sob: nieczynne</h3>
+        }
+        else
+        {
+            <h3>Sob: @Model.TyreShop.SundayHours</h3>
+        }
+        <div class="row">
+            <table class="table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th class="text-center text-dark">Nr rej.</th>
+                        <th class="text-center text-dark">Marka</th>
+                        <th class="text-center text-dark">Model</th>
+                        <th class="text-center text-dark">Nazwa opony</th>
+                        <th class="text-center text-dark">Data prod</th>
+                        <th class="text-center text-dark">Rozmiar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Cars)
+                    {
+                        foreach (var tyre in item.TyreInfos)
+                        {
+                            <tr>
+                                <td>@item.RegistrationNumber</td>
+                                <td>@item.Make</td>
+                                <td>@item.Model</td>
+                                <td>@tyre.TyreName</td>
+                                <td>@tyre.Dot</td>
+                                <td>@tyre.Width/@tyre.Profile R @tyre.Diameter @tyre.SpeedIndex </td>
+                            </tr>
+                        }
+
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+

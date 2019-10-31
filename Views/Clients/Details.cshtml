@@ -1,0 +1,120 @@
+﻿@model  ClientDetailsViewModel
+
+<div class="container">
+    <div class="row">
+        @switch (Model.Client.ClientType)
+        {
+            case ClientType.Firma:
+                <div class="col-sm-6">
+                    <h4>Nazwa: @Model.Client.Name</h4>
+                    <h4>Adres: @Model.Client.Street @Model.Client.Zip @Model.Client.City</h4>
+                    <h4>NIP: @Model.Client.IdNumber1</h4>
+                    <h4>KRS: @Model.Client.IdNumber2</h4>
+                    <h4>REGON: @Model.Client.IdNumber3</h4>
+                </div>
+                <div class="col-sm-6">
+                    @if (@Model.Client.RepName != null)
+                    {
+                        <h4>PESEL: @Model.Client.RepName</h4>
+                    }
+                    @if (@Model.Client.RepPhone != null)
+                    {
+                        <h4>PESEL: @Model.Client.RepPhone</h4>
+                    }
+                    @if (@Model.Client.RepMail != null)
+                    {
+                        <h4>PESEL: @Model.Client.RepMail</h4>
+                    }
+                </div>
+                break;
+            case ClientType.Działalność:
+                <div class="col-sm-6">
+                    <h4>Nazwa: @Model.Client.Name</h4>
+                    <h4>Adres: @Model.Client.Street @Model.Client.Zip @Model.Client.City</h4>
+                    <h4>NIP: @Model.Client.IdNumber1</h4>
+                    <h4>KRS: @Model.Client.IdNumber2</h4>
+                </div>
+                <div class="col-sm-6">
+                    @if (@Model.Client.RepName != null)
+                    {
+                        <h4>PESEL: @Model.Client.RepName</h4>
+                    }
+                    @if (@Model.Client.RepPhone != null)
+                    {
+                        <h4>PESEL: @Model.Client.RepPhone</h4>
+                    }
+                    @if (@Model.Client.RepMail != null)
+                    {
+                        <h4>PESEL: @Model.Client.RepMail</h4>
+                    }
+                </div>
+                break;
+            case ClientType.Prywatny:
+                <div class="col-sm-6">
+                        <h4>Nazwa: @Model.Client.Name</h4>
+                        <h4>Adres: @Model.Client.Street @Model.Client.Zip @Model.Client.City</h4>
+                        @if (@Model.Client.IdNumber1 != null)
+                        {
+                            <h4>PESEL: @Model.Client.IdNumber1</h4>
+                        }
+                        @if (@Model.Client.IdNumber2 != null)
+                        {
+                            <h4>PESEL: @Model.Client.IdNumber2</h4>
+                        }
+                </div>
+                <div class="col-sm-6">
+                    @if (@Model.Client.RepName != null)
+                    {
+                        <h4>PESEL: @Model.Client.RepName</h4>
+                    }
+                    @if (@Model.Client.RepPhone != null)
+                    {
+                        <h4>PESEL: @Model.Client.RepPhone</h4>
+                    }
+                    @if (@Model.Client.RepMail != null)
+                    {
+                        <h4>PESEL: @Model.Client.RepMail</h4>
+                    }
+                </div>
+                break;
+        }
+    </div>
+    <div id="accordion">
+        <div class="card">
+            <div class="card-header">
+                <a class="card-link" data-toggle="collapse" href="#collapseactive">Aktywne wynajmy</a>
+            </div>
+            <div id="collapseactive" class="collapse hide" data-parent="#accordion">
+                <div class="card-body">
+                    <table class="table-hover table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center text-dark">Samochód</th>
+                                <th class="text-center text-dark">Użytkownik</th>
+                                <th class="text-center text-dark">Od</th>
+                                <th class="text-center text-dark">Do</th>
+                            </tr>
+                        </thead>
+                        @foreach (var item in Model.ActiveRents)
+                        {
+                            <tr>
+                                <td>@item.Item1.RegistrationNumber @item.Item1.Make @item.Item1.Model</td>
+                                <td>@item.Item2.UserName</td>
+                                <td>@item.Item2.StartDate.ToString("dd-MM-yyyy")</td>
+                                @if (@item.Item2.IsEndDateSet)
+                                {
+                                    <td>Czas nieokreślony</td>
+                                }
+                                else
+                                {
+                                    <td>@item.Item2.EndDate.ToString("dd-MM-yyyy")</td>
+                                }
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+             
+        </div>
+    </div>
+</div>

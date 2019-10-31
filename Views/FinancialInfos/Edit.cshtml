@@ -1,0 +1,75 @@
+﻿@model FinancialInfoEditViewModel
+
+<div class="container">
+    <h3>Dodaj info finansowe</h3>
+    <form enctype="multipart/form-data" method="post" asp-action="Edit" asp-controller="FinancialInfos">
+        <input hidden asp-for="CarId" value="@Model.CarId" />
+        <input hidden asp-for="Id" value="@Model.Id" />
+        <div class="form-group row">
+            <label asp-for="BankName" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="BankName" class="form-control" placeholder="Finansujący" />
+                <span asp-validation-for="BankName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="LeaseType" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="LeaseType" class="form-control" placeholder="Typ Leasingu" />
+                <span asp-validation-for="LeaseType" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="LeaseTime" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="LeaseTime" class="form-control" placeholder="Ilość miesięcy" />
+                <span asp-validation-for="LeaseTime" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="LeaseStartDate" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="LeaseStartDate" class="form-control" placeholder="Data początku" />
+                <span asp-validation-for="LeaseStartDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="LeaseEndDate" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="LeaseEndDate" class="form-control" placeholder="Data końca" />
+                <span asp-validation-for="LeaseEndDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="StartNetPrice" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="StartNetPrice" class="form-control" placeholder="Wartość początkowa [netto]" />
+                <span asp-validation-for="StartNetPrice" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="EndBuyoutNetPrice" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="EndBuyoutNetPrice" class="form-control" placeholder="Wartość końcowa [netto]" />
+                <span asp-validation-for="EndBuyoutNetPrice" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="MonthlyLeaseFee" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="MonthlyLeaseFee" class="form-control" placeholder="Rata miesięczna [netto]" />
+                <span asp-validation-for="MonthlyLeaseFee" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Company" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="Company" class="form-control" placeholder="Leasingobiorca" />
+                <span asp-validation-for="Company" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Zapisz</button>
+        </div>
+    </form>
+</div>

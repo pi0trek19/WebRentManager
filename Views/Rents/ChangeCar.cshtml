@@ -1,0 +1,19 @@
+﻿@model  RentChangeCarViewModel
+
+<div class="container">
+    <h3>Potwierdź lub zmień samochód dla klienta:</h3>
+    <form asp-action="changecar" asp-controller="rents" method="post" enctype="multipart/form-data">
+        <input hidden asp-for="Id" value="@Model.Id" />
+        <div class="form-group row">
+            <label asp-for="CarId" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <select asp-for="CarId" class="custom-select mr-sm-2"
+                        asp-items="@(new SelectList(Model.Cars,"Id","RegistrationNumber"))"></select>
+            </div>
+        </div>
+        <div class="form-group-row">
+            <button type="submit" class="btn btn-danger">Zmień samochód</button>
+        </div>
+    </form>
+    <a asp-action="HandoverStart" asp-controller="rents" asp-route-id="@Model.Id" class="btn btn-success">Potwierdź samochód</a>
+</div>

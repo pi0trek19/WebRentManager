@@ -24,7 +24,13 @@ namespace WebRentManager.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("IsAvailable");
+
+                    b.Property<bool>("IsReserved");
+
                     b.Property<string>("Make");
+
+                    b.Property<int>("Milage");
 
                     b.Property<string>("Model");
 
@@ -32,9 +38,240 @@ namespace WebRentManager.Migrations
 
                     b.Property<string>("RegistrationNumber");
 
+                    b.Property<DateTime>("ReservedUntil");
+
                     b.HasKey("Id");
 
                     b.ToTable("Cars");
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.CarExpense", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<decimal>("Amount");
+
+                    b.Property<Guid>("CarId");
+
+                    b.Property<int>("CostCategory");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<string>("Decription");
+
+                    b.Property<Guid>("FacilityId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CarExpenses");
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.Client", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("City");
+
+                    b.Property<int>("ClientType");
+
+                    b.Property<string>("IdNumber1");
+
+                    b.Property<string>("IdNumber2");
+
+                    b.Property<string>("IdNumber3");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("RepMail");
+
+                    b.Property<string>("RepName");
+
+                    b.Property<string>("RepPhone");
+
+                    b.Property<string>("Street");
+
+                    b.Property<string>("Zip");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Clients");
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.FinancialInfo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("BankName");
+
+                    b.Property<Guid>("CarId");
+
+                    b.Property<string>("Company");
+
+                    b.Property<decimal>("EndBuyoutNetPrice");
+
+                    b.Property<DateTime>("LeaseEndDate");
+
+                    b.Property<DateTime>("LeaseStartDate");
+
+                    b.Property<int>("LeaseTime");
+
+                    b.Property<string>("LeaseType");
+
+                    b.Property<decimal>("MonthlyLeaseFee");
+
+                    b.Property<decimal>("StartNetPrice");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarId")
+                        .IsUnique();
+
+                    b.ToTable("FinancialInfos");
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.HandoverDocument", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("CarId");
+
+                    b.Property<Guid>("ClientId");
+
+                    b.Property<string>("EndClientSignature");
+
+                    b.Property<string>("EndCompanySignature");
+
+                    b.Property<DateTime>("EndDate");
+
+                    b.Property<bool>("EndFireEx");
+
+                    b.Property<int>("EndFuel");
+
+                    b.Property<bool>("EndManual");
+
+                    b.Property<int>("EndMilage");
+
+                    b.Property<string>("EndNotes");
+
+                    b.Property<bool>("EndRepairSet");
+
+                    b.Property<bool>("EndService");
+
+                    b.Property<bool>("EndSpare");
+
+                    b.Property<bool>("EndTriangle");
+
+                    b.Property<bool>("IsTermAccepted");
+
+                    b.Property<Guid>("RentId");
+
+                    b.Property<string>("StartCientSignature");
+
+                    b.Property<string>("StartCompanySignature");
+
+                    b.Property<DateTime>("StartDate");
+
+                    b.Property<bool>("StartFireEx");
+
+                    b.Property<int>("StartFuel");
+
+                    b.Property<bool>("StartManual");
+
+                    b.Property<int>("StartMilage");
+
+                    b.Property<string>("StartNotes");
+
+                    b.Property<bool>("StartRepairSet");
+
+                    b.Property<bool>("StartService");
+
+                    b.Property<bool>("StartSpare");
+
+                    b.Property<bool>("StartTriangle");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HandoverDocument");
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.MilageRecord", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("CarId");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<int>("Milage");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarId");
+
+                    b.ToTable("MilageRecords");
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.Rent", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("AssistanceIncluded");
+
+                    b.Property<Guid>("CarId");
+
+                    b.Property<Guid>("ClientId");
+
+                    b.Property<int>("DamageFee");
+
+                    b.Property<DateTime>("EndDate");
+
+                    b.Property<Guid>("HandoverDocumentId");
+
+                    b.Property<Guid?>("HandoverId");
+
+                    b.Property<decimal>("InitialPayment");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<bool>("IsEndDateSet");
+
+                    b.Property<bool>("IsFinished");
+
+                    b.Property<int>("MilageLimit");
+
+                    b.Property<decimal>("OverMilageFee");
+
+                    b.Property<decimal>("RentFee");
+
+                    b.Property<int>("RentType");
+
+                    b.Property<int>("RentingCompany");
+
+                    b.Property<bool>("ReplacementCarIncluded");
+
+                    b.Property<bool>("ServiceIncluded");
+
+                    b.Property<DateTime>("StartDate");
+
+                    b.Property<bool>("TyresIncluded");
+
+                    b.Property<string>("UserMail");
+
+                    b.Property<string>("UserName");
+
+                    b.Property<string>("UserPhone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HandoverId");
+
+                    b.ToTable("Rents");
                 });
 
             modelBuilder.Entity("WebRentManager.Models.Service", b =>
@@ -44,7 +281,11 @@ namespace WebRentManager.Migrations
 
                     b.Property<Guid>("CarId");
 
+                    b.Property<decimal>("Cost");
+
                     b.Property<DateTime>("Date");
+
+                    b.Property<string>("InvoicePath");
 
                     b.Property<int>("Milage");
 
@@ -98,6 +339,10 @@ namespace WebRentManager.Migrations
 
                     b.Property<Guid>("TyreShopId");
 
+                    b.Property<int>("TyreStatus");
+
+                    b.Property<int>("TyreType");
+
                     b.Property<int>("Width");
 
                     b.HasKey("Id");
@@ -135,6 +380,29 @@ namespace WebRentManager.Migrations
                     b.ToTable("TyreShops");
                 });
 
+            modelBuilder.Entity("WebRentManager.Models.FinancialInfo", b =>
+                {
+                    b.HasOne("WebRentManager.Models.Car")
+                        .WithOne("FinancialInfo")
+                        .HasForeignKey("WebRentManager.Models.FinancialInfo", "CarId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.MilageRecord", b =>
+                {
+                    b.HasOne("WebRentManager.Models.Car")
+                        .WithMany("MilageHistory")
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.Rent", b =>
+                {
+                    b.HasOne("WebRentManager.Models.HandoverDocument", "Handover")
+                        .WithMany()
+                        .HasForeignKey("HandoverId");
+                });
+
             modelBuilder.Entity("WebRentManager.Models.Service", b =>
                 {
                     b.HasOne("WebRentManager.Models.Car", "Car")
@@ -151,7 +419,7 @@ namespace WebRentManager.Migrations
             modelBuilder.Entity("WebRentManager.Models.TyreInfo", b =>
                 {
                     b.HasOne("WebRentManager.Models.Car", "Car")
-                        .WithMany()
+                        .WithMany("TyreInfos")
                         .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade);
 

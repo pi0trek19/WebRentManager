@@ -1,0 +1,37 @@
+﻿@model  List<Tuple<FinancialInfo,Car>>
+
+<div class="row">
+    <table class="table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th class="text-center text-dark">Nr. rej</th>
+                <th class="text-center text-dark">Marka i model</th>
+                <th class="text-center text-dark">Leasingobiorca</th>
+                <th class="text-center text-dark">Leasingodawca</th>
+                <th class="text-center text-dark">Początek</th>
+                <th class="text-center text-dark">Koniec</th>
+                <th class="text-center text-dark">Rata miesięczna [netto]</th>
+                <th class="text-center text-dark">Wykup na koniec [netto]</th>           
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td><a asp-action="details" asp-controller="cars" asp-route-guid="@item.Item2.Id">@item.Item2.RegistrationNumber</a></td>
+                <td>@item.Item2.Make  @item.Item2.Model</td>
+                <td>@item.Item1.Company</td>
+                <td>@item.Item1.BankName</td>
+                <td>@item.Item1.LeaseStartDate.ToString("dd-MM-yyyy")</td>
+                <td>@item.Item1.LeaseEndDate.ToString("dd-MM-yyyy")</td>
+                <td>@item.Item1.MonthlyLeaseFee.ToString()</td>
+                <td>@item.Item1.EndBuyoutNetPrice.ToString()</td>
+                <td><a asp-action="Details" asp-controller="FinancialInfos" asp-route-id="@item.Item1.Id" class="btn btn-primary">Szczegóły</a></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+

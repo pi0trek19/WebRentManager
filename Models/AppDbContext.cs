@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebRentManager.ViewModels;
 
 namespace WebRentManager.Models
 {
@@ -22,5 +23,12 @@ namespace WebRentManager.Models
         public DbSet<Service> Services { get; set; }
         public DbSet<TyreInfo> TyreInfos { get; set; }
         public DbSet<TyreShop> TyreShops { get; set; }
+        public DbSet<FinancialInfo> FinancialInfos { get; set; }
+        public DbSet<Rent> Rents { get; set; }
+        public DbSet<Client> Clients { get; set; }
+        public DbSet<MilageRecord> MilageRecords { get; set; }
+        public DbSet<CarExpense> CarExpenses { get; set; }
+        public DbSet<CarDamage> CarDamages { get; set; }
+        public DbSet<HandoverDocument> HandoverDocuments { get; set; }
     }
 }

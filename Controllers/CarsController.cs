@@ -13,13 +13,22 @@ namespace WebRentManager.Controllers
         private readonly ICarsRepository _carsrepository;
         private readonly IServicesRepository _sevicesRepository;
         private readonly IServiceFacilitiesRepository _serviceFacilitiesRepository;
+        private readonly ITyreInfosRepository _tyreInfosRepository;
+        private readonly ITyreShopsRepository _tyreShopsRepository;
+        private readonly IFinancialInfosRepository _financialInfosRepository;
+        private readonly IMilageRecordsRepository _milageRecordsRepository;
 
-        public CarsController(ICarsRepository _carsrepository, IServicesRepository _sevicesRepository, IServiceFacilitiesRepository _serviceFacilitiesRepository)
+        public CarsController(ICarsRepository carsrepository, IServicesRepository sevicesRepository, IServiceFacilitiesRepository serviceFacilitiesRepository, ITyreInfosRepository tyreInfosRepository, ITyreShopsRepository tyreShopsRepository, IFinancialInfosRepository financialInfosRepository, IMilageRecordsRepository milageRecordsRepository)
         {
-            this._carsrepository = _carsrepository;
-            this._sevicesRepository = _sevicesRepository;
-            this._serviceFacilitiesRepository = _serviceFacilitiesRepository;
+            _carsrepository = carsrepository;
+            _sevicesRepository = sevicesRepository;
+            _serviceFacilitiesRepository = serviceFacilitiesRepository;
+            _tyreInfosRepository = tyreInfosRepository;
+            _tyreShopsRepository = tyreShopsRepository;
+            _financialInfosRepository = financialInfosRepository;
+            _milageRecordsRepository = milageRecordsRepository;
         }
+
         public ViewResult List(string sortOrder)
         {
             ViewBag.RegSortParm = String.IsNullOrEmpty(sortOrder) ? "reg_desc" : "";
@@ -51,10 +60,27 @@ namespace WebRentManager.Controllers
             {
                 item.ServiceFacility = _serviceFacilitiesRepository.GetServiceFacility(item.ServiceFacilityId);
             }
+            IEnumerable<TyreInfo> tyres = _tyreInfosRepository.GetAllByCar(car.Id);
+            foreach (var item in tyres)
+            {
+                if (item.TyreShopId!=Guid.Empty)
+                {
+                    item.TyreShop = _tyreShopsRepository.GetTyreShop(item.TyreShopId);
+                }
+                else
+                {
+                    item.TyreShop = null;
+                }
+            }
+            FinancialInfo financial = _financialInfosRepository.GetCarFinancialInfo(car.Id);
+            IEnumerable<MilageRecord> records = _milageRecordsRepository.GetMilageRecordsByCar(car.Id);
             CarDetailsViewModel carDetailsViewModel = new CarDetailsViewModel()
             {
+                FinancialInfo=financial,
                 Car = car,
                 Services = services,
+                TyreInfos = tyres,
+                MilageHistory=records,
                 PageTitle = "Szczegóły " + car.RegistrationNumber
             };
             return View(carDetailsViewModel);
@@ -83,41 +109,36 @@ namespace WebRentManager.Controllers
             }
             return View();
         }
-        [HttpGet]
-        public ViewResult AddService(Guid guid)
-        {
-            IEnumerable<ServiceFacility> facilities = _serviceFacilitiesRepository.GetAll();
 
-            Car car = _carsrepository.GetCar(guid);
-            AddServiceViewModel viewModel = new AddServiceViewModel()
+        [HttpGet]
+        public ViewResult UpdateMilage(Guid guid)
+        {
+            CarUpdateMilageViewModel model = new CarUpdateMilageViewModel
             {
-                ServiceFacilities = facilities.ToList(),
-                Car=car,
-                
+                CarId = guid,
+                CarReg = _carsrepository.GetCar(guid).RegistrationNumber
             };
-            return View(viewModel);
+            return View(model);
         }
         [HttpPost]
-        public IActionResult AddService(AddServiceViewModel viewModel)
+        public IActionResult UpdateMilage(CarUpdateMilageViewModel model)
         {
-            Service service = new Service
+            if (ModelState.IsValid)
             {
-                CarId = viewModel.CarId,
-                ServiceFacilityId =viewModel.ServiceFacilityId,
-                Milage = viewModel.Milage,
-                Date = viewModel.Date,
-                ServiceType = ServiceType.Przegląd,
-                Id = new Guid()
-            };
-
-            _sevicesRepository.Add(service);
-            return RedirectToAction("details", "cars", new { id = viewModel.CarId });
-            //if (ModelState.IsValid)
-            //{
-                
-            //}
-            //return RedirectToAction("addservice", "cars", viewModel.Car.Id);
-
+                MilageRecord record = new MilageRecord
+                {
+                    CarId = model.CarId,
+                    Milage = model.Milage,
+                    Date = model.Date,
+                    Id = new Guid()
+                };
+                _milageRecordsRepository.Add(record);
+                Car car = _carsrepository.GetCar(model.CarId);
+                car.Milage = model.Milage;
+                _carsrepository.Update(car);
+                return RedirectToAction("details", "cars", new { guid = model.CarId });
+            }
+            return RedirectToAction("Updatemilage", new { guid = model.CarId });
         }
     }
 }

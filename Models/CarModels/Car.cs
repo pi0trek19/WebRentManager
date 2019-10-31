@@ -9,7 +9,9 @@ namespace WebRentManager.Models
     public class Car
     {
         public Guid Id { get; set; }
-        //public bool IsAvailable { get; set; }
+        public bool IsAvailable { get; set; }
+        public bool IsReserved { get; set; }
+        public DateTime ReservedUntil { get; set; }
         //public bool Enabled { get; set; }
         [DisplayName("Nr rejestracyjny")]
         public string RegistrationNumber { get; set; }
@@ -20,7 +22,7 @@ namespace WebRentManager.Models
         public string Model { get; set; }
         [DisplayName("Rok Produkcji")]
         public int ProductionYear { get; set; }
-        //public int Milage { get; set; }
+        public int Milage { get; set; }
         //public int NextServiceMilage { get; set; }
         //public DateTime RegistrationDate { get; set; }
         //public int PowerHP { get; set; }
@@ -31,6 +33,8 @@ namespace WebRentManager.Models
         //public string GearboxType { get; set; }
         //public DateTime NextTechCheckDate { get; set; }
         public List<Service> Services { get; set; }
-
+        public List<TyreInfo> TyreInfos { get; set; }
+        public FinancialInfo FinancialInfo { get; set; }
+        public List<MilageRecord> MilageHistory { get; set; }
     }
 }

@@ -18,6 +18,7 @@ namespace WebRentManager.Models
         public int Width { get; set; }
         public string SpeedIndex { get; set; }
         public int Dot { get; set; }
-
+        public TyreType TyreType { get; set; }
+        public TyreStatus TyreStatus { get; set; }
     }
 }

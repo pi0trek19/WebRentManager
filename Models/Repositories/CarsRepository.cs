@@ -31,9 +31,19 @@ namespace WebRentManager.Models
         {
             return context.Cars.Find(guid);
         }
+
+        public IEnumerable<Car> GetFreeCars()
+        {
+            return context.Cars.Where(car => car.IsAvailable == true);
+        }
+
         public Car Update(Car carChanges)
         {
-            throw new NotImplementedException();
+            var car = context.Cars.Attach(carChanges);
+            car.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            context.SaveChanges();
+            return carChanges;
         }
+
     }
 }

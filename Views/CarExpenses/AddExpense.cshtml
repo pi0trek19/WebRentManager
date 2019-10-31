@@ -1,0 +1,66 @@
+﻿@model CarExpenseAddViewModel
+
+<div class="container">
+    <form asp-action="addexpense" asp-controller="carexpenses" method="post" enctype="multipart/form-data">
+        <input hidden asp-for="CarId" value="@Model.CarId" />
+        <div class="form-group row">
+            <label asp-for="CostCategory" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <select asp-for="CostCategory" class="custom-select mr-sm-2"
+                        asp-items="Html.GetEnumSelectList<CostCategory>()"></select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Amount" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="Amount" class="form-control" placeholder="Użytkownik" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="IsServiceSelected" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-1">
+                <input id="wybor" asp-for="IsServiceSelected" class="form-control" placeholder="Użytkownik" />
+                <span asp-validation-for="IsServiceSelected" class="text-danger"></span>
+            </div>
+            <label asp-for="FacilityId" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-7">
+                <select id="serwisy" asp-for="FacilityId" class="custom-select mr-sm-2"
+                        asp-items="@(new SelectList(Model.ServiceFacilities,"Id","Name"))"></select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Date" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input type="date" value="null" asp-for="Date" class="form-control" placeholder="Użytkownik" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Decription" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="Decription" class="form-control" placeholder="Użytkownik" />
+                <span asp-validation-for="Decription" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group-row">
+            <button type="submit" class="btn btn-primary">Dodaj</button>
+        </div>
+    </form>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#serwisy").prop("disabled", true);
+            $().ready(function () {
+                $('#wybor').on('change', function () {
+                    if ($('#serwisy').attr('disabled')) {
+                        $('#serwisy').removeAttr('disabled');
+                    } else {
+                        $('#serwisy').attr({ 'disabled': 'disabled' });
+                    }
+                });
+            });            
+        });
+    </script>
+}

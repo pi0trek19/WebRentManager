@@ -1,0 +1,20 @@
+﻿@model TyreInfoChangeViewModel
+
+<div class="container">
+    <form enctype="multipart/form-data" asp-action="changetyres" asp-controller="tyreinfos" method="post">
+        <div class="form-group row">
+            <label asp-for="TyreShopId" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <select asp-for="TyreShopId" class="custom-select mr-sm-2"
+                        asp-items="@(new SelectList(Model.TyreShops,"Id","Name"))"></select>
+            </div>
+        </div>
+        <input hidden asp-for="CarId" value="@Model.CarId" />
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+    </form>
+    <div>
+        <a asp-action="details" asp-controller="cars" asp-route-guid="@Model.CarId" class="btn btn-danger">Anuluj</a>
+    </div>
+</div>

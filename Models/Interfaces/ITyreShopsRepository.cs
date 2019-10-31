@@ -13,6 +13,5 @@ namespace WebRentManager.Models
         TyreShop Remove(TyreShop tyreShop);
         TyreShop Update(TyreShop tyreShopchanges);
 
-
     }
 }

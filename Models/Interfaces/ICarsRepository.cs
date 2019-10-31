@@ -12,6 +12,7 @@ namespace WebRentManager.Models
         Car Add(Car car);
         Car Update(Car carChanges);
         Car Delete(Guid id);
+        IEnumerable<Car> GetFreeCars();
 
     }
 }

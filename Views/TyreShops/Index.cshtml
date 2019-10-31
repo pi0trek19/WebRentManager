@@ -1,0 +1,51 @@
+﻿@model IEnumerable<TyreShop>
+
+<div class="container">
+    <a asp-action="create" asp-controller="tyreshops" class="btn btn-primary">Dodaj</a>
+    <div class="row">
+        <table class="col-md-12 table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th class="text-center text-dark">Nazwa</th>
+                    <th class="text-center text-dark">Ulica</th>
+                    <th class="text-center text-dark">Miasto</th>
+                    <th class="text-center text-dark">Kod pocztowy</th>
+                    <th class="text-center text-dark">Telefon</th>
+                    <th class="text-center text-dark">Dni robocze</th>
+                    <th class="text-center text-dark">Sobota</th>
+                    <th class="text-center text-dark">Niedziela</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td><a asp-action="details" asp-controller="tyreshops" asp-route-guid="@item.Id">@item.Name</a></td>
+                    <td>@item.Street</td>
+                    <td>@item.City</td>
+                    <td>@item.ZipCode</td>
+                    <td>@item.PhoneNumber</td>
+                    <td>@item.WeekHours</td>
+                    @if (item.SaturdayHours == null)
+                    {
+                        <td>nieczynne</td>
+                    }
+                    else
+                    {
+                        <td>@item.SaturdayHours</td>
+                    }
+                    @if (item.SundayHours == null)
+                    {
+                        <td>nieczynne</td>
+                    }
+                    else
+                    {
+                        <td>@item.SundayHours</td>
+                    }
+
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

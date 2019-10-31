@@ -1,0 +1,135 @@
+﻿@model ClientCreateViewModel
+
+<div class="container">
+    <form asp-action="create" asp-controller="clients" method="post" enctype="multipart/form-data">
+        <div class="form-group row">
+            <label asp-for="ClientType" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <label class="form-check-label">
+                    <input id="firma" asp-for="ClientType" type="radio" value="@ClientType.Firma">Firma
+                </label>
+                <label class="form-check-label">
+                    <input id="dzialalnosc" asp-for="ClientType" type="radio" value="@ClientType.Działalność">Działalność
+                </label>
+                <label class="form-check-label">
+                    <input id="prywatny" asp-for="ClientType" type="radio" value="@ClientType.Prywatny">Osoba Fizyczna
+                </label>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Name" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="Name" class="form-control" placeholder="Nazwa" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Street" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="Street" class="form-control" placeholder="Ulica" />
+                <span asp-validation-for="Street" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Zip" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="Zip" class="form-control" placeholder="Kod pocztowy" />
+                <span asp-validation-for="Zip" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="City" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="City" class="form-control" placeholder="Miasto" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Street" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="Street" class="form-control" placeholder="Ulica" />
+                <span asp-validation-for="Street" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="IdNumber1" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input id="id1" asp-for="IdNumber1" class="form-control" />
+                <span asp-validation-for="IdNumber1" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="IdNumber2" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input id="id2" asp-for="IdNumber2" class="form-control" />
+                <span asp-validation-for="IdNumber2" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="IdNumber3" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input id="id3" asp-for="IdNumber3" class="form-control" />
+                <span asp-validation-for="IdNumber3" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="RepName" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="RepName" class="form-control" placeholder="Przedstawiciel" />
+                <span asp-validation-for="RepName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="RepPhone" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="RepPhone" class="form-control" placeholder="Nr telefonu" />
+                <span asp-validation-for="RepPhone" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="RepMail" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="RepMail" class="form-control" placeholder="E-mail" />
+                <span asp-validation-for="RepMail" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Dodaj</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <!--<script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>-->
+    <script>
+        $(document).ready(function () {
+
+            $("#firma").click(function () {
+                $("#id1").prop("disabled", false);
+                $("#id1").prop("placeholder", "NIP");
+                $("#id2").prop("disabled", false);
+                $("#id2").prop("placeholder", "KRS");
+                $("#id3").prop("disabled", false);
+                $("#id3").prop("placeholder", "REGON");
+            });
+
+            $("#dzialalnosc").click(function () {
+                $("#id1").prop("disabled", false);
+                $("#id1").prop("placeholder", "NIP");
+                $("#id2").prop("disabled", false);
+                $("#id2").prop("placeholder", "KRS");
+                $("#id3").prop("disabled", true);
+                $("#id3").prop("placeholder", "");
+            });
+            $("#prywatny").click(function () {
+                $("#id1").prop("disabled", false);
+                $("#id1").prop("placeholder", "PESEL");
+                $("#id2").prop("disabled", false);
+                $("#id2").prop("placeholder", "Seria i nr dowodu");
+                $("#id3").prop("disabled", true);
+                $("#id3").prop("placeholder", "");
+            });
+        });
+    </script>
+
+}

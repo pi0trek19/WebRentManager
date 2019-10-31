@@ -15,6 +15,9 @@ namespace WebRentManager.Models
         public ServiceType ServiceType { get; set; }
         public Car Car { get; set; }
         public Guid CarId { get; set; }
+        public decimal Cost { get; set; }
+        public string InvoicePath { get; set; }
+
 
     }
 }

@@ -32,7 +32,13 @@ namespace WebRentManager
             services.AddScoped<ICarsRepository, CarsRepository>();
             services.AddScoped<IServiceFacilitiesRepository, ServiceFacilitesRepository>();
             services.AddScoped<IServicesRepository, ServicesRepository>();
-
+            services.AddScoped<ITyreInfosRepository, TyreInfosRepository>();
+            services.AddScoped<ITyreShopsRepository, TyreShopsRepository>();
+            services.AddScoped<IFinancialInfosRepository, FinancialInfosRepository>();
+            services.AddScoped<IMilageRecordsRepository, MilageRecordsRepository>();
+            services.AddScoped<IClientsRepository, ClientsRepository>();
+            services.AddScoped<IRentsRepository, RentsRepository>();
+            services.AddScoped<ICarExpensesRepository, CarExpensesRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

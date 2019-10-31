@@ -1,0 +1,46 @@
+﻿@model FinancialInfoDetailsViewModel
+
+<div class="container">
+    <h2>Informacje finansowe o: @Model.Car.Make @Model.Car.Model @Model.Car.RegistrationNumber</h2>
+    
+    <table class="table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Finansujący</th>
+                <td>@Model.Finfo.BankName</td>
+            </tr>
+            <tr>
+                <th>Leasingobiorca</th>
+                <td>@Model.Finfo.Company</td>
+            </tr>
+            <tr>
+                <th>Początek finansowania</th>
+                <td>@Model.Finfo.LeaseStartDate.ToString("dd-MM-yyyy")</td>
+            </tr>
+            <tr>
+                <th>Koniec finansowania</th>
+                <td>@Model.Finfo.LeaseEndDate.ToString("dd-MM-yyyy")</td>
+            </tr>
+            <tr>
+                <th>Ilość miesięcy</th>
+                <td>@Model.Finfo.LeaseTime</td>
+            </tr>
+            <tr>
+                <th>Typ finansowania</th>
+                <td>@Model.Finfo.LeaseType</td>
+            </tr>
+            <tr>
+                <th>Wartość początkowa [netto]</th>
+                <td>@Model.Finfo.StartNetPrice</td>
+            </tr>
+            <tr>
+                <th>Wykup [netto]</th>
+                <td>@Model.Finfo.EndBuyoutNetPrice</td>
+            </tr>
+            <tr>
+                <th>Rata miesięczna</th>
+                <td>@Model.Finfo.MonthlyLeaseFee</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
