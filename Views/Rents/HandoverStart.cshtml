@@ -1,12 +1,31 @@
 ﻿@model RentHandoverStartViewModel
 
     <form asp-action="handoverstart" asp-controller="rents" method="post" enctype="multipart/form-data">
-
         <input type="text" />
 
-        <canvas width="1140" height="728" id="img" style="background-image :url('/diagram.png'); position: relative" ></canvas>
-        @*<div style="width:1140px; height:728px; background-image :url('/diagram.png'); position:relative" id="img"></div>*@
-
+        <canvas width="1140" height="728" id="img" style="background-image :url('/diagram.png'); position: relative"></canvas>
+        @foreach (var item in @Model.CarDamages)
+        {
+            <script type="text/javascript">
+                console.log("srodek foreach");
+                console.log("wywołanie funkcji");
+                var canvas = document.getElementById("img");
+                var btn = document.createElement("button");
+                btn.style.position = "absolute";
+                btn.style.height = '40px';
+                btn.style.width = '40px';
+                var xfinal = (@item.OffsetX + canvas.offsetLeft - 20);
+                var yfinal = (@item.OffsetY + canvas.offsetTop - 20);
+                btn.style.left = xfinal + 'px';
+                btn.style.top = yfinal + 'px';
+                btn.style.borderRadius = '20px';
+                btn.setAttribute("class", "read-modal");
+                btn.classList.add("data-targeturl");
+                btn.setAttribute("data-targeturl","@Url.Action("PopulateModal","Rents",new { id = item.Id })")
+                btn.id = ("");//TODO dodać id uszkodzenia z modelu
+                document.body.appendChild(btn);
+            </script>
+        }
         @*<p>
             <canvas width="1000" height="400" id="signature"
                     style="border:1px solid black"></canvas><br>
@@ -22,60 +41,54 @@
                  style="border:1px solid black"><br>
             <input asp-for="@Model.SignatureDataUrl">
         </p>*@
-        <div class="modal" id="myModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
 
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">Modal Heading</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        Modal body..
-                    </div>
-
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    </div>
-
-                </div>
+        <button type="submit" class="btn btn-primary">Dodaj</button>
+        <div id="modal-container" class="modal fade" tabindex="-1" role="dialog">
+            <a href="#close" title="Close" class="modal-close-btn">X</a>
+            <div class="modal-content">
+                <div class="modal-body"></div>
             </div>
         </div>
     </form>
+
+
+
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
     <script>
-         
+        $(function () {
+
+    $('body').on('click', '.read-modal', function (e) {
+        e.preventDefault();
+
+        $("#modal-container").remove();
+
+        $.get($(this).data("targeturl"), function (data) {
+
+            $('<div id="modal-container" class="modal fade">'+
+              '<div class="modal-content" id= "modalbody" >'+ 
+                    data + '</div></div>').modal();
+
+        });
+    });
+});
+
     $(document).ready(function ()
     {
-        function getPosition(el) {
-                var xPosition = 0;
-                var yPosition = 0;
- 
-                 while (el) {
-                    if (el.tagName == "img") {
-                    // deal with browser quirks with body/window/document and page scroll
-                var xScrollPos = el.scrollLeft || document.documentElement.scrollLeft;
-                var yScrollPos = el.scrollTop || document.documentElement.scrollTop;
+        //var canvas = document.getElementById("img");
+        //function placebutton(xcoord, ycoord) {
+        //    var btn = document.createElement("button");
+        //    btn.style.position = "absolute";
+        //    btn.style.height = '40px';
+        //    btn.style.width = '40px';
+        //    var xfinal = (xcoord + canvas.offsetLeft - 20);
+        //    var yfinal = (ycoord + canvas.offsetTop - 20);
+        //    btn.style.left = xfinal + 'px';
+        //    btn.style.top = yfinal + 'px';
+        //    btn.style.borderRadius = '20px';
+        //}
+        
 
-                xPosition += (el.offsetLeft - xScrollPos + el.clientLeft);
-                yPosition += (el.offsetTop - yScrollPos + el.clientTop);
-            } else {
-                xPosition += (el.offsetLeft - el.scrollLeft + el.clientLeft);
-                yPosition += (el.offsetTop - el.scrollTop + el.clientTop);
-            }
- 
-            el = el.offsetParent;
-            }
-            return {
-            x: xPosition,
-            y: yPosition
-            };
-        }
         $('#img').click(function (e) {
             var btn = document.createElement("button");
             var btn2 = document.createElement("button");
@@ -111,7 +124,7 @@
             btn2.setAttribute("data-target", "#myModal");
             
             document.body.appendChild(btn);
-            document.body.appendChild(btn2);
+            //document.body.appendChild(btn2);
         });
     });
 

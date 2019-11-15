@@ -199,19 +199,55 @@ namespace WebRentManager.Controllers
         [HttpGet]
         public ViewResult HandoverStart() //Guid id
         {
-            RentHandoverStartViewModel model = new RentHandoverStartViewModel();
-            model.Xcoord = 467;
-            model.Ycoord = 101;
+
+            //model.Xcoord = 467;
+            //model.Ycoord = 101;
+            //Tuple<int, int> tuple = Tuple.Create(467, 101);
+            //Tuple<int, int> tuple1 = Tuple.Create(500, 300);
+            //Tuple<int, int> tuple2 = Tuple.Create(120, 230);
+            //Tuple<int, int> tuple3 = Tuple.Create(200, 150);
+            //List<Tuple<int, int>> tuples = new List<Tuple<int, int>>();
+            //tuples.Add(tuple);
+            //tuples.Add(tuple1);
+            //tuples.Add(tuple2);
+            //tuples.Add(tuple3);
+            //RentHandoverStartViewModel model = new RentHandoverStartViewModel
+            //{
+            //    Coords = tuples
+            //};
+            CarDamage damage = new CarDamage
+            {
+                Id = Guid.NewGuid(),
+                Description = "Testowy opis",
+                OffsetX = 467,
+                OffsetY = 101
+            };
+            List<CarDamage> carDamages = new List<CarDamage>();
+            carDamages.Add(damage);
+            RentHandoverStartViewModel model = new RentHandoverStartViewModel
+            {
+                CarDamages = carDamages
+            };
             return View(model);
+        }
+        public ActionResult PopulateModal(Guid id)
+        {
+
+            RentPopulateModalViewModel model = new RentPopulateModalViewModel
+            {
+                Description = "test opis",
+                Title = "test title"
+            };
+            return PartialView(model);
         }
         [HttpPost]
         public IActionResult HandoverStart(RentHandoverStartViewModel model)
-        {
+        {            
             //var dataUri = model.SignatureDataUrl;
             //var encodedImage = dataUri.Split(",")[1];
             //var decodedImage = Convert.FromBase64String(encodedImage);
             //System.IO.File.WriteAllBytes("signature.png", decodedImage);
-            return Redirect("");
+            return RedirectToAction("HandoverStart");
         }
     }
 }

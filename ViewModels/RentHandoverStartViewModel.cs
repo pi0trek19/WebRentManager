@@ -11,10 +11,12 @@ namespace WebRentManager.ViewModels
     {
         //public Client Client { get; set; }
         //public Car Car { get; set; }
-        //public List<CarDamage> CarDamages { get; set; }
+        public List<CarDamage> CarDamages { get; set; }
         //public HandoverDocument Handover { get; set; }
         public int Xcoord { get; set; }
         public int Ycoord { get; set; }
+        
+
 
     }
 }
