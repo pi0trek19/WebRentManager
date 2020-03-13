@@ -1,0 +1,121 @@
+﻿@model CarEditViewModel
+
+<form enctype="multipart/form-data" asp-controller="cars" asp-action="edit" method="post">
+    <input hidden asp-for="Id" value="@Model.Id" />
+    <div class="form-group row">
+        <label asp-for="RegistrationNumber" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="RegistrationNumber" class="form-control" placeholder="Nr rej." />
+            <span asp-validation-for="RegistrationNumber" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Make" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Make" class="form-control" placeholder="Marka" />
+            <span asp-validation-for="Make" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Model" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Model" class="form-control" placeholder="Model" />
+            <span asp-validation-for="Model" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="ProductionYear" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="ProductionYear" class="form-control" placeholder="Rok produkcji" />
+            <span asp-validation-for="ProductionYear" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="VIN" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="VIN" class="form-control" placeholder="VIN" />
+            <span asp-validation-for="VIN" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Milage" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Milage" class="form-control" placeholder="Przebieg" />
+            <span asp-validation-for="Milage" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="ServiceInterval" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="ServiceInterval" class="form-control" placeholder="Okres przeglądów" />
+            <span asp-validation-for="ServiceInterval" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="RegistrationDate" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input type="date" asp-for="RegistrationDate" class="form-control" placeholder="Data pierwszej rejestracji" />
+            <span asp-validation-for="RegistrationDate" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="PowerHP" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="PowerHP" class="form-control" placeholder="Moc KM" />
+            <span asp-validation-for="PowerHP" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="PowerkW" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="PowerkW" class="form-control" placeholder="Moc kW" />
+            <span asp-validation-for="PowerkW" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="EngineSize" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="EngineSize" class="form-control" placeholder="Poj. skokowa cm3" />
+            <span asp-validation-for="EngineSize" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Color" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Color" class="form-control" placeholder="Kolor" />
+            <span asp-validation-for="Color" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="SpecType" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="SpecType" class="form-control" placeholder="Wersja wyposażenia" />
+            <span asp-validation-for="SpecType" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="BodyType" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <select asp-for="BodyType" class="custom-select mr-sm-2"
+                    asp-items="Html.GetEnumSelectList<BodyType>()"></select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="FuelType" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <select asp-for="FuelType" class="custom-select mr-sm-2"
+                    asp-items="Html.GetEnumSelectList<FuelType>()"></select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="GearboxType" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <select asp-for="GearboxType" class="custom-select mr-sm-2"
+                    asp-items="Html.GetEnumSelectList<GearboxType>()"></select>
+        </div>
+    </div>
+    <div class="form-group-row">
+        <button type="submit" class="btn btn-success">Zapisz</button>
+    </div>
+</form>
+<a asp-action="details" asp-controller="cars" asp-route-id="@Model.Id" class="btn btn-danger">Anuluj</a>

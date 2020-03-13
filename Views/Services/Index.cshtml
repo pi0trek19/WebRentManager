@@ -17,8 +17,8 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td><a asp-action="details" asp-controller="service" asp-route-guid="@item.ServiceFacilityId">@item.ServiceFacility.Name @item.ServiceFacility.Street @item.ServiceFacility.City</a></td>
-                        <td><a asp-action="details" asp-controller="cars" asp-route-guid="@item.CarId">@item.Car.Make @item.Car.Model @item.Car.RegistrationNumber</a></td>
+                        <td><a asp-action="details" asp-controller="service" asp-route-id="@item.ClientId">@item.Client.Name @item.Client.Street @item.Client.City</a></td>
+                        <td><a asp-action="details" asp-controller="cars" asp-route-id="@item.CarId">@item.Car.Make @item.Car.Model @item.Car.RegistrationNumber</a></td>
                         <td>@item.Milage km</td>
                         <td>@item.Date.ToString("dd.MM.yyyy")</td>
                         <td>@item.ServiceType.ToString()</td>

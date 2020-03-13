@@ -1,0 +1,304 @@
+﻿@model WebRentManager.ViewModels.HandoverPDFTemplateViewModel
+<html>
+<head>
+    <style>
+        .text {
+            font-family: "Calibri";
+        }         
+    </style>
+</head>
+<body>
+    <div style="height: 1308px; overflow:hidden;">
+        <p class="text" style='text-align: center;'><img src='http://rent2auto.pl/wp-content/uploads/2019/02/logoR2A_v2-e1549486435940.png' alt='' style='float: left;' width='182' height='59' /><br /><br /><br /><br />Protokół zdawczo-odbiorczy<br />Załącznik nr 1 do Umowy Wynajmu Pojazdu</p>
+        <table class="text" style='border-collapse: collapse; width: 100%;' border='1'>
+            <tbody>
+                <tr>
+                    <td colspan="3" style='width: 100%;'>Klient: @Model.ClientName</td>
+                </tr>
+                <tr>
+                    <td style="width:45%">Marka i model: @Model.CarMake @Model.CarModel</td>
+                    <td style="width:25%">Nr rej.: @Model.CarReg</td>
+                    <td style="width:30%">Rodzaj paliwa: @Model.FuelType.ToString()</td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="text" border="1" style='border-collapse: collapse; width: 100%; border-top-style:hidden'>
+            <tbody>
+                <tr>
+                    @if (@Model.UserName != null)
+                    {
+                        <td style="width:40%;">Użytkownik: @Model.UserName</td>
+                    }
+                    else
+                    {
+                        <td style="width:40%">Użytkownik:</td>
+                    }
+                    @if (@Model.UserPhone != null)
+                    {
+                        <td style="width:20%">Nr tel.: @Model.UserPhone</td>
+                    }
+                    else
+                    {
+                        <td style="width:20%">Nr tel.:</td>
+                    }
+                    @if (@Model.UserMail != null)
+                    {
+                        <td style="width:40%">Mail: @Model.UserMail</td>
+                    }
+                    else
+                    {
+                        <td style="width:40%">Mail:</td>
+                    }
+
+
+                </tr>
+            </tbody>
+        </table>
+        <p class="text" style='text-align: center;'><strong>WYDANIE SAMOCHODU<br /></strong></p>
+        <table class="text" style='border-collapse: collapse; width:100%;border-top:none' border='1' >
+            <tbody>
+                <tr style="height:20px">
+                    <td style='width: 47.7591%;'>Data i godzina:</td>
+                    <td style='width: 27.1708%;'>Ilość paliwa:</td>
+                    <td style='width: 25.07%;'>Przebieg:</td>
+                </tr>
+                <tr style="height:45px;max-height:45px; line-height:1">
+                    <td colspan="3">Uwagi:</td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+        <br />
+        <br />
+        <table style="border:none; width:100%" class="text">
+            <tbody>
+                <tr>
+                    <td style="width:18%">Instrukcja: </td>
+                    <td style="width:2%">&#9746;</td>  <!--Nie-->
+                    <td rowspan="6" style="width:80%;"><img src="C:\Users\Piotrek\Desktop\WebRentManager\Views\Templates\diagram.png" alt="" height="254" width="399" style="float:right;margin-right:150px" id="start" /></td>
+                </tr>
+                <tr>
+                    <td style="width:18%">Ksiazka serwisowa:</td>
+                    <td>&#9745;</td> <!--Tak-->
+                </tr>
+                <tr>
+                    <td style="width:18%">Trójkąt</td>
+                    <td style="width:2%"></td>
+                </tr>
+                <tr>
+                    <td style="width:18%">Gaśnica</td>
+                    <td style="width:2%"></td>
+                </tr>
+                <tr>
+                    <td style="width:18%">Koło zapasowe/dojazdowe</td>
+                    <td style="width:2%"></td>
+                </tr>
+                <tr>
+                    <td style="width:18%; vertical-align:text-top">Zestaw naprawczy</td>
+                    <td style="width:2%"></td>
+
+                </tr>
+            </tbody>
+        </table>
+        @{ int counter = 1;}
+        @foreach (var item in Model.CarDamages)
+        {
+            <script type="text/javascript">
+            var canvas = document.getElementById("start");
+            var btn = document.createElement("label");
+            btn.style.position = "absolute";
+            btn.style.height = '8px';
+            btn.style.width = '8px';
+            var offx = @Html.Raw(Json.Serialize(item.OffsetX));
+            offx = offx / 2.8;
+            var offy = @Html.Raw(Json.Serialize(item.OffsetY));
+            offy = offy / 2.8;
+            var xfinal = (offx+329 + canvas.offsetLeft);
+            var yfinal = (offy+351 + canvas.offsetTop);
+            btn.style.left = xfinal + 'px';
+            btn.style.top = yfinal + 'px';
+            btn.innerText =@counter;
+            btn.style.fontStyle = "oblique";
+            @*btn.id = ("@item.Id.ToString()");*@
+            @{counter++;}
+            document.body.appendChild(btn);
+            </script>
+        }
+        <br />
+        <br />
+        <br />
+        <br />
+        <table style="border:none; width:100%" class="text">
+            <tbody>
+                <tr>
+                    <td style="text-align:left">_____________________</td>
+                    <td style="text-align:right">_____________________</td>
+                </tr>
+                <tr>
+                    <td style="text-align:left">Podpis @Model.RentingCompany</td>
+                    <td style="text-align:right">Podpis Klienta</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="text" style='text-align: center;'><strong>ZDANIE SAMOCHODU<br /></strong></p>
+        <table class="text" style='border-collapse: collapse; width: 100%;' border='1'>
+            <tbody>
+                <tr>
+                    <td style='width: 48%;'>Data i godzina:</td>
+                    <td style='width: 27%;'>Ilość paliwa:</td>
+                    <td style='width: 25%;'>Przebieg:</td>
+                </tr>
+                <tr>
+                    <td colspan="3" style='width: 100%;'>Uwagi:</td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+        <br />
+        <br />
+        <table style="border:none; width:100%" class="text">
+            <tbody>
+                <tr>
+                    <td style="width:20%">Instrukcja: </td>
+                    <td rowspan="6" style="width:80%"><img src="C:\Users\Piotrek\Desktop\WebRentManager\Views\Templates\diagram.png" alt="" height="254" width="399" style="float:right; margin-right:150px" /></td>
+                </tr>
+                <tr>
+                    <td style="width:20%">Ksiazka serwisowa:</td>
+                </tr>
+                <tr>
+                    <td style="width:20%">Trójkąt</td>
+                </tr>
+                <tr>
+                    <td style="width:20%">Gaśnica</td>
+                </tr>
+                <tr>
+                    <td style="width:20%">Koło zapasowe/dojazdowe</td>
+                </tr>
+                <tr>
+                    <td style="width:30%; vertical-align:text-top">Zestaw naprawczy</td>
+                </tr>
+            </tbody>
+        </table>
+        @{counter = 1;}
+        @foreach (var item in Model.CarDamages)
+        {
+            <script type="text/javascript">
+            var canvas = document.getElementById("start");
+            var btn = document.createElement("label");
+            btn.style.position = "absolute";
+            btn.style.height = '8px';
+            btn.style.width = '8px';
+            var offx = @Html.Raw(Json.Serialize(item.OffsetX));
+            offx = offx / 2.8;
+            var offy = @Html.Raw(Json.Serialize(item.OffsetY));
+            offy = offy / 2.8;
+            var xfinal = (offx+329 + canvas.offsetLeft);
+            var yfinal = (offy+351+254+254+37 + canvas.offsetTop);
+            btn.style.left = xfinal + 'px';
+            btn.style.top = yfinal + 'px';
+            btn.innerText =@counter;
+            btn.style.fontStyle = "oblique";
+            //btn.style.borderRadius = '8px';
+            //btn.style.backgroundColor = "green";
+            @*btn.id = ("@item.Id.ToString()");*@
+            @{counter++;}
+            document.body.appendChild(btn);
+            </script>
+        }
+        <br />
+        <br />
+        <br />
+        <br />
+        <table style="border:none; width:100%" class="text">
+            <tbody>
+                <tr>
+                    <td style="text-align:left">_____________________</td>
+                    <td style="text-align:right">_____________________</td>
+                </tr>
+                <tr>
+                    <td style="text-align:left">Podpis @Model.RentingCompany</td>
+                    <td style="text-align:right">Podpis Klienta</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text" style="height: 1308px; overflow:hidden;">
+        <p><img src='http://rent2auto.pl/wp-content/uploads/2019/02/logoR2A_v2-e1549486435940.png' alt='' style='float: left;' width='182' height='59' /></p>
+        <br />
+        <br />
+        <div style="margin-left:100px; margin-right:100px; line-height:1.8">
+            <h3 style="text-align:center">Regulamin Użytkowania Samochodu</h3>
+            <ol type="1">
+                <li>
+                    Użytkownikiem wynajętego samochodu od @Model.RentingCompany jest osoba, która
+                    <ol type="a">
+                        <li>Ukończyła 18 lat</li>
+                        <li>Posiada prawo jazdy kat. B</li>
+                        <li>Posiada ważny dowód osobisty lub inny dokument ze zdjęciem potwierdzający tożsamość</li>
+                        <li>Jest upoważniona przez Klienta @Model.RentingCompany do użytkowania samochodu</li>
+                    </ol>
+                </li>
+                <li>
+                    Jeśli uszkodzenie pojazdu nastąpiło w wyniku wypadku drogowego, Użytkownik / Klient zobowiązany jest do:
+                    <ol type="a">
+                        <li>wezwania Policji na miejsce zdarzenia</li>
+                        <li>poinformowania @Model.RentingCompany (tel. <b>+48 22 299 08 08</b> lub <b>+48 603 071 564</b>)</li>
+                    </ol>
+                </li>
+                <li>
+                    Użytkownik / Klient zobowiązany jest do poinformowaniu @Model.RentingCompany o każdym uszkodzeniu pojazdu.
+                </li>
+                <li>
+                    W przypadku kradzieży wynajmowanego samochodu wraz z dokumentami i kluczykami Klient lub Użytkownik zobowiązuje się pokryć koszty jego utraty w całości, w przypadku odmmowy wypłaty przez ubezpieczyciela.
+                </li>
+                <li>
+                    Paliwo nie jest wliczone w cene najmu.
+                </li>
+                <li>
+                    Poniższe działania są zabronione:
+                    <ol type="a">
+                        <li>Palenie tytoniu / papierosów w samochodzie</li>
+                        <li>Przewóz zwierząt</li>
+                        <li>Holowanie innych pojazdów</li>
+                        <li>Przeciążanie samochodu</li>
+                        <li>Udział w wyścigach lub rajdach samochodowych itp.</li>
+                    </ol>
+                </li>
+                <li>
+                    Wynajęty pojazd może poruszać się tylko po terytorium Polski, na wyjazd za granicę wymagana jest zgoda @Model.RentingCompany.
+                </li>
+                <li>
+                    Odbiór i zdanie pojazdu odbywa się w miejscu wcześniej ustalonym przez Strony.
+                </li>
+                <li>
+                    Użytkownik jest zobowiązany do zdania pojazdu, w takim samym stanie w jakim go odebrał od @Model.RentingCompany, tj. sprawny, czysty (w środku jak i na zewnątrz) i z pełnym wyposażeniem.
+                </li>
+                <li>
+                    Pojazd podczas zadania powinien być zatankowany do poziomu równego przy wydaniu
+                    <ol type="a">
+                        <li>W momencie, gdy samochód posiada mniej paliwa niż przy wydaniu, Klient jest obciążany kosztem brakującego paliwa oraz koztami administracyjnymi w kwocie 70 zł netto.</li>
+                        <li>@Model.RentingCompany nie zobowiązuje się do zwrotu pieniędzy za nadmiar paliwa w baku wynajmowanego pojazdu</li>
+                    </ol>
+                </li>
+                <li>Przedłużenie wynajmu jest możliwe po uprzednim poinformowaniu @Model.RentingCompany (pisemnie - mailem) na 3 dni przed planowanym zakończeniem najmu. Samodzielne przedłużenie najmu o ponad 24 godziny oraz brak kontaktu z Użytkownikiem może spowodować powiadomienie Policji o fakcie przywłaszczenia samochodu, a wszelkie kosekwencje i koszty z tym związane ponosi Klient</li>
+            </ol>
+        </div>
+    </div>
+    <!-- Po 12 zdjęć na stronę  3x4 siatka-->
+    @if (Model.CarDamages!=null)
+    {
+        <div>
+            <table>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    }
+</body>
+</html>
+

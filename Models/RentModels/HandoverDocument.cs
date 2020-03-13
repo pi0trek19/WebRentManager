@@ -39,5 +39,6 @@ namespace WebRentManager.Models
         public DateTime EndDate { get; set; }
         public string EndClientSignature { get; set; }
         public string EndCompanySignature { get; set; }
+        public List<HandoverDocumentFile> HandoverDocumentFiles { get; set; }
     }
 }

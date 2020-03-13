@@ -1,0 +1,21 @@
+﻿@model InsuranceClaimDetailsViewModel
+
+<br />
+<h3>Szczegóły szkody nr @Model.ClaimNo</h3>
+<h3>Samochód: @Model.CarReg</h3>
+<div class="row">
+    <div class="col-sm-6">
+        <p>Nazwa TU: @Model.InsuranceCompany</p>
+        <p>Typ szkody: @Model.ClaimType</p>
+        <p>Status szkody: @Model.ClaimStatus</p>
+        <p>Data szkody: @Model.ClaimDate.ToString("dd-MM-yyyy")</p>
+        <p>Data zgłoszenia: @Model.ReportDate.ToString("dd-MM-yyyy")</p>
+    </div>
+    <div class="col-sm-6">
+        <p>Likwidator: @Model.RepresentativeName</p>
+        <p>E-mail: <a href="mailto:@{@Model.RepresentativeMail}">@Model.RepresentativeMail</a> </p>
+        <p>Telefon: @Model.RepresentativePhone</p>
+    </div>
+</div>
+
+<!--dodać listę plików-->

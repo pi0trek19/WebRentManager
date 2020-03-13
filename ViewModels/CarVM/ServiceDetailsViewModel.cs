@@ -9,7 +9,7 @@ namespace WebRentManager.ViewModels
     public class ServiceDetailsViewModel
     {
         public Car _Car { get; set; }
-        public ServiceFacility _ServiceFacility { get; set; }
+        public Client _ServiceFacility { get; set; }
         public Service _Service { get; set; }
     }
 }

@@ -1,38 +1,62 @@
 ﻿@model IEnumerable<Car>
-
+<br />
+    <a asp-action="create" asp-controller="cars" class="btn btn-primary">Dodaj samochód</a>
+<br />
 <div class="row">
-    <table class="table table-bordered table-hover table-striped">
+    <table class="table table-bordered table-hover table-striped table-sm">
         <thead>
-            <tr>
-                <td colspan="4">Samochody</td>
+            <tr class="text-center text-dark">
+                <th>Lp.</th>
+                <th>
+                    @Html.ActionLink("Nr rej", "list", new { sortOrder = ViewBag.RegSortParm })
+                </th>
+                <th>Marka</th>
+                <th>Model</th>
+                <th>@Html.ActionLink("Rok Produkcji", "list", new { sortOrder = ViewBag.DateSortParm })</th>
+                <th>VIN</th>
+                <th>Przebieg</th>
+                <th>Pierwsza rej.</th>
+                <th>Moc KM/kW</th>
+                <th>Poj. skokowa</th>
+                <th>Kolor</th>
+                <th>Wersja wyposażenia</th>
+                <th>Nadwozie</th>
+                <th>Paliwo</th>
+                <th>Skrzynia</th>
+                <th>Badanie tech</th>
+                <th>Nast. przegląd</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th class="text-center text-dark">
-                    @Html.ActionLink("Nr rej", "list", new { sortOrder = ViewBag.RegSortParm })
-                </th>
-                <th class="text-center text-dark">
-                    Marka
-                </th>
-                <th class="text-center text-dark">
-                    Model
-                </th>
-                <th class="text-center text-dark">
-                    @Html.ActionLink("Rok Produkcji", "list", new { sortOrder = ViewBag.DateSortParm })
-                </th>
-
-            </tr>
-
-
+            @{ int counter = 1;}
             @foreach (var item in Model)
             {
                 <tr>
-                    <td><a asp-action="details" asp-controller="cars" asp-route-guid="@item.Id">@item.RegistrationNumber</a></td>
+                    <td>@counter.ToString()</td>
+                    <td><a asp-action="details" asp-controller="cars" asp-route-id="@item.Id">@item.RegistrationNumber</a></td>
                     <td>@item.Make</td>
                     <td>@item.Model</td>
                     <td>@item.ProductionYear</td>
+                    @if (@item.VIN!=null){ <td>@item.VIN</td>}
+                    else {<td></td>}
+                    <td>@item.Milage</td>
+                    @if (@item.RegistrationDate!=null){ <td>@item.RegistrationDate.ToString("dd-MM-yyyy")</td>}
+                    else {<td></td>}
+                    @{ string output = "";
+                        output += item.PowerHP.ToString()+"/"+item.PowerkW.ToString();}
+                    <td>@output</td>
+                    <td>@item.EngineSize</td>
+                   @if (@item.Color!=null){ <td>@item.Color</td>}
+                   else {<td></td>}
+                    @if (@item.SpecType!=null){ <td>@item.SpecType</td>}
+                   else {<td></td>}
+                    <td>@item.BodyType.ToString()</td>
+                    <td>@item.FuelType.ToString()</td>
+                    <td>@item.GearboxType.ToString()</td>
+                    <td>@item.NextTechCheckDate.ToString("dd-MM-yyyy")</td>
+                    <td>@item.NextServiceMilage.ToString()</td>
                 </tr>
+                counter++;
             }
         </tbody>
     </table>

@@ -38,7 +38,10 @@ namespace WebRentManager.Models
 
         public CarDamage Update(CarDamage damageChanges)
         {
-            throw new NotImplementedException();
+            var damage = context.CarDamages.Attach(damageChanges);
+            damage.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            context.SaveChanges();
+            return damageChanges;
         }
     }
 }

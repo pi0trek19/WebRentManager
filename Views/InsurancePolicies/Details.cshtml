@@ -1,0 +1,29 @@
+﻿@model  InsurancePolicy
+<br />
+<div class="row">
+    <div class="col-sm-6">
+        <ul>
+            <l1>Samochód: @Model.Car.Make @Model.Car.Model @Model.Car.RegistrationNumber</l1>
+            <l1>Nr polisy: @Model.Number</l1>
+            <li>Towarzystwo: @Model.InsuranceCompany</li>
+            <li>Koszt polisy: @Model.Cost.ToString() PLN netto/rok</li>
+        </ul>
+    </div>
+    <div class="col-sm-6">
+        <ul>
+            @if (Model.IsActive)
+            {
+                <li>Ważność: Aktywna</li>
+            }
+            else
+            {
+                <li>Ważność: Nieaktywna</li>
+            }
+            <li>Ważna od: @Model.ValidFrom.ToString("dd-MM-yyyy hh:mm")</li>
+            <li>Ważna do: @Model.ValidFrom.ToString("dd-MM-yyyy hh:mm")</li>
+        </ul>
+    </div>
+</div>
+<h3>Pliki</h3>
+<vc:files-table controller-name="insurancepolicies" id="@Model.Id">
+</vc:files-table>

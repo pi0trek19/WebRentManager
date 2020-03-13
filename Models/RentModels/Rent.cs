@@ -39,6 +39,8 @@ namespace WebRentManager.Models
         public string UserPhone { get; set; }
         public string UserMail { get; set; }
         public RentingCompany RentingCompany { get; set; }
-        public HandoverDocument Handover { get; set; }
+        public HandoverDocument HandoverDocument { get; set; }
+
+        public List<RentFile> RentFiles { get; set; }
     }
 }

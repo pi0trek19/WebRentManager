@@ -34,6 +34,6 @@ namespace WebRentManager.Models
         public string RepName { get; set; }
         public string RepMail { get; set; }
         public string RepPhone { get; set; }
-
+        public List<ClientFile> ClientFiles { get; set; }
     }
 }

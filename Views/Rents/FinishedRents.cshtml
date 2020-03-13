@@ -1,0 +1,37 @@
+﻿@model  List<Tuple<Car, Client, Rent>>
+<br />
+<h3>Zakończone wynajmy</h3>
+<br />
+<table class="table-hover table-striped table-bordered">
+    <thead>
+        <tr>
+            <td class="text-center text-dark">Samochód</td>
+            <td class="text-center text-dark">Klient</td>
+            <td class="text-center text-dark">Użytkownik</td>
+            <td class="text-center text-dark">Telefon</td>
+            <td class="text-center text-dark">Data wydania</td>
+            <td class="text-center text-dark">Data zakończenia</td>
+            <td class="text-center text-dark">Typ wynajmu</td>
+            <td class="text-center text-dark">Stawka</td>
+            <td class="text-center text-dark">Limit km</td>
+            <td class="text-center text-dark">Akcja</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Item1.RegistrationNumber @item.Item1.Make @item.Item1.Model</td>
+                <td>@item.Item2.Name</td>
+                <td><a asp-controller="rents" asp-action="details" asp-route-id="@item.Item3.Id">@item.Item3.UserName</a></td>
+                <td>@item.Item3.UserPhone</td>
+                <td>@item.Item3.StartDate.ToString("dd-MM-yyyy")</td>
+                <td>@item.Item3.EndDate</td>
+                <td>@item.Item3.RentType.ToString()</td>
+                <td>@item.Item3.RentFee zł</td>
+                <td>@item.Item3.MilageLimit km</td>
+                <td><button asp-action="Details" asp-controller="Rents" asp-route-id="@item.Item3.Id">Szczegóły</button></td>
+            </tr>
+        }
+    </tbody>
+</table>

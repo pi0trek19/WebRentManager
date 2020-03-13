@@ -15,17 +15,17 @@ namespace WebRentManager.Controllers
     {
         private readonly ICarsRepository _carsrepository;
         private readonly IServicesRepository _sevicesRepository;
-        private readonly IServiceFacilitiesRepository _serviceFacilitiesRepository;
-        private readonly ICarExpensesRepository _carExpensesRepository;
-        private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IClientsRepository _clientsRepository;
+        private readonly IMilageRecordsRepository _milageRecordsRepository;
+        private readonly IInvoicesRepository _invoicesRepository;
 
-        public ServicesController(ICarsRepository carsrepository, IServicesRepository sevicesRepository, IServiceFacilitiesRepository serviceFacilitiesRepository, ICarExpensesRepository carExpensesRepository, IHostingEnvironment hostingEnvironment)
+        public ServicesController(ICarsRepository carsrepository, IServicesRepository sevicesRepository, IClientsRepository clientsRepository, IMilageRecordsRepository milageRecordsRepository, IInvoicesRepository invoicesRepository)
         {
             _carsrepository = carsrepository;
             _sevicesRepository = sevicesRepository;
-            _serviceFacilitiesRepository = serviceFacilitiesRepository;
-            _carExpensesRepository = carExpensesRepository;
-            this.hostingEnvironment = hostingEnvironment;
+            _clientsRepository = clientsRepository;
+            _milageRecordsRepository = milageRecordsRepository;
+            _invoicesRepository = invoicesRepository;
         }
 
         public ViewResult Index()
@@ -35,86 +35,119 @@ namespace WebRentManager.Controllers
             foreach (var item in services)
             {
                 item.Car = _carsrepository.GetCar(item.CarId);
-                item.ServiceFacility = _serviceFacilitiesRepository.GetServiceFacility(item.ServiceFacilityId);
+                item.Client = _clientsRepository.GetClient(item.ClientId);
+                item.Invoice = _invoicesRepository.GetInvoice(item.InvoiceId);
             }
             return View(services);
         }
 
-        public ViewResult Details(Guid guid)
+        public ViewResult Details(Guid id)
         {
-            Service service = _sevicesRepository.GetService(guid);
+            Service service = _sevicesRepository.GetService(id);
             ServiceDetailsViewModel viewModel = new ServiceDetailsViewModel
             {
                 _Service = service,
                 _Car = _carsrepository.GetCar(service.CarId),
-                _ServiceFacility = _serviceFacilitiesRepository.GetServiceFacility(service.ServiceFacilityId)
+                _ServiceFacility = _clientsRepository.GetClient(service.ClientId)
             };
             return View(viewModel);
         }
         [HttpGet]
-        public ViewResult AddService(Guid guid)
+        public ViewResult AddService(Guid id)
         {
-            IEnumerable<ServiceFacility> facilities = _serviceFacilitiesRepository.GetAll();
+            List<Client> facilities = _clientsRepository.GetAllClients().ToList();
 
-            Car car = _carsrepository.GetCar(guid);
+            Car car = _carsrepository.GetCar(id);
             AddServiceViewModel viewModel = new AddServiceViewModel()
             {
-                ServiceFacilities = facilities.ToList(),
+                ServiceFacilities = facilities,
                 Car = car,
 
             };
             return View(viewModel);
         }
         [HttpPost]
-        public IActionResult AddService(AddServiceViewModel viewModel)
+        public IActionResult AddService(AddServiceViewModel model)
         {
             if (ModelState.IsValid)
             {
-                string uniqueFileName = null;
-                if (viewModel.Invoice != null)
-                {
-                    // The image must be uploaded to the images folder in wwwroot
-                    // To get the path of the wwwroot folder we are using the inject
-                    // HostingEnvironment service provided by ASP.NET Core
-                    string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "carfiles");
-                    // To make sure the file name is unique we are appending a new
-                    // GUID value and and an underscore to the file name
-                    uniqueFileName = Guid.NewGuid().ToString() + "_" + viewModel.Invoice.FileName;
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    // Use CopyTo() method provided by IFormFile interface to
-                    // copy the file to wwwroot/images folder
-                    viewModel.Invoice.CopyTo(new FileStream(filePath, FileMode.Create));
-                }
                 Service service = new Service
                 {
-                    CarId = viewModel.CarId,
-                    ServiceFacilityId = viewModel.ServiceFacilityId,
-                    Milage = viewModel.Milage,
-                    Date = viewModel.Date,
-                    ServiceType = viewModel.ServiceType,
-                    InvoicePath=uniqueFileName,
+                    CarId = model.CarId,
+                    ClientId = model.ServiceFacilityId,
+                    Milage = model.Milage,
+                    Date = model.Date,
+                    ServiceType = model.ServiceType,
+                    Cost=model.Cost,                    
                     Id = new Guid()
                 };
-                _sevicesRepository.Add(service);
-                CarExpense expense = new CarExpense
+                if (service.ServiceType==ServiceType.Przegląd)
                 {
-                    CarId = viewModel.CarId,
-                    Amount = viewModel.Cost,
-                    Date = viewModel.Date,
-                    FacilityId = viewModel.ServiceFacilityId,
-                    Id = new Guid(),
-                };
-                if (service.ServiceType == ServiceType.Przegląd)
-                {
-                    expense.CostCategory = CostCategory.Przegląd;
+                    MilageRecord record = new MilageRecord
+                    {
+                        CarId = service.CarId,
+                        Date = service.Date,
+                        Milage = service.Milage,
+                        Id = Guid.NewGuid()
+                    };
+                    _milageRecordsRepository.Add(record);
                 }
-                else expense.CostCategory = CostCategory.Serwis;
-
-                _carExpensesRepository.Add(expense);
-                return RedirectToAction("details", "cars", new { guid = viewModel.CarId });
+                if (model.IsInvoiceAdded)
+                {
+                    //nie ma dodanego wrzucania pliku
+                    Invoice invoice = new Invoice
+                    {
+                        Id = Guid.NewGuid(),
+                        Number = model.Number,
+                        Date = model.Date,
+                        Amount = model.Cost,
+                        ClientId = model.ServiceFacilityId,
+                        InvoiceType = InvoiceType.Koszt
+                    };
+                    _invoicesRepository.Add(invoice);
+                    service.InvoiceId = invoice.Id;
+                }
+                Car car = _carsrepository.GetCar(model.CarId);
+                car.Milage = model.Milage;
+                car.NextServiceMilage = model.Milage + car.ServiceInterval;
+                _carsrepository.Update(car);
+                _sevicesRepository.Add(service);
+                return RedirectToAction("details", "cars", new { guid = model.CarId });
             }
-            return RedirectToAction("addservice", "services", new { guid = viewModel.CarId });
+            return RedirectToAction("addservice", "services", new { guid = model.CarId });
         }
+        [HttpGet]
+        public ViewResult AddServiceInvoice(Guid id) //id serwisu
+        {
+            ServiceAddInvoiceViewModel model = new ServiceAddInvoiceViewModel
+            {
+                ServiceId = id
+            };
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult AddServiceInvoice(ServiceAddInvoiceViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Service service = _sevicesRepository.GetService(model.ServiceId);
+                Invoice invoice = new Invoice
+                {
+                    Id = Guid.NewGuid(),
+                    Number = model.Number,
+                    Date = service.Date,
+                    Amount = service.Cost,
+                    ClientId = service.ClientId,
+                    InvoiceType = InvoiceType.Koszt
+                };
+                _invoicesRepository.Add(invoice);
+                service.InvoiceId = invoice.Id;
+                _sevicesRepository.Upadate(service);
+                return RedirectToAction("details", "services", new { id = model.ServiceId });
+            }
+            return RedirectToAction("AddServiceInvoice", "services", new { id = model.ServiceId });
+        }
+
     }
         
 }

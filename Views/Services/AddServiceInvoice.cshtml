@@ -1,0 +1,13 @@
+﻿@model  ServiceAddInvoiceViewModel
+
+    <form method="post" enctype="multipart/form-data" asp-action="AddServiceInvoice" asp-controller="Services">
+        <input hidden asp-for="ServiceId" value="@Model.ServiceId" />
+        <div class="form-group row">
+            <label asp-for="Number" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="Number" class="form-control" placeholder="Nr. faktury" />
+                <span asp-validation-for="Number" class="text-danger"></span>
+            </div>
+        </div>
+
+    </form>

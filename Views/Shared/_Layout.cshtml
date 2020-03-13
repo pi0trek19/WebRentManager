@@ -5,6 +5,8 @@
     <link href="~/lib/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
     <script src="~/lib/jquery/jquery.js"></script>
     <script src="~/lib/twitter-bootstrap/js/bootstrap.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-ajax-unobtrusive@3.2.6/dist/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="https://kit.fontawesome.com/8a20172e74.js" crossorigin="anonymous"></script>
     <title>@ViewBag.Title</title>
 </head>
 <body>
@@ -17,11 +19,18 @@
                 <li class="nav-item">
                     <a asp-action="list" asp-controller="cars" class="nav-link">Samochody</a>
                 </li>
-                <li class="nav-item">
-                    <a asp-action="list" asp-controller="rents" class="nav-link">Wynajmy</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                        Wynajmy
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" asp-action="index" asp-controller="rents">Aktywne</a>
+                        <a class="dropdown-item" asp-action="Reservations" asp-controller="rents">Do wydania</a>
+                        <a class="dropdown-item" asp-action="FinishedRents" asp-controller="rents">Zakończone</a>
+                    </div>
                 </li>
                 <li class="nav-item">
-                    <a asp-action="list" asp-controller="clients" class="nav-link">Klienci</a>
+                    <a asp-action="index" asp-controller="clients" class="nav-link">Klienci</a>
                 </li>
                 <li class="nav-item">
                     <a asp-action="index" asp-controller="servicefacilities" class="nav-link">Serwisy</a>
@@ -32,7 +41,19 @@
                 <li class="nav-item">
                     <a asp-action="index" asp-controller="TyreShops" class="nav-link">Opony</a>
                 </li>
+                <li class="nav-item">
+                    <a asp-action="index" asp-controller="Reports" class="nav-link">Raporty</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="utilitiesnav" data-toggle="dropdown">
+                        Narzędzia
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" asp-action="index" asp-controller="mailmessages">Szablony E-mail</a>
+                    </div>
+                </li>
             </ul>
+            
             <ul class="navbar-nav ml-auto">
                 @*@if (signInManager.IsSignedIn(User))
                     {

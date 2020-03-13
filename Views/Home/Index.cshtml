@@ -1,5 +1,24 @@
-﻿<div>
-    <a asp-controller="cars" asp-action="list">Lista samochodow</a>
-    <a asp-controller="rents" asp-action="list">Lista wynajmow</a>
-    <a asp-controller="clients" asp-action="list">Lista klientow</a>
+﻿<br />
+<h1>Menu główne</h1>
+<div>
+
+    <a asp-controller="cars" asp-action="list">
+        <figure class="figure">
+            <i class="figure-img img-fluid fas fa-car fa-10x"></i>
+            <figcaption class="figure-caption">Lista samochódów</figcaption>
+        </figure></a>
+
+    <a asp-controller="rents" asp-action="index">
+        <figure class="figure">
+            <i class="figure-img img-fluid fas fa-file-invoice fa-10x"></i>
+            <figcaption class="figure-caption">Lista wynajmów aktywnych</figcaption>
+        </figure>
+    </a>
+
+    <a asp-controller="clients" asp-action="index">
+        <figure class="figure">
+            <i class="figure-img img-fluid fas fa-building fa-10x"></i>
+            <figcaption class="figure-caption">Lista klientów</figcaption>
+        </figure>
+    </a>
 </div>

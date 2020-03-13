@@ -23,8 +23,13 @@ using WebRentManager.ViewModels;
 
 #line default
 #line hidden
+#line 3 "C:\Users\Piotrek\Desktop\WebRentManager\Views\_ViewImports.cshtml"
+using WebRentManager.ViewComponents;
+
+#line default
+#line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"aee5792fcdf25df74ca8f365bca2f8bd0a4c1654", @"/Views/FinancialInfos/Details.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"7fbae830d2f408f389cda34321553a4754b92461", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"a7cf82df0dd814c7b28170c21c27ef191b9258cc", @"/Views/_ViewImports.cshtml")]
     public class Views_FinancialInfos_Details : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<FinancialInfoDetailsViewModel>
     {
         #pragma warning disable 1998

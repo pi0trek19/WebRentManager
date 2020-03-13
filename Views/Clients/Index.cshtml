@@ -1,37 +1,40 @@
 ﻿@model IEnumerable<Client>
-
-<div class="container">
+    <br />
     <h3>Lista klientów</h3>
-    <table class="table-bordered table-striped table-hover">
-        <thead>
-            <tr>
-                <th class="text-center text-dark">Nazwa</th>
-                <th class="text-center text-dark">Adres</th>
-                <th class="text-center text-dark">NIP/PESEL</th>
-                <th class="text-center text-dark">KRS/Nr dowodu</th>
-                <th class="text-center text-dark">REGON</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-            <tr>
-                <td><a asp-action="details" asp-controller="clients" asp-route-id="@item.Id">@item.Name</a></td>
-                <td>@item.Street @item.Zip @item.City</td>
-                @if (item.IdNumber1 != null)
+    <br />
+    <a asp-action="create" asp-controller="clients" class="btn btn-primary">Dodaj klienta</a>
+    <br />
+    <div class="row">
+        <table class="table-bordered table-striped table-hover table-sm">
+            <thead>
+                <tr>
+                    <th class="text-center text-dark">Nazwa</th>
+                    <th class="text-center text-dark">Adres</th>
+                    <th class="text-center text-dark">NIP/PESEL</th>
+                    <th class="text-center text-dark">KRS/Nr dowodu</th>
+                    <th class="text-center text-dark">REGON</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
                 {
-                    <td>@item.IdNumber1</td>
+                    <tr>
+                        <td><a asp-action="details" asp-controller="clients" asp-route-id="@item.Id">@item.Name</a></td>
+                        <td>@item.Street @item.Zip @item.City</td>
+                        @if (item.IdNumber1 != null)
+                        {
+                            <td>@item.IdNumber1</td>
+                        }
+                        @if (item.IdNumber2 != null)
+                        {
+                            <td>@item.IdNumber2</td>
+                        }
+                        @if (item.IdNumber3 != null)
+                        {
+                            <td>@item.IdNumber3</td>
+                        }
+                    </tr>
                 }
-                @if (item.IdNumber2 != null)
-                {
-                    <td>@item.IdNumber2</td>
-                }
-                @if (item.IdNumber3 != null)
-                {
-                    <td>@item.IdNumber3</td>
-                }
-            </tr>
-            }
-        </tbody>
-    </table>
-</div> 
+            </tbody>
+        </table>
+    </div>

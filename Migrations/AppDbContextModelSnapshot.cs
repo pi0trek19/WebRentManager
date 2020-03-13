@@ -15,7 +15,7 @@ namespace WebRentManager.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -23,6 +23,16 @@ namespace WebRentManager.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<int>("BodyType");
+
+                    b.Property<string>("Color");
+
+                    b.Property<int>("EngineSize");
+
+                    b.Property<int>("FuelType");
+
+                    b.Property<int>("GearboxType");
 
                     b.Property<bool>("IsAvailable");
 
@@ -34,15 +44,74 @@ namespace WebRentManager.Migrations
 
                     b.Property<string>("Model");
 
+                    b.Property<int>("NextServiceMilage");
+
+                    b.Property<DateTime>("NextTechCheckDate");
+
+                    b.Property<int>("PowerHP");
+
+                    b.Property<int>("PowerkW");
+
                     b.Property<int>("ProductionYear");
+
+                    b.Property<DateTime>("RegistrationDate");
 
                     b.Property<string>("RegistrationNumber");
 
                     b.Property<DateTime>("ReservedUntil");
 
+                    b.Property<int>("ServiceInterval");
+
+                    b.Property<string>("SpecType");
+
+                    b.Property<string>("VIN");
+
+                    b.Property<int>("YearsServiceInterval");
+
                     b.HasKey("Id");
 
                     b.ToTable("Cars");
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.CarDamage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("CarId");
+
+                    b.Property<int>("DamageType");
+
+                    b.Property<DateTime>("DateMarked");
+
+                    b.Property<string>("Description");
+
+                    b.Property<bool>("IsEndDamage");
+
+                    b.Property<double>("OffsetX");
+
+                    b.Property<double>("OffsetY");
+
+                    b.Property<Guid>("RentId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarId");
+
+                    b.ToTable("CarDamages");
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.CarDamageFile", b =>
+                {
+                    b.Property<Guid>("CarDamageId");
+
+                    b.Property<Guid>("FileDescriptionId");
+
+                    b.HasKey("CarDamageId", "FileDescriptionId");
+
+                    b.HasIndex("FileDescriptionId");
+
+                    b.ToTable("CarDamageFile");
                 });
 
             modelBuilder.Entity("WebRentManager.Models.CarExpense", b =>
@@ -65,6 +134,32 @@ namespace WebRentManager.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CarExpenses");
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.CarExpenseFile", b =>
+                {
+                    b.Property<Guid>("CarExpenseId");
+
+                    b.Property<Guid>("FileDescriptionId");
+
+                    b.HasKey("CarExpenseId", "FileDescriptionId");
+
+                    b.HasIndex("FileDescriptionId");
+
+                    b.ToTable("CarExpenseFile");
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.CarFile", b =>
+                {
+                    b.Property<Guid>("CarId");
+
+                    b.Property<Guid>("FileDescriptionId");
+
+                    b.HasKey("CarId", "FileDescriptionId");
+
+                    b.HasIndex("FileDescriptionId");
+
+                    b.ToTable("CarFile");
                 });
 
             modelBuilder.Entity("WebRentManager.Models.Client", b =>
@@ -97,6 +192,41 @@ namespace WebRentManager.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Clients");
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.ClientFile", b =>
+                {
+                    b.Property<Guid>("ClientId");
+
+                    b.Property<Guid>("FileDescriptionId");
+
+                    b.HasKey("ClientId", "FileDescriptionId");
+
+                    b.HasIndex("FileDescriptionId");
+
+                    b.ToTable("ClientFile");
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.FileDescription", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("DateAdded");
+
+                    b.Property<string>("Description");
+
+                    b.Property<bool>("Enabled");
+
+                    b.Property<string>("Ext");
+
+                    b.Property<string>("FileName");
+
+                    b.Property<int>("FileType");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FileDescriptions");
                 });
 
             modelBuilder.Entity("WebRentManager.Models.FinancialInfo", b =>
@@ -195,7 +325,174 @@ namespace WebRentManager.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("HandoverDocument");
+                    b.ToTable("HandoverDocuments");
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.HandoverDocumentFile", b =>
+                {
+                    b.Property<Guid>("HandoverDocumentId");
+
+                    b.Property<Guid>("FileDescriptionId");
+
+                    b.HasKey("HandoverDocumentId", "FileDescriptionId");
+
+                    b.HasIndex("FileDescriptionId");
+
+                    b.ToTable("HandoverDocumentFile");
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.Income", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<decimal>("Amount");
+
+                    b.Property<Guid?>("CarId");
+
+                    b.Property<Guid>("ClientId");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<int>("IncomeType");
+
+                    b.Property<Guid>("InvoiceId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarId");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("InvoiceId");
+
+                    b.ToTable("Incomes");
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.InsuranceClaim", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("CarId");
+
+                    b.Property<DateTime>("ClaimDate");
+
+                    b.Property<string>("ClaimNo");
+
+                    b.Property<int>("ClaimStatus");
+
+                    b.Property<int>("ClaimType");
+
+                    b.Property<string>("InsuranceCompany");
+
+                    b.Property<DateTime>("ReportDate");
+
+                    b.Property<string>("RepresentativeMail");
+
+                    b.Property<string>("RepresentativeName");
+
+                    b.Property<string>("RepresentativePhone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("InsuranceClaims");
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.InsuranceClaimFile", b =>
+                {
+                    b.Property<Guid>("InsuranceClaimId");
+
+                    b.Property<Guid>("FileDescriptionId");
+
+                    b.HasKey("InsuranceClaimId", "FileDescriptionId");
+
+                    b.HasIndex("FileDescriptionId");
+
+                    b.ToTable("InsuranceClaimFile");
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.InsurancePolicy", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("CarId");
+
+                    b.Property<decimal>("Cost");
+
+                    b.Property<string>("InsuranceCompany");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<string>("Number");
+
+                    b.Property<DateTime>("ValidFrom");
+
+                    b.Property<DateTime>("ValidTo");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarId");
+
+                    b.ToTable("InsurancePolicies");
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.InsurancePolicyFile", b =>
+                {
+                    b.Property<Guid>("InsurancePolicyId");
+
+                    b.Property<Guid>("FileDescriptionId");
+
+                    b.HasKey("InsurancePolicyId", "FileDescriptionId");
+
+                    b.HasIndex("FileDescriptionId");
+
+                    b.ToTable("InsurancePolicyFile");
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.Invoice", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<decimal>("Amount");
+
+                    b.Property<Guid>("ClientId");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<Guid>("FileDescriptionId");
+
+                    b.Property<int>("InvoiceType");
+
+                    b.Property<string>("Number");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("FileDescriptionId");
+
+                    b.ToTable("Invoices");
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.MailMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Content");
+
+                    b.Property<string>("Desc");
+
+                    b.Property<bool>("Enabled");
+
+                    b.Property<string>("Subject");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MailMessages");
                 });
 
             modelBuilder.Entity("WebRentManager.Models.MilageRecord", b =>
@@ -233,7 +530,7 @@ namespace WebRentManager.Migrations
 
                     b.Property<Guid>("HandoverDocumentId");
 
-                    b.Property<Guid?>("HandoverId");
+                    b.Property<Guid?>("HandoverDocumentId1");
 
                     b.Property<decimal>("InitialPayment");
 
@@ -269,9 +566,22 @@ namespace WebRentManager.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("HandoverId");
+                    b.HasIndex("HandoverDocumentId1");
 
                     b.ToTable("Rents");
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.RentFile", b =>
+                {
+                    b.Property<Guid>("RentId");
+
+                    b.Property<Guid>("FileDescriptionId");
+
+                    b.HasKey("RentId", "FileDescriptionId");
+
+                    b.HasIndex("FileDescriptionId");
+
+                    b.ToTable("RentFile");
                 });
 
             modelBuilder.Entity("WebRentManager.Models.Service", b =>
@@ -281,15 +591,15 @@ namespace WebRentManager.Migrations
 
                     b.Property<Guid>("CarId");
 
+                    b.Property<Guid>("ClientId");
+
                     b.Property<decimal>("Cost");
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<string>("InvoicePath");
+                    b.Property<Guid>("InvoiceId");
 
                     b.Property<int>("Milage");
-
-                    b.Property<Guid>("ServiceFacilityId");
 
                     b.Property<int>("ServiceType");
 
@@ -297,27 +607,24 @@ namespace WebRentManager.Migrations
 
                     b.HasIndex("CarId");
 
-                    b.HasIndex("ServiceFacilityId");
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("InvoiceId");
 
                     b.ToTable("Services");
                 });
 
-            modelBuilder.Entity("WebRentManager.Models.ServiceFacility", b =>
+            modelBuilder.Entity("WebRentManager.Models.ServiceFile", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<Guid>("ServiceId");
 
-                    b.Property<string>("City");
+                    b.Property<Guid>("FileDescriptionId");
 
-                    b.Property<string>("Name");
+                    b.HasKey("ServiceId", "FileDescriptionId");
 
-                    b.Property<string>("Street");
+                    b.HasIndex("FileDescriptionId");
 
-                    b.Property<string>("ZipCode");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ServiceFacilities");
+                    b.ToTable("ServiceFile");
                 });
 
             modelBuilder.Entity("WebRentManager.Models.TyreInfo", b =>
@@ -380,11 +687,148 @@ namespace WebRentManager.Migrations
                     b.ToTable("TyreShops");
                 });
 
+            modelBuilder.Entity("WebRentManager.Models.CarDamage", b =>
+                {
+                    b.HasOne("WebRentManager.Models.Car", "Car")
+                        .WithMany()
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.CarDamageFile", b =>
+                {
+                    b.HasOne("WebRentManager.Models.CarDamage", "CarDamage")
+                        .WithMany("CarDamageFiles")
+                        .HasForeignKey("CarDamageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WebRentManager.Models.FileDescription", "FileDescription")
+                        .WithMany("CarDamageFiles")
+                        .HasForeignKey("FileDescriptionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.CarExpenseFile", b =>
+                {
+                    b.HasOne("WebRentManager.Models.CarExpense", "CarExpense")
+                        .WithMany("CarExpenseFiles")
+                        .HasForeignKey("CarExpenseId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WebRentManager.Models.FileDescription", "FileDescription")
+                        .WithMany("CarExpenseFiles")
+                        .HasForeignKey("FileDescriptionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.CarFile", b =>
+                {
+                    b.HasOne("WebRentManager.Models.Car", "Car")
+                        .WithMany("CarFiles")
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WebRentManager.Models.FileDescription", "FileDescription")
+                        .WithMany("CarFiles")
+                        .HasForeignKey("FileDescriptionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.ClientFile", b =>
+                {
+                    b.HasOne("WebRentManager.Models.Client", "Client")
+                        .WithMany("ClientFiles")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WebRentManager.Models.FileDescription", "FileDescription")
+                        .WithMany("ClientFiles")
+                        .HasForeignKey("FileDescriptionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("WebRentManager.Models.FinancialInfo", b =>
                 {
                     b.HasOne("WebRentManager.Models.Car")
                         .WithOne("FinancialInfo")
                         .HasForeignKey("WebRentManager.Models.FinancialInfo", "CarId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.HandoverDocumentFile", b =>
+                {
+                    b.HasOne("WebRentManager.Models.FileDescription", "FileDescription")
+                        .WithMany("HandoverDocumentFiles")
+                        .HasForeignKey("FileDescriptionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WebRentManager.Models.HandoverDocument", "HandoverDocument")
+                        .WithMany("HandoverDocumentFiles")
+                        .HasForeignKey("HandoverDocumentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.Income", b =>
+                {
+                    b.HasOne("WebRentManager.Models.Car", "Car")
+                        .WithMany()
+                        .HasForeignKey("CarId");
+
+                    b.HasOne("WebRentManager.Models.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WebRentManager.Models.Invoice", "Invoice")
+                        .WithMany()
+                        .HasForeignKey("InvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.InsuranceClaimFile", b =>
+                {
+                    b.HasOne("WebRentManager.Models.FileDescription", "FileDescription")
+                        .WithMany("InsuranceClaimFiles")
+                        .HasForeignKey("FileDescriptionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WebRentManager.Models.InsuranceClaim", "InsuranceClaim")
+                        .WithMany("InsuranceClaimFiles")
+                        .HasForeignKey("InsuranceClaimId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.InsurancePolicy", b =>
+                {
+                    b.HasOne("WebRentManager.Models.Car", "Car")
+                        .WithMany()
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.InsurancePolicyFile", b =>
+                {
+                    b.HasOne("WebRentManager.Models.FileDescription", "FileDescription")
+                        .WithMany("InsurancePolicyFiles")
+                        .HasForeignKey("FileDescriptionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WebRentManager.Models.InsurancePolicy", "InsurancePolicy")
+                        .WithMany("InsurancePolicyFiles")
+                        .HasForeignKey("InsurancePolicyId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.Invoice", b =>
+                {
+                    b.HasOne("WebRentManager.Models.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WebRentManager.Models.FileDescription", "FileDescription")
+                        .WithMany()
+                        .HasForeignKey("FileDescriptionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -398,9 +842,22 @@ namespace WebRentManager.Migrations
 
             modelBuilder.Entity("WebRentManager.Models.Rent", b =>
                 {
-                    b.HasOne("WebRentManager.Models.HandoverDocument", "Handover")
+                    b.HasOne("WebRentManager.Models.HandoverDocument", "HandoverDocument")
                         .WithMany()
-                        .HasForeignKey("HandoverId");
+                        .HasForeignKey("HandoverDocumentId1");
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.RentFile", b =>
+                {
+                    b.HasOne("WebRentManager.Models.FileDescription", "FileDescription")
+                        .WithMany("RentFiles")
+                        .HasForeignKey("FileDescriptionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WebRentManager.Models.Rent", "Rent")
+                        .WithMany("RentFiles")
+                        .HasForeignKey("RentId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("WebRentManager.Models.Service", b =>
@@ -410,9 +867,27 @@ namespace WebRentManager.Migrations
                         .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("WebRentManager.Models.ServiceFacility", "ServiceFacility")
+                    b.HasOne("WebRentManager.Models.Client", "Client")
                         .WithMany()
-                        .HasForeignKey("ServiceFacilityId")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WebRentManager.Models.Invoice", "Invoice")
+                        .WithMany()
+                        .HasForeignKey("InvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.ServiceFile", b =>
+                {
+                    b.HasOne("WebRentManager.Models.FileDescription", "FileDescription")
+                        .WithMany("ServiceFiles")
+                        .HasForeignKey("FileDescriptionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WebRentManager.Models.Service", "Service")
+                        .WithMany("ServiceFiles")
+                        .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

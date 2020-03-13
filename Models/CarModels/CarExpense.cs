@@ -14,6 +14,7 @@ namespace WebRentManager.Models
         public string Decription { get; set; }
         public Guid FacilityId { get; set; }
         public DateTime Date { get; set; }
+        public List<CarExpenseFile> CarExpenseFiles { get; set; }
 
     }
 }

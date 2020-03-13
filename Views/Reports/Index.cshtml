@@ -1,0 +1,17 @@
+﻿@model  ReportsIndexViewModel
+
+    <form asp-action="index" method="post" enctype="multipart/form-data">
+        
+        @for (int i = 0; i < Model.CheckboxItems.Count; i++)
+		{
+            <div class="form-row">
+                <input type="checkbox" asp-for="CheckboxItems[i].Selected" />
+                <label asp-for="CheckboxItems[i].Id">  @Model.CheckboxItems[i].Name</label>
+                <input type="hidden" asp-for="CheckboxItems[i].Id"/>
+                <input hidden asp-for="CheckboxItems[i].Entity" value="@Model.CheckboxItems[i].Entity" />
+            </div>
+		}
+        <button type="submit" class="btn btn-primary">Dalej</button>
+    </form>
+
+

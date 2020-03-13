@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using DinkToPdf.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using WebRentManager.Models;
 using WebRentManager.ViewModels;
@@ -13,12 +15,24 @@ namespace WebRentManager.Controllers
         private readonly ICarsRepository _carsRepository;
         private readonly IRentsRepository _rentsRepository;
         private readonly IClientsRepository _clientsRepository;
+        private readonly ICarDamagesRepository _carDamagesRepository;
+        private readonly IMilageRecordsRepository _milageRecordsRepository;
+        private readonly IHandoverDocumentsRepository _handoverDocumentsRepository;
+        private ITemplateService _templateService;
+        private IConverter _converter;
 
-        public RentsController(ICarsRepository carsRepository, IRentsRepository rentsRepository, IClientsRepository clientsRepository)
+        public RentsController(ICarsRepository carsRepository, IRentsRepository rentsRepository, IClientsRepository clientsRepository, 
+            ICarDamagesRepository carDamagesRepository, IMilageRecordsRepository milageRecordsRepository, 
+            IHandoverDocumentsRepository handoverDocumentsRepository, ITemplateService templateService, IConverter converter)
         {
             _carsRepository = carsRepository;
             _rentsRepository = rentsRepository;
             _clientsRepository = clientsRepository;
+            _carDamagesRepository = carDamagesRepository;
+            _milageRecordsRepository = milageRecordsRepository;
+            _handoverDocumentsRepository = handoverDocumentsRepository;
+            _templateService = templateService;
+            _converter = converter;
         }
 
         [HttpGet]
@@ -55,7 +69,7 @@ namespace WebRentManager.Controllers
             return View(model);
         }
         [HttpGet]
-        public ViewResult Details(Guid id)
+        public ViewResult Details(Guid id) // TODO dodać protokół i wyświetlić go na karcie
         {       
             Rent rent = _rentsRepository.GetRent(id);
             Guid carid = rent.CarId;
@@ -104,9 +118,12 @@ namespace WebRentManager.Controllers
                     RentType = model.RentType,
                     IsFinished = false,
                     IsActive = false,
-                    Id = new Guid()
+                    Id = Guid.NewGuid()
                 };
-                //TODO zmiana statusu samochodu na zarezerwowany i ustawienie daty kiedy ma wyjechać
+                Car car = _carsRepository.GetCar(model.CarId);
+                car.IsReserved = true;
+                car.ReservedUntil = model.ProposedStartDate.Date;
+                _carsRepository.Update(car);
                 _rentsRepository.Add(rent);
                 return RedirectToAction("Reservations");
             }
@@ -197,57 +214,178 @@ namespace WebRentManager.Controllers
             return RedirectToAction("ChangeCar", new { id = model.Id });
         }
         [HttpGet]
-        public ViewResult HandoverStart() //Guid id
+        public ViewResult HandoverStart(Guid id) //rent id 
         {
-
-            //model.Xcoord = 467;
-            //model.Ycoord = 101;
-            //Tuple<int, int> tuple = Tuple.Create(467, 101);
-            //Tuple<int, int> tuple1 = Tuple.Create(500, 300);
-            //Tuple<int, int> tuple2 = Tuple.Create(120, 230);
-            //Tuple<int, int> tuple3 = Tuple.Create(200, 150);
-            //List<Tuple<int, int>> tuples = new List<Tuple<int, int>>();
-            //tuples.Add(tuple);
-            //tuples.Add(tuple1);
-            //tuples.Add(tuple2);
-            //tuples.Add(tuple3);
-            //RentHandoverStartViewModel model = new RentHandoverStartViewModel
-            //{
-            //    Coords = tuples
-            //};
-            CarDamage damage = new CarDamage
+            Rent rent = _rentsRepository.GetRent(id);
+            Car car = _carsRepository.GetCar(rent.CarId);
+            List<CarDamage> carDamages = _carDamagesRepository.GetCarDamages(car.Id).ToList();
+            Client client = _clientsRepository.GetClient(rent.ClientId);
+            Guid[] guids = new Guid[50];
+            for (int i = 0; i < guids.Length-1; i++)
             {
-                Id = Guid.NewGuid(),
-                Description = "Testowy opis",
-                OffsetX = 467,
-                OffsetY = 101
-            };
-            List<CarDamage> carDamages = new List<CarDamage>();
-            carDamages.Add(damage);
+                guids[i] = Guid.NewGuid();
+            }
             RentHandoverStartViewModel model = new RentHandoverStartViewModel
             {
-                CarDamages = carDamages
+                CarId = car.Id,
+                CarReg = car.RegistrationNumber,
+                CarDamages = carDamages,
+                ClientId = client.Id,
+                ClientName = client.Name,
+                RentId = rent.Id,
+                RentingCompany = rent.RentingCompany.ToString(),
+                UserMail = rent.UserMail,
+                UserName = rent.UserName,
+                UserPhone = rent.UserPhone,
+                Guids = guids,               
             };
             return View(model);
         }
-        public ActionResult PopulateModal(Guid id)
+        [HttpGet]
+        public IActionResult PopulateModal(Guid id)
         {
-
+            CarDamage damage = _carDamagesRepository.GetCarDamage(id);
             RentPopulateModalViewModel model = new RentPopulateModalViewModel
             {
-                Description = "test opis",
-                Title = "test title"
+                DamageType=damage.DamageType.ToString(),
+                Description=damage.Description
+            };
+            return PartialView(model);
+        }
+        [HttpGet]
+        public IActionResult FormModal(string routeValues)
+        {
+            string[] split = routeValues.Split(',');
+            NumberFormatInfo provider = new NumberFormatInfo();
+            provider.NumberDecimalSeparator = ".";
+            provider.NumberGroupSeparator = ",";
+            provider.NumberGroupSizes = new int[] { 3 };
+            double offsetx = Convert.ToDouble(split[0],provider);
+            double offsety = Convert.ToDouble(split[1],provider);
+            Guid id = new Guid(split[2]);
+            Guid carId = new Guid(split[3]);
+            string time = split[4];
+            bool enddmg = true;
+            if (time=="start")
+            {
+                enddmg = false;
+            }
+            Guid rentId = new Guid(split[5]);
+            CarDamage damage = new CarDamage
+            {
+                OffsetX = offsetx,
+                OffsetY = offsety,
+                Id = id,
+                CarId = carId,
+                RentId = rentId,
+                IsEndDamage = enddmg,
+                DateMarked = DateTime.Now,             
+            };
+            _carDamagesRepository.Add(damage);
+            RentFormModalViewModel model = new RentFormModalViewModel
+            {
+                Id=id
             };
             return PartialView(model);
         }
         [HttpPost]
+        public IActionResult PostModal(RentFormModalViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                CarDamage damage = _carDamagesRepository.GetCarDamage(model.Id);
+                damage.Description = model.Description;
+                damage.DamageType = model.DamageType;
+                _carDamagesRepository.Update(damage);
+            }
+            return PartialView("CloseModal");
+        }
+        [HttpPost]
         public IActionResult HandoverStart(RentHandoverStartViewModel model)
-        {            
+        {
+            if (ModelState.IsValid)
+            {
+                HandoverDocument document = new HandoverDocument //TODO Dodać podpisy
+                {
+                    CarId = model.CarId,
+                    ClientId = model.ClientId,
+                    IsTermAccepted = model.IsTermAccepted,
+                    RentId = model.RentId,
+                    StartDate = model.StartDate,
+                    StartFireEx = model.StartFireEx,
+                    StartFuel = model.StartFuel,
+                    StartManual = model.StartManual,
+                    StartMilage = model.StartMilage,
+                    StartNotes = model.StartNotes,
+                    StartRepairSet = model.StartRepairSet,
+                    StartService = model.StartService,
+                    StartSpare = model.StartSpare,
+                    StartTriangle = model.StartSpare,
+                    Id= Guid.NewGuid(),
+                };
+                _handoverDocumentsRepository.Create(document);
+                //Dodanie do historii przebiegu
+                MilageRecord record = new MilageRecord
+                {
+                    CarId = model.CarId,
+                    Date = model.StartDate.Date,
+                    Milage = model.StartMilage,
+                    Id = Guid.NewGuid()
+                };
+                _milageRecordsRepository.Add(record);
+                //Aktualizacja danych samochodu
+                Car car = _carsRepository.GetCar(model.CarId);
+                car.Milage = model.StartMilage;
+                car.IsAvailable = false;
+                car.IsReserved = false;
+                _carsRepository.Update(car);
+                //Aktualizacja danych wynajmu               
+                Rent rent = _rentsRepository.GetRent(model.RentId);
+                rent.IsActive = true;
+                rent.StartDate = model.StartDate.Date;
+                _rentsRepository.Update(rent);
+                return RedirectToAction("Details", new { id = model.RentId });
+            }
             //var dataUri = model.SignatureDataUrl;
             //var encodedImage = dataUri.Split(",")[1];
             //var decodedImage = Convert.FromBase64String(encodedImage);
             //System.IO.File.WriteAllBytes("signature.png", decodedImage);
-            return RedirectToAction("HandoverStart");
+            return RedirectToAction("HandoverStart", new {id = model.RentId });
+        }
+        public ViewResult HandoverEnd(Guid id)
+        {
+            Rent rent = _rentsRepository.GetRent(id);
+            HandoverDocument document = _handoverDocumentsRepository.GetHandoverByRent(rent.Id);
+            Client client = _clientsRepository.GetClient(rent.ClientId);
+            Car car = _carsRepository.GetCar(rent.CarId);
+            List<CarDamage> carDamages = _carDamagesRepository.GetCarDamages(car.Id).ToList();
+            Guid[] guids = new Guid[50];
+            for (int i = 0; i < guids.Length - 1; i++)
+            {
+                guids[i] = Guid.NewGuid();
+            }
+            RentHandoverEndViewModel model = new RentHandoverEndViewModel
+            {
+                Id = document.Id,
+                CarId = car.Id,
+                RentId = rent.Id,
+                ClientId = client.Id,
+                CarDamages = carDamages,
+                CarReg = car.RegistrationNumber,
+                ClientName = client.Name,
+                Guids = guids,
+                StartDate = rent.StartDate,
+                StartFireEx = document.StartFireEx,
+                StartFuel = document.StartFuel,
+                StartManual = document.StartManual,
+                StartMilage = document.StartMilage,
+                StartNotes = document.StartNotes,
+                StartRepairSet = document.StartRepairSet,
+                StartService = document.StartService,
+                StartSpare = document.StartSpare,
+                StartTriangle = document.StartTriangle,
+            };
+            return View(model);
         }
     }
 }

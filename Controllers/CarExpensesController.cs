@@ -12,13 +12,11 @@ namespace WebRentManager.Controllers
     {
         private readonly ICarsRepository _carsRepository;
         private readonly ICarExpensesRepository _carExpensesRepository;
-        private readonly IServiceFacilitiesRepository _serviceFacilitiesRepository;
 
-        public CarExpensesController(ICarsRepository carsRepository, ICarExpensesRepository carExpensesRepository, IServiceFacilitiesRepository serviceFacilitiesRepository)
+        public CarExpensesController(ICarsRepository carsRepository, ICarExpensesRepository carExpensesRepository)
         {
             _carsRepository = carsRepository;
             _carExpensesRepository = carExpensesRepository;
-            _serviceFacilitiesRepository = serviceFacilitiesRepository;
         }
 
         [HttpGet]
@@ -27,7 +25,7 @@ namespace WebRentManager.Controllers
             CarExpenseAddViewModel model = new CarExpenseAddViewModel
             {
                // CarId = id,
-                ServiceFacilities = _serviceFacilitiesRepository.GetAll().ToList()
+               
             };
             return View(model); 
         }

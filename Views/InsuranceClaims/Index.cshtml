@@ -1,0 +1,47 @@
+﻿@model List<Tuple<InsuranceClaim,Guid,string>>
+<br />
+<h3>Lista szód komunikacyjnych</h3>
+<br />
+@{ int counter = 1;}
+<table class="table table-striped table-hover table-bordered">
+    <thead>
+        <tr class="text-dark text-center">
+            <th>L.p.</th>
+            <th>Nr szkody</th>
+            <th>Samochód</th>
+            <th>TU</th>
+            <th>Typ szkody</th>
+            <th>Status szkody</th>
+            <th>Likwidator</th>
+            <th>Mail</th>
+            <th>Tel.</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@counter.ToString() .</td>
+            <td><a asp-action="details" asp-controller="insuranceclaims" asp-route-id="@item.Item1.Id">@item.Item1.ClaimNo</a></td>
+            <td><a asp-action="details" asp-controller="cars" asp-route-id="@item.Item2">@item.Item3</a></td>
+            <td>@item.Item1.InsuranceCompany</td>
+            <td>@item.Item1.ClaimType.ToString()</td>
+            <td>@item.Item1.ClaimStatus</td>
+            <!--dodać ifa bo nie zawsze mamy kontakt do likwidatora, zamiast tego wrzucamy puste pola-->
+            @if (@item.Item1.RepresentativeName != null)
+            {
+                <td>@item.Item1.RepresentativeName</td>
+                <td><a href="mailto:@{@item.Item1.RepresentativeMail}">@item.Item1.RepresentativeMail</a></td>
+                <td>@item.Item1.RepresentativePhone</td>
+            }
+            else
+            {
+                <td></td>
+                <td></td>
+                <td></td>
+            }
+
+        </tr>
+        }
+    </tbody>
+</table>

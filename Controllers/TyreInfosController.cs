@@ -54,7 +54,7 @@ namespace WebRentManager.Controllers
                 }
                 else info.TyreShopId = model.TyreShopId;
                 _tyreInfosRepository.Create(info);
-                return RedirectToAction("details", "cars", new { guid = model.CarId });
+                return RedirectToAction("details", "cars", new { id = model.CarId });
             }
             return RedirectToAction("addtyreinfo", new { carId = model.CarId });
         }
@@ -91,7 +91,7 @@ namespace WebRentManager.Controllers
                     }
                     _tyreInfosRepository.Update(item);
                 }
-                return RedirectToAction("details", "cars", new { guid = model.CarId });
+                return RedirectToAction("details", "cars", new { id = model.CarId });
             }
             return RedirectToAction("ChangeTyres", new { carId = model.CarId });
         }
@@ -127,7 +127,7 @@ namespace WebRentManager.Controllers
                 tyreInfo.Diameter = model.Diameter;
                 tyreInfo.Dot = model.Dot;
                 _tyreInfosRepository.Update(tyreInfo);
-                return RedirectToAction("details", "cars", new { guid = model.CarId });
+                return RedirectToAction("details", "cars", new { id = model.CarId });
             }
             return RedirectToAction("edit", new { tyreInfoId = model.Id });
         }
@@ -150,7 +150,7 @@ namespace WebRentManager.Controllers
                 TyreInfo tyreInfo = _tyreInfosRepository.GetTyreInfo(model.Id);
                 tyreInfo.TyreShopId = model.NewTyreShopId;
                 _tyreInfosRepository.Update(tyreInfo);
-                return RedirectToAction("details", "cars", new { guid = model.CarId });
+                return RedirectToAction("details", "cars", new { id = model.CarId });
             }
             return RedirectToAction("relocate", new { tyreInfoId = model.Id });
         }

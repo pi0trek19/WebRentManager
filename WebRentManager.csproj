@@ -13,12 +13,31 @@
     <Compile Remove="Migrations\20190802093549_initial migration.Designer.cs" />
     <Compile Remove="Migrations\20190813101814_tyreInfoAdded.cs" />
     <Compile Remove="Migrations\20190813101814_tyreInfoAdded.Designer.cs" />
+    <Compile Remove="Migrations\20191204124938_damages.cs" />
+    <Compile Remove="Migrations\20191204124938_damages.Designer.cs" />
+    <Compile Remove="Migrations\20191204132059_dmgv2.cs" />
+    <Compile Remove="Migrations\20191204132059_dmgv2.Designer.cs" />
+    <Compile Remove="Migrations\20191204134939_damages.cs" />
+    <Compile Remove="Migrations\20191204134939_damages.Designer.cs" />
+    <Compile Remove="Migrations\20191204135312_tmp.cs" />
+    <Compile Remove="Migrations\20191204135312_tmp.Designer.cs" />
+    <Compile Remove="Migrations\20191205091042_tmp.cs" />
+    <Compile Remove="Migrations\20191205091042_tmp.Designer.cs" />
+    <Compile Remove="Migrations\20200217130010_insurance.cs" />
+    <Compile Remove="Migrations\20200217130010_insurance.Designer.cs" />
+    <Compile Remove="Migrations\20200217130625_insurance.cs" />
+    <Compile Remove="Migrations\20200217130625_insurance.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Haukcode.DinkToPdf" Version="1.1.2" />
+    <PackageReference Include="MailKit" Version="2.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
+    <PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" Version="3.2.6" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
+    <PackageReference Include="MimeKit" Version="2.4.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,7 +1,7 @@
 ﻿@model  FinancialInfoCreateViewModel
 
 <div class="container">
-    <h3>Dodaj info finansowe</h3>
+    <h3>Dodaj informacje finansowe</h3>
     <form enctype="multipart/form-data" method="post" asp-action="Create" asp-controller="FinancialInfos">
         <input hidden asp-for="CarId" value="@Model.CarId" />
         <div class="form-group row">
@@ -28,14 +28,14 @@
         <div class="form-group row">
             <label asp-for="LeaseStartDate" class="col-sm-2 col-form-label"></label>
             <div class="col-sm-10">
-                <input asp-for="LeaseStartDate" class="form-control" placeholder="Data początku" />
+                <input type="date" asp-for="LeaseStartDate" value="null" class="form-control" placeholder="Data początku" />
                 <span asp-validation-for="LeaseStartDate" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group row">
             <label asp-for="LeaseEndDate" class="col-sm-2 col-form-label"></label>
             <div class="col-sm-10">
-                <input asp-for="LeaseEndDate" class="form-control" placeholder="Data końca" />
+                <input type="date" asp-for="LeaseEndDate" value="null" class="form-control" placeholder="Data końca" />
                 <span asp-validation-for="LeaseEndDate" class="text-danger"></span>
             </div>
         </div>

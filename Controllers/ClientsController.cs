@@ -13,13 +13,18 @@ namespace WebRentManager.Controllers
         private readonly IClientsRepository _clientsRepository;
         private readonly IRentsRepository _rentsRepository;
         private readonly ICarsRepository _carsRepository;
+        private readonly IInvoicesRepository _invoicesRepository;
+        private readonly IIncomesRepository _incomesRepository;
 
-        public ClientsController(IClientsRepository clientsRepository, IRentsRepository rentsRepository, ICarsRepository carsRepository)
+        public ClientsController(IClientsRepository clientsRepository, IRentsRepository rentsRepository, ICarsRepository carsRepository, IInvoicesRepository invoicesRepository, IIncomesRepository incomesRepository)
         {
             _clientsRepository = clientsRepository;
             _rentsRepository = rentsRepository;
             _carsRepository = carsRepository;
+            _invoicesRepository = invoicesRepository;
+            _incomesRepository = incomesRepository;
         }
+
         [HttpGet]
         public ViewResult Index()
         {
@@ -45,11 +50,29 @@ namespace WebRentManager.Controllers
                     activerents.Add(tuple);
                 }
             }
+            List<Income> incomes = new List<Income>();
+            List<Invoice> expenses = new List<Invoice>();
+            foreach (var item in _incomesRepository.GetAllByClient(id))
+            {
+                Income temp = item;
+                temp.Invoice = _invoicesRepository.GetInvoice(temp.InvoiceId);
+                if (temp.CarId!=null)
+                {
+                    temp.Car = _carsRepository.GetCar(temp.CarId.GetValueOrDefault());
+                }
+                incomes.Add(temp);
+            }
+            foreach (var item in _invoicesRepository.GetAllCostByClient(id))
+            {
+                    expenses.Add(item);
+            }
             ClientDetailsViewModel model = new ClientDetailsViewModel
             {
                 Client = client,
                 ActiveRents = activerents,
-                FinishedRents = finishedrents
+                FinishedRents = finishedrents,
+                Incomes = incomes,
+                Expenses = expenses
             };
             return View(model);
         }

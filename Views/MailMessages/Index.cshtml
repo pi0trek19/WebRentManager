@@ -1,0 +1,32 @@
+﻿@model  List<MailMessage>
+@{ int counter = 1;}
+<h2>Lista szablonów wiadomości</h2>
+<br />
+<br />
+<a asp-action="create" asp-controller="mailmessages" class="btn btn-primary">Dodaj nowy szablon wiadomości</a>
+<br />
+<br />
+<div class="container" style="width:100%">
+    <table class="table-striped table-bordered table-hover" style="width:inherit">
+        <thead>
+            <tr>
+                <th class="text-center text-dark">Lp.</th>
+                <th class="text-center text-dark">Opis</th>
+                <th class="text-center text-dark">Temat</th>
+                <th class="text-center text-dark">Akcja</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@counter.ToString().</td>
+                    <td><a asp-controller="mailmessages" asp-action="edit" asp-route-id="@item.Id">@item.Desc</a></td>
+                    <td>@item.Subject</td>
+                    <td class="text-center"><a asp-controller="mailmessages" class="btn btn-primary" asp-action="delete" asp-route-id="@item.Id">Usuń</a></td>
+                </tr>
+                counter++;
+            }
+        </tbody>
+    </table>
+</div>

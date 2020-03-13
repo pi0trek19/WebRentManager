@@ -10,14 +10,14 @@ namespace WebRentManager.Models
         public Guid Id { get; set; }
         public DateTime Date { get; set; }
         public int Milage { get; set; }
-        public Guid ServiceFacilityId { get; set; }
-        public ServiceFacility ServiceFacility { get; set; }
+        public Guid ClientId { get; set; }
+        public Client Client { get; set; }
         public ServiceType ServiceType { get; set; }
         public Car Car { get; set; }
         public Guid CarId { get; set; }
         public decimal Cost { get; set; }
-        public string InvoicePath { get; set; }
-
-
+        public Guid InvoiceId { get; set; }
+        public Invoice Invoice { get; set; }
+        public List<ServiceFile> ServiceFiles { get; set; }
     }
 }

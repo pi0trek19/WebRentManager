@@ -1,0 +1,32 @@
+﻿@model RentFormModalViewModel
+<div class="modal-dialog" style="max-width:800px">
+    <div id="target">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Rents" asp-action="PostModal" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target">
+                    <input type="hidden" asp-for="Id" value="@Model.Id" />
+                    <div class="form-group row">
+                        <label asp-for="DamageType" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <select asp-for="DamageType" class="custom-select mr-sm-2"
+                                    asp-items="Html.GetEnumSelectList<DamageType>()"></select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Description" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="Description" class="form-control" />
+                        </div>
+                    </div>
+                    @*<div class="form-group row">
+                        <input asp-for="Photo" class="custom-file-input" />
+                    </div>*@
+                    <button type="submit" id="exit-modal" class="btn btn-success">Dodaj</button>
+                </form>
+        </div>
+        </div>
+    </div>
+</div>

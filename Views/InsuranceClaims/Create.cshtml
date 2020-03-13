@@ -1,0 +1,64 @@
+﻿@model  InsuranceClaimCreateViewModel
+
+<br />
+<h3>Dodaj nową szkodę dla @Model.CarReg</h3>
+
+<form asp-action="create" asp-controller="insuranceclaims" enctype="multipart/form-data" method="post">
+    <input hidden asp-for="CarId" value="@Model.CarId" />
+    <div class="form-group row">
+        <label asp-for="InsuranceCompany" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="InsuranceCompany" class="form-control" placeholder="Nazwa TU" />
+            <span asp-validation-for="InsuranceCompany" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="ClaimNo" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="ClaimNo" class="form-control" placeholder="Imię i nazwisko" />
+            <span asp-validation-for="ClaimNo" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="ClaimType" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <select asp-for="ClaimType" asp-items="Html.GetEnumSelectList<ClaimType>()" class="form-control"></select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="ClaimDate" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-4">
+            <input type="date" asp-for="ClaimDate" />
+            <span asp-validation-for="ClaimDate" class="text-danger"></span>
+        </div>
+        <label asp-for="ReportDate" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-4">
+            <input type="date" asp-for="ReportDate" />
+            <span asp-validation-for="ReportDate" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="RepresentativeName" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="RepresentativeName" class="form-control" placeholder="Imię i nazwisko" />
+            <span asp-validation-for="RepresentativeName" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="RepresentativePhone" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="RepresentativePhone" class="form-control" placeholder="Telefon" />
+            <span asp-validation-for="RepresentativePhone" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="RepresentativeMail" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="RepresentativeMail" class="form-control" placeholder="Email" />
+            <span asp-validation-for="RepresentativeMail" class="text-danger"></span>
+        </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Dodaj</button>
+</form>
+<br />
+<a asp-action="details" asp-controller="cars" asp-route-id="@Model.CarId" class="btn btn-danger">Anuluj</a>

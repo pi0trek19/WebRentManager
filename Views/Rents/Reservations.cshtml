@@ -1,0 +1,35 @@
+﻿@model List<Tuple<Car, Client, Rent>>
+<br />
+<h3>Lista zarezerwowanych samochodów</h3>
+<br />
+<table class="table-hover table-striped table-bordered">
+    <thead>
+        <tr>
+            <td class="text-center text-dark">Lp.</td>
+            <td class="text-center text-dark">Samochód</td>
+            <td class="text-center text-dark">Planowana data wydania</td>
+            <td class="text-center text-dark">Klient</td>
+            <td class="text-center text-dark">Użytkownik</td>
+            <td class="text-center text-dark">Telefon</td>
+            <td class="text-center text-dark">Akcja</td>
+        </tr>
+    </thead>
+    <tbody>
+        @{ int counter = 1;}
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@counter.ToString()</td>
+            <td>@item.Item1.RegistrationNumber @item.Item1.Make @item.Item1.Model</td>
+            <td>@item.Item3.StartDate.ToString("dd-MM-yyyy")</td>
+            <td><a asp-controller="rents" asp-action="details" asp-route-id="@item.Item3.Id">@item.Item2.Name</a></td>
+            <td>@item.Item3.UserName</td>
+            <td>@item.Item3.UserPhone</td>
+            <td><a asp-action="HandoverStart" asp-controller="Rents" asp-route-id="@item.Item3.Id" class="btn btn-primary">Wydanie</a></td>
+        </tr>
+            counter++;
+        }
+    </tbody>
+</table>
+
+

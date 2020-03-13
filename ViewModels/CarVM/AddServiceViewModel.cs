@@ -11,7 +11,7 @@ namespace WebRentManager.ViewModels
 {
     public class AddServiceViewModel
     {
-        public List<ServiceFacility> ServiceFacilities { get; set; }
+        public List<Client> ServiceFacilities { get; set; }
         public Car Car { get; set; }
         public Guid Id { get; set; }
         [Required]
@@ -22,15 +22,22 @@ namespace WebRentManager.ViewModels
         public int Milage { get; set; }
 
         [DisplayName("Seriws")]
-        public ServiceFacility ServiceFacility { get; set; }
+        public Client ServiceFacility { get; set; }
         [Required]
         [DisplayName("Serws")]
         public Guid ServiceFacilityId { get; set; }
         [DisplayName("Typ serwisu")]
         public ServiceType ServiceType { get; set; }
         public Guid CarId { get; set; }
+        [Required]
         [DisplayName("Kwota")]
         public decimal Cost { get; set; }
-        public IFormFile Invoice { get; set; }
+        //faktura
+        [DisplayName("Dodaj fakturę")]
+        public bool IsInvoiceAdded { get; set; }
+        [DisplayName("Numer faktury")]
+        public string Number { get; set; }
+        //dodać przesyłanie pliku
+
     }
 }

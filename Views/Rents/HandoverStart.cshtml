@@ -1,31 +1,215 @@
 ﻿@model RentHandoverStartViewModel
+<br />
+<h3>Protokół Wydania @Model.CarReg</h3>
+<br />
+    <!--Przycisk i modal z treścią regulaminu-->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+        Pokaż regulamin
+    </button>
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Regulamin użytkowania Samochodu</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <ol type="1">
+                        <li>
+                            Użytkownikiem wynajętego samochodu od @Model.RentingCompany jest osoba, która
+                            <ol type="a">
+                                <li>Ukończyła 18 lat</li>
+                                <li>Posiada prawo jazdy kat. B</li>
+                                <li>Posiada ważny dowód osobisty lub inny dokument ze zdjęciem potwierdzający tożsamość</li>
+                                <li>Jest upoważniona przez Klienta @Model.RentingCompany do użytkowania samochodu</li>
+                            </ol>
+                        </li>
+                        <li>
+                            Jeśli uszkodzenie pojazdu nastąpiło w wyniku wypadku drogowego, Użytkownik / Klient zobowiązany jest do:
+                            <ol type="a">
+                                <li>wezwania Policji na miejsce zdarzenia</li>
+                                <li>poinformowania @Model.RentingCompany (tel. <b>+48 22 299 08 08</b> lub <b>+48 603 071 564</b>)</li>
+                            </ol>
+                        </li>
+                        <li>
+                            Użytkownik / Klient zobowiązany jest do poinformowaniu @Model.RentingCompany o każdym uszkodzeniu pojazdu.
+                        </li>
+                        <li>
+                            W przypadku kradzieży wynajmowanego samochodu wraz z dokumentami i kluczykami Klient lub Użytkownik zobowiązuje się pokryć koszty jego utraty w całości, w przypadku odmmowy wypłaty przez ubezpieczyciela.
+                        </li>
+                        <li>
+                            Paliwo nie jest wliczone w cene najmu.
+                        </li>
+                        <li>
+                            Poniższe działania są zabronione:
+                            <ol type="a">
+                                <li>Palenie tytoniu / papierosów w samochodzie</li>
+                                <li>Przewóz zwierząt</li>
+                                <li>Holowanie innych pojazdów</li>
+                                <li>Przeciążanie samochodu</li>
+                                <li>Udział w wyścigach lub rajdach samochodowych itp.</li>
+                            </ol>
+                        </li>
+                        <li>
+                            Wynajęty pojazd może poruszać się tylko po terytorium Polski, na wyjazd za granicę wymagana jest zgoda @Model.RentingCompany.
+                        </li>
+                        <li>
+                            Odbiór i zdanie pojazdu odbywa się w miejscu wcześniej ustalonym przez Strony.
+                        </li>
+                        <li>
+                            Użytkownik jest zobowiązany do zdania pojazdu, w takim samym stanie w jakim go odebrał od @Model.RentingCompany, tj. sprawny, czysty (w środku jak i na zewnątrz) i z pełnym wyposażeniem.
+                        </li>
+                        <li>
+                            Pojazd podczas zadania powinien być zatankowany do poziomu równego przy wydaniu
+                            <ol type="a">
+                                <li>W momencie, gdy samochód posiada mniej paliwa niż przy wydaniu, Klient jest obciążany kosztem brakującego paliwa oraz koztami administracyjnymi w kwocie 70 zł netto.</li>
+                                <li>@Model.RentingCompany nie zobowiązuje się do zwrotu pieniędzy za nadmiar paliwa w baku wynajmowanego pojazdu</li>
+                            </ol>
+                        </li>
+                        <li>Przedłużenie wynajmu jest możliwe po uprzednim poinformowaniu @Model.RentingCompany (pisemnie - mailem) na 3 dni przed planowanym zakończeniem najmu. Samodzielne przedłużenie najmu o ponad 24 godziny oraz brak kontaktu z Użytkownikiem może spowodować powiadomienie Policji o fakcie przywłaszczenia samochodu, a wszelkie kosekwencje i koszty z tym związane ponosi Klient</li>
+                    </ol>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Zamknij</button>
+                </div>
 
+            </div>
+        </div>
+    </div>
     <form asp-action="handoverstart" asp-controller="rents" method="post" enctype="multipart/form-data">
-        <input type="text" />
+        <!-- Dane do protokołu -->
+        <input hidden asp-for="Id" />
+        <input hidden asp-for="RentId" value="@Model.RentId" />
+        <input hidden asp-for="CarId" value="@Model.CarId" />
+        <input hidden asp-for="ClientId" value="@Model.ClientId" />
 
+        <div class="form-group row">
+            <label asp-for="IsTermAccepted" class="col-sm-10 col-form-label"></label>
+            <div class="col-sm-2">
+                <input asp-for="IsTermAccepted" class="form-control" />
+                <span asp-validation-for="IsTermAccepted" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="ClientName" class="col-sm-2"></label>
+                <div class="col-sm-4">
+                    @Model.ClientName
+                </div>
+            <label asp-for="UserName" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-4">
+                <input asp-for="UserName" value="@Model.UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="UserPhone" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-4">
+                <input asp-for="UserPhone" value="@Model.UserPhone" class="form-control" />
+                <span asp-validation-for="UserPhone" class="text-danger"></span>
+            </div>
+            <label asp-for="UserMail" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-4">
+                <input asp-for="UserMail" value="@Model.UserMail" class="form-control" />
+                <span asp-validation-for="UserMail" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="StartDate" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-8">
+                <input type="datetime" id="datetimeinput" value="@DateTime.Now" asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="col-sm-2">
+                <button type="button" class="btn btn-success" id="timebutton">Teraz</button>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="StartMilage" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="StartMilage" class="form-control" />
+                <span asp-validation-for="StartMilage" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="StartFuel" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="StartFuel" class="form-control" />
+                <span asp-validation-for="StartFuel" class="text-danger"></span>
+            </div>
+        </div>
+        <!--Checkboxy-->
+        <div class="form-group row">
+            <label asp-for="StartManual" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-2">
+                <input asp-for="StartManual" class="form-control" />
+                <span asp-validation-for="StartManual" class="text-danger"></span>
+            </div>
+            <label asp-for="StartService" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-2">
+                <input asp-for="StartService" class="form-control" />
+                <span asp-validation-for="StartService" class="text-danger"></span>
+            </div>
+            <label asp-for="StartTriangle" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-2">
+                <input asp-for="StartTriangle" class="form-control" />
+                <span asp-validation-for="StartTriangle" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="StartFireEx" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-2">
+                <input asp-for="StartFireEx" class="form-control" />
+                <span asp-validation-for="StartFireEx" class="text-danger"></span>
+            </div>
+            <label asp-for="StartSpare" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-2">
+                <input asp-for="StartSpare" class="form-control" />
+                <span asp-validation-for="StartSpare" class="text-danger"></span>
+            </div>
+            <label asp-for="StartRepairSet" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-2">
+                <input asp-for="StartRepairSet" class="form-control" />
+                <span asp-validation-for="StartRepairSet" class="text-danger"></span>
+            </div>
+        </div>
+        <!--Koniec checkboxów-->
+        <div class="form-group row">
+            <label asp-for="StartNotes" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="StartNotes" class="form-control" />
+                <span asp-validation-for="StartNotes" class="text-danger"></span>
+            </div>
+        </div>
+        <h4>Uszkodzenia</h4>
+        <!-- Zaznaczanie uszkodzeń -->
         <canvas width="1140" height="728" id="img" style="background-image :url('/diagram.png'); position: relative"></canvas>
         @foreach (var item in @Model.CarDamages)
         {
-            <script type="text/javascript">
-                console.log("srodek foreach");
-                console.log("wywołanie funkcji");
-                var canvas = document.getElementById("img");
-                var btn = document.createElement("button");
-                btn.style.position = "absolute";
-                btn.style.height = '40px';
-                btn.style.width = '40px';
-                var xfinal = (@item.OffsetX + canvas.offsetLeft - 20);
-                var yfinal = (@item.OffsetY + canvas.offsetTop - 20);
-                btn.style.left = xfinal + 'px';
-                btn.style.top = yfinal + 'px';
-                btn.style.borderRadius = '20px';
-                btn.setAttribute("class", "read-modal");
-                btn.classList.add("data-targeturl");
-                btn.setAttribute("data-targeturl","@Url.Action("PopulateModal","Rents",new { id = item.Id })")
-                btn.id = ("");//TODO dodać id uszkodzenia z modelu
-                document.body.appendChild(btn);
-            </script>
+    <script type="text/javascript">
+            var canvas = document.getElementById("img");
+            var btn = document.createElement("button");
+            btn.style.position = "absolute";
+            btn.style.height = '40px';
+            btn.style.width = '40px';
+            var offx = @Html.Raw(Json.Serialize(item.OffsetX));
+            var offy = @Html.Raw(Json.Serialize(item.OffsetY));
+            var xfinal = (offx + canvas.offsetLeft - 20);
+            var yfinal = (offy + canvas.offsetTop - 20);
+            btn.style.left = xfinal + 'px';
+            btn.style.top = yfinal + 'px';
+            btn.style.borderRadius = '20px';
+            btn.style.backgroundColor = "green";
+            btn.style.border = "0";
+            btn.setAttribute("class", "read-modal");
+            btn.setAttribute("data-targeturl","@Url.Action("PopulateModal","Rents",new { id = item.Id })")
+            btn.id = ("@item.Id.ToString()");
+            document.body.appendChild(btn);
+    </script>
         }
+        <!-- Podpisy -->
         @*<p>
             <canvas width="1000" height="400" id="signature"
                     style="border:1px solid black"></canvas><br>
@@ -41,93 +225,101 @@
                  style="border:1px solid black"><br>
             <input asp-for="@Model.SignatureDataUrl">
         </p>*@
-
         <button type="submit" class="btn btn-primary">Dodaj</button>
-        <div id="modal-container" class="modal fade" tabindex="-1" role="dialog">
-            <a href="#close" title="Close" class="modal-close-btn">X</a>
-            <div class="modal-content">
-                <div class="modal-body"></div>
-            </div>
-        </div>
     </form>
 
-
+<div id="modal-container" class="modal fade" tabindex="-1" role="dialog">
+    <a href="#close" title="Close" class="modal-close-btn">X</a>
+    <div class="modal-content">
+        <div class="modal-body"></div>
+    </div>
+</div>
 
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
     <script>
-        $(function () {
 
-    $('body').on('click', '.read-modal', function (e) {
-        e.preventDefault();
+    function f1() {
+        const btnCl = this.classList[0];
+        if (btnCl === 'form-modal') {
+            $.get($(this).data("targeturl"), function (data) {
+                $('<div id="modal-container" class="modal fade">'+data+'</div>').modal();
+            });
+        //} else if (btnCl === 'read-modal') {
+        //    $.get($(this).data("targeturl"), function (data) {
+        //        $('<div id="modal-container-read" class="modal fade">'+data+'</div>').modal();
+        //    });
+        }
 
-        $("#modal-container").remove();
-
-        $.get($(this).data("targeturl"), function (data) {
-
-            $('<div id="modal-container" class="modal fade">'+
-              '<div class="modal-content" id= "modalbody" >'+ 
-                    data + '</div></div>').modal();
-
-        });
-    });
-});
-
+    };
+    function inputDate() {
+        var now = new Date();
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+        var today = now.getFullYear() + "-" + (month) + "-" + (day);
+        $('input.datetime').val(today);
+    }
     $(document).ready(function ()
     {
-        //var canvas = document.getElementById("img");
-        //function placebutton(xcoord, ycoord) {
-        //    var btn = document.createElement("button");
-        //    btn.style.position = "absolute";
-        //    btn.style.height = '40px';
-        //    btn.style.width = '40px';
-        //    var xfinal = (xcoord + canvas.offsetLeft - 20);
-        //    var yfinal = (ycoord + canvas.offsetTop - 20);
-        //    btn.style.left = xfinal + 'px';
-        //    btn.style.top = yfinal + 'px';
-        //    btn.style.borderRadius = '20px';
-        //}
-        
+       $(function () {
+           $('.read-modal').click(function () {
+               $.get($(this).data("targeturl"), function (data) {
+                $('<div id="modal-container-read" class="modal fade">'+data+'</div>').modal();
+            });
+            });
+        });
+
+        $(function () {
+            $('#timebutton').click(function () {
+                alert("clicked");
+                var time = new Date();
+                $('#datetimeinput').val(time.toString());
+            });
+        });
+        var guids = @Html.Raw(Json.Serialize(Model.Guids));
+        var Idcounter = 48;
+        var lastbtnId = "";
+        var CarId = @Html.Raw(Json.Serialize(Model.CarId.ToString()));
+        $('body').on('hidden.bs.modal', "#modal-container", function () {
+            $('#' + lastbtnId).attr("class", "read-modal");
+            $('#' + lastbtnId).attr("data-targeturl","/rents/PopulateModal?id=" + lastbtnId);
+            $('#' + lastbtnId).data("targeturl", "/rents/PopulateModal?id=" + lastbtnId);
+            $('#' + lastbtnId).css("background-color", "yellow");
+            $('#' + lastbtnId).css("border", "0");
+        });
 
         $('#img').click(function (e) {
-            var btn = document.createElement("button");
-            var btn2 = document.createElement("button");
-            btn2.style.position = "absolute";
-            btn2.style.height = '40px';
-            btn2.style.width = '40px';
-            btn2.type = "button";
-            var div = document.getElementById("img");
-            btn.style.position = "absolute";
-            btn.style.height = '40px';
-            btn.style.width = '40px';
-            btn.type = "button";
-            var rect = div.getBoundingClientRect();
-            var x = (e.clientX - rect.left) / (rect.right - rect.left) * 1140;
-            var y = (e.clientY - rect.top) / (rect.bottom - rect.top) * 728;
-            console.log(this.offsetLeft, this.offsetTop);
-            console.log(x, y);
-            var xfinal = (x + this.offsetLeft - 20);
-            var yfinal = (y + this.offsetTop - 20);
-
-            var xfinal2 = (@Model.Xcoord + this.offsetLeft - 20);
-            var yfinal2 = (@Model.Ycoord + this.offsetTop - 20);
-
-            btn.style.left = xfinal + 'px';
-            btn.style.top = yfinal + 'px';
-            btn.style.borderRadius = '20px';
-
-            btn2.style.left = xfinal2 + 'px';
-            btn2.style.top = yfinal2 + 'px';
-            btn2.style.borderRadius = '20px';
-            btn2.classList.add("data-toggle");
-            btn2.setAttribute("data-toggle", "modal");
-            btn2.setAttribute("data-target", "#myModal");
-            
-            document.body.appendChild(btn);
-            //document.body.appendChild(btn2);
+            const btns = [...document.querySelectorAll("button.form-modal")]
+                if (btns.length===0) {
+                    var btn = document.createElement("button");
+                    var div = document.getElementById("img");
+                    btn.style.position = "absolute";
+                    btn.style.height = '40px';
+                    btn.style.width = '40px';
+                    btn.type = "button";
+                    var rect = div.getBoundingClientRect();
+                    var x = (e.clientX - rect.left) / (rect.right - rect.left) * 1140;
+                    var y = (e.clientY - rect.top) / (rect.bottom - rect.top) * 728;
+                    var xfinal = (x + this.offsetLeft - 20);
+                    var yfinal = (y + this.offsetTop - 20);
+                    console.log(xfinal, yfinal)
+                    console.log(x, y);
+                    btn.style.left = xfinal + 'px';
+                    btn.style.top = yfinal + 'px';
+                    btn.style.borderRadius = '20px';
+                    btn.style.backgroundColor = "red";
+                    btn.style.border = "0";
+                    btn.setAttribute("class", "form-modal");
+                    btn.onclick = f1;
+                    btn.id = guids[Idcounter];
+                    Idcounter = Idcounter - 1;
+                    lastbtnId = btn.id;
+                    btn.setAttribute("data-targeturl", "/rents/formmodal?routevalues=" + x + "," + y + "," + btn.id + "," + CarId + "," + "start" + "," +@Html.Raw(Json.Serialize(Model.RentId.ToString())));
+                    console.log(btn.dataset);
+                    document.body.appendChild(btn);
+                }
         });
     });
-
     </script>
 
     @*<script>

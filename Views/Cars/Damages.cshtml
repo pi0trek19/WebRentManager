@@ -1,0 +1,101 @@
+﻿@model CarDamagesViewModel
+
+
+<canvas width="1140" height="728" id="img" style="background-image :url('/diagram.png'); position: relative"></canvas>
+@foreach (var item in @Model.CarDamages)
+{
+    <script>
+        var canvas = document.getElementById("img");
+        var btn = document.createElement("button");
+        btn.style.position = "absolute";
+        btn.style.height = '40px';
+        btn.style.width = '40px';
+        var offx = @Html.Raw(Json.Serialize(item.OffsetX));
+        var offy = @Html.Raw(Json.Serialize(item.OffsetY));
+        console.log(offx, offy);
+        var xfinal = (offx + canvas.offsetLeft - 20);
+        var yfinal = (offy + canvas.offsetTop - 20);
+        btn.style.left = xfinal + 'px';
+        btn.style.top = yfinal + 'px';
+        btn.style.borderRadius = '20px';
+        btn.style.backgroundColor = "green";
+        btn.style.border = "0";
+        btn.setAttribute("class", "read-modal");
+        btn.setAttribute("data-targeturl","@Url.Action("PopulateModal","Cars",new { id = item.Id })")
+        btn.id = ("@item.Id.ToString()");
+        document.body.appendChild(btn);
+    </script>
+}
+<br/>
+<button class=" btn btn-primary" asp-action="details" asp-controller="cars" asp-route-guid="@Model.CarId">Powrót</button>
+@section Scripts{
+    
+    <script>
+        function f1() {
+        const btnCl = this.classList[0];
+            if (btnCl === 'form-modal') {
+                $.get($(this).data("targeturl"), function (data) {
+                    $('<div id="modal-container" class="modal fade">'+data+'</div>').modal();
+                });
+            }
+            else if (btnCl === 'read-modal') {
+                $.get($(this).data("targeturl"), function (data) {
+                    $('<div id="modal-container-read" class="modal fade">'+data+'</div>').modal();
+                });
+            }
+        };
+    $(document).ready(function ()
+    {
+        $("#read-modal").click(function () {
+            alert("click");
+            //$.get($(this).data("targeturl"), function (data) {
+            //    $('<div id="modal-container-read" class="modal fade">'+data+'</div>').modal();
+            //});
+        });
+        var guids = @Html.Raw(Json.Serialize(Model.Guids));
+        var Idcounter = 48;
+        var lastbtnId = "";
+        var CarID = @Html.Raw(Json.Serialize(Model.CarId));
+        $('body').on('hidden.bs.modal', "#modal-container", function () {
+            $('#' + lastbtnId).attr("class", "read-modal");
+            $('#' + lastbtnId).attr("data-targeturl","PopulateModal?id=" + lastbtnId);
+            $('#' + lastbtnId).data("targeturl", "PopulateModal?id=" + lastbtnId);
+            $('#' + lastbtnId).css("background-color", "yellow");
+            $('#' + lastbtnId).css("border", "0");
+        });
+
+        $('#img').click(function (e) {
+
+            const btns = [...document.querySelectorAll("button.form-modal")]
+            if (btns.length === 0) {
+                var btn = document.createElement("button");
+                var div = document.getElementById("img");
+                btn.style.position = "absolute";
+                btn.style.height = '40px';
+                btn.style.width = '40px';
+                btn.type = "button";
+                var rect = div.getBoundingClientRect();
+                var x = (e.clientX - rect.left) / (rect.right - rect.left) * 1140;
+                var y = (e.clientY - rect.top) / (rect.bottom - rect.top) * 728;
+                var xfinal = (x + this.offsetLeft - 20);
+                var yfinal = (y + this.offsetTop - 20);
+                btn.style.left = xfinal + 'px';
+                btn.style.top = yfinal + 'px';
+                btn.style.borderRadius = '20px';
+                btn.style.backgroundColor = "red";
+                btn.style.border = "0";
+                btn.setAttribute("class", "form-modal");
+                btn.onclick = f1;
+                btn.id = guids[Idcounter];
+                Idcounter = Idcounter - 1;
+                lastbtnId = btn.id;
+                btn.setAttribute("data-targeturl", "formmodal?routevalues=" + x + "," + y + "," + btn.id + "," + CarID + "," + "start" + ",");
+                document.body.appendChild(btn);
+            }
+            else {
+                alert("alert");
+                }
+        });
+    });
+    </script> 
+}

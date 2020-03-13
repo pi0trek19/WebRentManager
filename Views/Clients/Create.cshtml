@@ -5,14 +5,16 @@
         <div class="form-group row">
             <label asp-for="ClientType" class="col-sm-2 col-form-label"></label>
             <div class="col-sm-10">
-                <label class="form-check-label">
-                    <input id="firma" asp-for="ClientType" type="radio" value="@ClientType.Firma">Firma
+                <label class="form-check-label">                   
+                    <input id="firma" asp-for="ClientType" type="radio" value="@ClientType.Firma"><i class="fab fa-houzz"></i>Firma
                 </label>
                 <label class="form-check-label">
-                    <input id="dzialalnosc" asp-for="ClientType" type="radio" value="@ClientType.Działalność">Działalność
+                    
+                    <input id="dzialalnosc" asp-for="ClientType" type="radio" value="@ClientType.Działalność"><i class="fas fa-user"></i>Działalność
                 </label>
                 <label class="form-check-label">
-                    <input id="prywatny" asp-for="ClientType" type="radio" value="@ClientType.Prywatny">Osoba Fizyczna
+                    
+                    <input id="prywatny" asp-for="ClientType" type="radio" value="@ClientType.Prywatny"><i class="fas fa-male"></i>Osoba Fizyczna
                 </label>
             </div>
         </div>
@@ -42,13 +44,6 @@
             <div class="col-sm-10">
                 <input asp-for="City" class="form-control" placeholder="Miasto" />
                 <span asp-validation-for="City" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label asp-for="Street" class="col-sm-2 col-form-label"></label>
-            <div class="col-sm-10">
-                <input asp-for="Street" class="form-control" placeholder="Ulica" />
-                <span asp-validation-for="Street" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group row">

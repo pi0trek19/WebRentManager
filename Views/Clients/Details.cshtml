@@ -15,15 +15,15 @@
                 <div class="col-sm-6">
                     @if (@Model.Client.RepName != null)
                     {
-                        <h4>PESEL: @Model.Client.RepName</h4>
+                        <h4>Przedstawiciel: @Model.Client.RepName</h4>
                     }
                     @if (@Model.Client.RepPhone != null)
                     {
-                        <h4>PESEL: @Model.Client.RepPhone</h4>
+                        <h4>Telefon: @Model.Client.RepPhone</h4>
                     }
                     @if (@Model.Client.RepMail != null)
                     {
-                        <h4>PESEL: @Model.Client.RepMail</h4>
+                        <h4>E-mail: <a href="mailto:@{@Model.Client.RepMail}">@Model.Client.RepMail</a></h4>
                     }
                 </div>
                 break;
@@ -37,15 +37,15 @@
                 <div class="col-sm-6">
                     @if (@Model.Client.RepName != null)
                     {
-                        <h4>PESEL: @Model.Client.RepName</h4>
+                        <h4>Przedstawiciel: @Model.Client.RepName</h4>
                     }
                     @if (@Model.Client.RepPhone != null)
                     {
-                        <h4>PESEL: @Model.Client.RepPhone</h4>
+                        <h4>Telefon: @Model.Client.RepPhone</h4>
                     }
                     @if (@Model.Client.RepMail != null)
                     {
-                        <h4>PESEL: @Model.Client.RepMail</h4>
+                        <h4>E-mail:<a href="mailto:@{@Model.Client.RepMail}">@Model.Client.RepMail</a></h4>
                     }
                 </div>
                 break;
@@ -59,62 +59,183 @@
                         }
                         @if (@Model.Client.IdNumber2 != null)
                         {
-                            <h4>PESEL: @Model.Client.IdNumber2</h4>
+                            <h4>Seria i nr dowodu: @Model.Client.IdNumber2</h4>
                         }
                 </div>
                 <div class="col-sm-6">
                     @if (@Model.Client.RepName != null)
                     {
-                        <h4>PESEL: @Model.Client.RepName</h4>
+                        <h4>Imię i nazwisko: @Model.Client.RepName</h4>
                     }
                     @if (@Model.Client.RepPhone != null)
                     {
-                        <h4>PESEL: @Model.Client.RepPhone</h4>
+                        <h4>Telefon: @Model.Client.RepPhone</h4>
                     }
                     @if (@Model.Client.RepMail != null)
                     {
-                        <h4>PESEL: @Model.Client.RepMail</h4>
+                        <h4>E-mail: <a href="mailto:@{@Model.Client.RepMail}">@Model.Client.RepMail</a></h4>
                     }
                 </div>
                 break;
         }
     </div>
     <div id="accordion">
-        <div class="card">
-            <div class="card-header">
-                <a class="card-link" data-toggle="collapse" href="#collapseactive">Aktywne wynajmy</a>
-            </div>
-            <div id="collapseactive" class="collapse hide" data-parent="#accordion">
-                <div class="card-body">
-                    <table class="table-hover table-striped table-bordered">
-                        <thead>
-                            <tr>
-                                <th class="text-center text-dark">Samochód</th>
-                                <th class="text-center text-dark">Użytkownik</th>
-                                <th class="text-center text-dark">Od</th>
-                                <th class="text-center text-dark">Do</th>
-                            </tr>
-                        </thead>
-                        @foreach (var item in Model.ActiveRents)
-                        {
-                            <tr>
-                                <td>@item.Item1.RegistrationNumber @item.Item1.Make @item.Item1.Model</td>
-                                <td>@item.Item2.UserName</td>
-                                <td>@item.Item2.StartDate.ToString("dd-MM-yyyy")</td>
-                                @if (@item.Item2.IsEndDateSet)
-                                {
-                                    <td>Czas nieokreślony</td>
-                                }
-                                else
-                                {
-                                    <td>@item.Item2.EndDate.ToString("dd-MM-yyyy")</td>
-                                }
-                            </tr>
-                        }
-                    </table>
+        @if (Model.Expenses != null)
+        {
+            int counter = 1;
+            <div class="card">
+                <div class="card-header">
+                    <a class="card-link" data-toggle="collapse" href="#collapseexpense">Koszty</a>
+                </div>
+                <div id="collapseexpenses" class="collapse hide" data-parent="#accordion">
+                    <div class="card-body">
+                        <table class="table-hover table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-center text-dark">L. p.</th>
+                                    <th class="text-center text-dark">Data</th>
+                                    <th class="text-center text-dark">Kwota</th>
+                                    <th class="text-center text-dark">Nr faktury</th>
+                                </tr>
+                            </thead>
+                            @foreach (var item in Model.Expenses)
+                            {
+                               
+                                <tr>
+                                    <td>@counter.ToString()</td>
+                                    <td>@item.Date.ToString("dd-MM-yyyy")</td>
+                                    <td>@item.Amount.ToString() PLN</td>
+                                    <td>@item.Number</td> <!--dodać link do pobrania faktury w pdf-->
+                                </tr>
+                            }
+                        </table>
+                    </div>
                 </div>
             </div>
-             
-        </div>
+        }
+        @if (Model.Incomes != null)
+        {
+            int counter = 1;
+            <div class="card">
+                <div class="card-header">
+                    <a class="card-link" data-toggle="collapse" href="#collapseincomes">Przychody</a>
+                </div>
+                <div id="collapseincomes" class="collapse hide" data-parent="#accordion">
+                    <div class="card-body">
+                        <table class="table-hover table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-center text-dark">L. p.</th>
+                                    <th class="text-center text-dark">Data</th>
+                                    <th class="text-center text-dark">Kwota</th>
+                                    <th class="text-center text-dark">Nr faktury</th>
+                                    <th class="text-center text-dark">Samochód</th>
+                                </tr>
+                            </thead>
+                            
+                            @foreach (var item in Model.Incomes)
+                            {
+                                <tr>
+                                    <td>@counter.ToString()</td>       
+                                    <td>@item.Date.ToString()</td>
+                                    <td>@item.Amount.ToString() PLN</td>
+                                    <td>@item.Invoice.Number</td> <!--dodać link do faktury-->
+                                    @if (@item.Car!=null)
+                                    {
+                                    <td><a asp-controller="cars" asp-action="details" asp-route-id="@item.CarId">@item.Car.RegistrationNumber</a></td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (Model.ActiveRents != null)
+        {
+            <div class="card">
+                <div class="card-header">
+                    <a class="card-link" data-toggle="collapse" href="#collapseactive">Aktywne wynajmy</a>
+                </div>
+                <div id="collapseactive" class="collapse hide" data-parent="#accordion">
+                    <div class="card-body">
+                        <table class="table-hover table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-center text-dark">Samochód</th>
+                                    <th class="text-center text-dark">Użytkownik</th>
+                                    <th class="text-center text-dark">Od</th>
+                                    <th class="text-center text-dark">Do</th>
+                                    <th class="text-center text-dark">Akcja</th>
+                                </tr>
+                            </thead>
+                            @foreach (var item in Model.ActiveRents)
+                            {
+                                <tr>
+                                    <td><a asp-action="details" asp-controller="cars" asp-route-guid="@item.Item1.Id">@item.Item1.RegistrationNumber @item.Item1.Make @item.Item1.Model</a></td>
+                                    <td>@item.Item2.UserName</td>
+                                    <td>@item.Item2.StartDate.ToString("dd-MM-yyyy")</td>
+                                    @if (@item.Item2.IsEndDateSet)
+                                    {
+                                        <td>Czas nieokreślony</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@item.Item2.EndDate.ToString("dd-MM-yyyy")</td>
+                                    }
+                                    <td><a asp-action="details" asp-controller="rents" asp-route-id="@item.Item2.Id">Szczegóły</a></td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (Model.FinishedRents != null)
+        {
+            <div class="card">
+                <div class="card-header">
+                    <a class="card-link" data-toggle="collapse" href="#collapsefinished">Zakończone wynajmy</a>
+                </div>
+                <div id="collapsefinished" class="collapse hide" data-parent="#accordion">
+                    <div class="card-body">
+                        <table class="table-hover table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-center text-dark">Samochód</th>
+                                    <th class="text-center text-dark">Użytkownik</th>
+                                    <th class="text-center text-dark">Od</th>
+                                    <th class="text-center text-dark">Do</th>
+                                    <th class="text-center text-dark">Akcja</th>
+                                </tr>
+                            </thead>
+                            @foreach (var item in Model.FinishedRents)
+                            {
+                                <tr>
+                                    <td><a asp-action="details" asp-controller="cars" asp-route-guid="@item.Item1.Id">@item.Item1.RegistrationNumber @item.Item1.Make @item.Item1.Model</a></td>
+                                    <td>@item.Item2.UserName</td>
+                                    <td>@item.Item2.StartDate.ToString("dd-MM-yyyy")</td>
+                                    @if (@item.Item2.IsEndDateSet)
+                                    {
+                                        <td>Czas nieokreślony</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@item.Item2.EndDate.ToString("dd-MM-yyyy")</td>
+                                    }
+                                    <td><a asp-action="details" asp-controller="rents" asp-route-id="@item.Item2.Id">Szczegóły</a></td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        }
     </div>
+
 </div>
