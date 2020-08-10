@@ -16,6 +16,37 @@ namespace WebRentManager.Controllers
         {
             _carsRepository = carsRepository;
         }
+        [HttpGet]
+        public ViewResult GeneralReport()
+        {
+            List<string> datatypes = new List<string>
+            {
+                "Samochody","Wynajmy","Klienci"
+            };
+            ReportsGeneralReportViewModel model = new ReportsGeneralReportViewModel();
+            model.DropdownItems = datatypes;
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult GeneralReport(ReportsGeneralReportViewModel model)
+        {
+            switch (model.SelectedItem)
+            {
+                case "Samochody":
+                    break;
+                case "Wynajmy":
+                    break;
+                case "Klienci":
+                    break;
+            }
+            return RedirectToAction("GeneralReport");
+        }
+
+        //[HttpGet]
+        //public IActionResult DetailedReport()
+        //{
+
+        //}
 
         [HttpGet]
         public IActionResult Index()

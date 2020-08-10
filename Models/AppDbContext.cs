@@ -171,7 +171,6 @@ namespace WebRentManager.Models
         public DbSet<CarExpenseFile> CarExpenseFile { get; set; } 
         public DbSet<CarDamageFile> CarDamageFile { get; set; }
         public DbSet<InsurancePolicyFile> InsurancePolicyFile { get; set; }
-        public DbSet<WebRentManager.ViewModels.InsurancePolicyCreateViewModel> InsurancePolicyCreateViewModel { get; set; }
 
     }
 }

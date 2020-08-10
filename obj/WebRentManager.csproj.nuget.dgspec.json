@@ -1,24 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Piotrek\\Desktop\\WebRentManager\\WebRentManager.csproj": {}
+    "C:\\Users\\Piotrek\\Source\\Repos\\pi0trek19\\WebRentManager\\WebRentManager.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Piotrek\\Desktop\\WebRentManager\\WebRentManager.csproj": {
+    "C:\\Users\\Piotrek\\Source\\Repos\\pi0trek19\\WebRentManager\\WebRentManager.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Piotrek\\Desktop\\WebRentManager\\WebRentManager.csproj",
+        "projectUniqueName": "C:\\Users\\Piotrek\\Source\\Repos\\pi0trek19\\WebRentManager\\WebRentManager.csproj",
         "projectName": "WebRentManager",
-        "projectPath": "C:\\Users\\Piotrek\\Desktop\\WebRentManager\\WebRentManager.csproj",
+        "projectPath": "C:\\Users\\Piotrek\\Source\\Repos\\pi0trek19\\WebRentManager\\WebRentManager.csproj",
         "packagesPath": "C:\\Users\\Piotrek\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Piotrek\\Desktop\\WebRentManager\\obj\\",
+        "outputPath": "C:\\Users\\Piotrek\\Source\\Repos\\pi0trek19\\WebRentManager\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
           "C:\\Users\\Piotrek\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.2"
@@ -62,7 +64,7 @@
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[3.0.0, )"
+              "version": "[2.2.6, )"
             },
             "Microsoft.NETCore.App": {
               "suppressParent": "All",
@@ -84,10 +86,16 @@
             }
           },
           "imports": [
-            "net461"
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
           ],
           "assetTargetFallback": true,
-          "warn": true
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

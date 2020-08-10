@@ -1,0 +1,15 @@
+﻿@model ReportsGeneralReportViewModel
+<br />
+<h3>Wybierz typ danych:</h3>
+<br />
+<form asp-action="generalreport" method="post" enctype="multipart/form-data">
+    <div class="form-group row">
+        <label asp-for="SelectedItem" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <select asp-for="SelectedItem" asp-items="@(new SelectList(Model.DropdownItems))" class="form-control"></select>
+        </div>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Pobierz raport</button>
+</form>

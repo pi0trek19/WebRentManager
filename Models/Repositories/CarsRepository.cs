@@ -27,9 +27,9 @@ namespace WebRentManager.Models
         {
             return context.Cars;
         }
-        public Car GetCar(Guid guid)
+        public Car GetCar(Guid id)
         {
-            return context.Cars.Find(guid);
+            return context.Cars.Find(id);
         }
 
         public IEnumerable<Car> GetFreeCars()

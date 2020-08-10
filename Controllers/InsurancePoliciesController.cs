@@ -12,6 +12,13 @@ namespace WebRentManager.Controllers
     {
         private readonly IInsurancePoliciesRepository _insurancePoliciesRepository;
         private readonly ICarsRepository _carsRepository;
+
+        public InsurancePoliciesController(IInsurancePoliciesRepository insurancePoliciesRepository, ICarsRepository carsRepository)
+        {
+            _insurancePoliciesRepository = insurancePoliciesRepository;
+            _carsRepository = carsRepository;
+        }
+
         public IActionResult Index()
         {
             return View();

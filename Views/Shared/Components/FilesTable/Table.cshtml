@@ -14,44 +14,17 @@ else
                 <th>Nazwa pliku</th>
                 <th>Typ pliku</th>
                 <th>Data dodania</th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td class="text-center">@counter.</td>
-                    <td>@item.Item1.FileName</td> <!--dodać link do wyświetlenia pliku w nowej karcie-->
-                    <td>@item.Item1.FileType.ToString()</td>
-                    <td>@item.Item1.DateAdded.ToString("dd-MM-yyyy")</td>
-
-                    @if (item.Item3 != Guid.Empty)
-                    {
-                        string display = "Szczegóły";
-                        //teksty linków do wyświetlenia szczegółów w zależności od typu pliku
-                        if (item.Item2=="services")
-                        {
-                            display = "Szczegóły serwisu";
-                        }
-                        if (item.Item2=="insuranceclaims")
-                        {
-                            display = "Szczegóły szkody";
-                        }
-                        if (item.Item2=="carexpenses")
-                        {
-                            display = "Szczegóły kosztu";
-                        }
-                        string controllername = item.Item2+"controller";
-                        
-                        <td><a asp-action="details" asp-controller="@controllername" asp-route-id="@item.Item3">@display</a></td>
-
-                    }
-                    else
-                    {
-                        <td></td>
-                    }
-                </tr>
+            <tr>
+                <td class="text-center">@counter.</td>
+                <td><a asp-action="downloadfile" asp-controller="filehandler" asp-route-id="@item.Item1.Id">@item.Item1.FileName@item.Item1.Ext</a></td>
+                <td>@item.Item1.FileType.ToString()</td>
+                <td>@item.Item1.DateAdded.ToString("dd-MM-yyyy")</td>
+            </tr>
                 counter++;
             }
         </tbody>

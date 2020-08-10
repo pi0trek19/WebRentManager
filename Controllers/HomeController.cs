@@ -10,6 +10,8 @@ namespace WebRentManager.Controllers
     {
         public IActionResult Index()
         {
+            BackblazeAPI backblazeAPI = new BackblazeAPI();
+            backblazeAPI.AutorizeAccount();
             return View();
         }
     }

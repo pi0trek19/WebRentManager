@@ -212,6 +212,8 @@ namespace WebRentManager.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("BackblazeFileId");
+
                     b.Property<DateTime>("DateAdded");
 
                     b.Property<string>("Description");

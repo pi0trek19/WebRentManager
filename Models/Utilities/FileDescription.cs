@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,7 +9,10 @@ namespace WebRentManager.Models
     public class FileDescription
     {
         public bool Enabled { get; set; }
-        public Guid Id { get; set; }  //jednocześnie nazwa pliku na S3
+        [Key]
+        public Guid Id { get; set; }
+        public string BackblazeFileId { get; set; }
+        //public string ContentType { get; set; }
         public string Ext { get; set; } //rozszerzenie, zapisujemy same nazwy bez rozszerzeń, podczas obróbki dodajemy i zmieniamy nazwę
         public FileType FileType { get; set; }
         public string FileName { get; set; } //nazwa jaką nadajemy plikowi u nas, ustandaryzowana podczas wrzucania na serwer

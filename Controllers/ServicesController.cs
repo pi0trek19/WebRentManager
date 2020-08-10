@@ -18,14 +18,18 @@ namespace WebRentManager.Controllers
         private readonly IClientsRepository _clientsRepository;
         private readonly IMilageRecordsRepository _milageRecordsRepository;
         private readonly IInvoicesRepository _invoicesRepository;
+        private readonly IFileDescriptionsRepository _fileDescriptionsRepository;
+        private readonly IServiceFilesRepository _serviceFilesRepository;
 
-        public ServicesController(ICarsRepository carsrepository, IServicesRepository sevicesRepository, IClientsRepository clientsRepository, IMilageRecordsRepository milageRecordsRepository, IInvoicesRepository invoicesRepository)
+        public ServicesController(ICarsRepository carsrepository, IServicesRepository sevicesRepository, IClientsRepository clientsRepository, IMilageRecordsRepository milageRecordsRepository, IInvoicesRepository invoicesRepository, IFileDescriptionsRepository fileDescriptionsRepository, IServiceFilesRepository serviceFilesRepository)
         {
             _carsrepository = carsrepository;
             _sevicesRepository = sevicesRepository;
             _clientsRepository = clientsRepository;
             _milageRecordsRepository = milageRecordsRepository;
             _invoicesRepository = invoicesRepository;
+            _fileDescriptionsRepository = fileDescriptionsRepository;
+            _serviceFilesRepository = serviceFilesRepository;
         }
 
         public ViewResult Index()
@@ -71,6 +75,7 @@ namespace WebRentManager.Controllers
         {
             if (ModelState.IsValid)
             {
+                Car car = _carsrepository.GetCar(model.CarId);
                 Service service = new Service
                 {
                     CarId = model.CarId,
@@ -81,20 +86,20 @@ namespace WebRentManager.Controllers
                     Cost=model.Cost,                    
                     Id = new Guid()
                 };
-                if (service.ServiceType==ServiceType.Przegląd)
+                MilageRecord record = new MilageRecord
                 {
-                    MilageRecord record = new MilageRecord
-                    {
-                        CarId = service.CarId,
-                        Date = service.Date,
-                        Milage = service.Milage,
-                        Id = Guid.NewGuid()
-                    };
-                    _milageRecordsRepository.Add(record);
-                }
+                    CarId = service.CarId,
+                    Date = service.Date,
+                    Milage = service.Milage,
+                    Id = Guid.NewGuid()
+                };
+                _milageRecordsRepository.Add(record);
+                Guid fileid = Guid.Empty;
                 if (model.IsInvoiceAdded)
                 {
-                    //nie ma dodanego wrzucania pliku
+                    FileHandler fileHandler = new FileHandler();
+                    FileDescription fileDescription = fileHandler.UploadSingleFile(model.File, FileType.Serwis, car.RegistrationNumber,model.Date);
+                    _fileDescriptionsRepository.Create(fileDescription);                    
                     Invoice invoice = new Invoice
                     {
                         Id = Guid.NewGuid(),
@@ -102,19 +107,30 @@ namespace WebRentManager.Controllers
                         Date = model.Date,
                         Amount = model.Cost,
                         ClientId = model.ServiceFacilityId,
-                        InvoiceType = InvoiceType.Koszt
+                        InvoiceType = InvoiceType.Koszt,
+                        FileDescriptionId=fileDescription.Id
                     };
                     _invoicesRepository.Add(invoice);
                     service.InvoiceId = invoice.Id;
+                    fileid = fileDescription.Id;
                 }
-                Car car = _carsrepository.GetCar(model.CarId);
+
                 car.Milage = model.Milage;
                 car.NextServiceMilage = model.Milage + car.ServiceInterval;
                 _carsrepository.Update(car);
                 _sevicesRepository.Add(service);
-                return RedirectToAction("details", "cars", new { guid = model.CarId });
+                if (model.IsInvoiceAdded)
+                {
+                    ServiceFile serviceFile = new ServiceFile
+                    {
+                        ServiceId = service.Id,
+                        FileDescriptionId = fileid
+                    };
+                    _serviceFilesRepository.Add(serviceFile);
+                }
+                return RedirectToAction("details", "cars", new { id = model.CarId });
             }
-            return RedirectToAction("addservice", "services", new { guid = model.CarId });
+            return RedirectToAction("addservice", "services", new { id = model.CarId });
         }
         [HttpGet]
         public ViewResult AddServiceInvoice(Guid id) //id serwisu

@@ -1,17 +1,36 @@
-﻿@model  ReportsIndexViewModel
+﻿@model ReportsIndexViewModel
 
-    <form asp-action="index" method="post" enctype="multipart/form-data">
-        
-        @for (int i = 0; i < Model.CheckboxItems.Count; i++)
-		{
-            <div class="form-row">
-                <input type="checkbox" asp-for="CheckboxItems[i].Selected" />
-                <label asp-for="CheckboxItems[i].Id">  @Model.CheckboxItems[i].Name</label>
-                <input type="hidden" asp-for="CheckboxItems[i].Id"/>
-                <input hidden asp-for="CheckboxItems[i].Entity" value="@Model.CheckboxItems[i].Entity" />
-            </div>
-		}
-        <button type="submit" class="btn btn-primary">Dalej</button>
-    </form>
+<br>
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#home">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#menu1">Menu 1</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#menu2">Menu 2</a>
+    </li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+    <div class="tab-pane container active" id="home">...</div>
+    <div class="tab-pane container fade" id="menu1">...</div>
+    <div class="tab-pane container fade" id="menu2">...</div>
+</div>
+<form asp-action="index" method="post" enctype="multipart/form-data">
+
+    @for (int i = 0; i < Model.CheckboxItems.Count; i++)
+    {
+        <div class="form-row">
+            <input type="checkbox" asp-for="CheckboxItems[i].Selected" />
+            <label asp-for="CheckboxItems[i].Id">  @Model.CheckboxItems[i].Name</label>
+            <input type="hidden" asp-for="CheckboxItems[i].Id" />
+            <input hidden asp-for="CheckboxItems[i].Entity" value="@Model.CheckboxItems[i].Entity" />
+        </div>
+    }
+    <button type="submit" class="btn btn-primary">Dalej</button>
+</form>
 
 

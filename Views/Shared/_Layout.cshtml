@@ -41,8 +41,14 @@
                 <li class="nav-item">
                     <a asp-action="index" asp-controller="TyreShops" class="nav-link">Opony</a>
                 </li>
-                <li class="nav-item">
-                    <a asp-action="index" asp-controller="Reports" class="nav-link">Raporty</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="reportsnav" data-toggle="dropdown">
+                        Raporty
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" asp-action="GeneralReport" asp-controller="reports">Ogólne</a>
+                        <a class="dropdown-item" asp-action="DetailedReport" asp-controller="reports">Szczegółowe</a>
+                    </div>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="utilitiesnav" data-toggle="dropdown">

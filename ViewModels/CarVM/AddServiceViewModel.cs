@@ -38,6 +38,6 @@ namespace WebRentManager.ViewModels
         [DisplayName("Numer faktury")]
         public string Number { get; set; }
         //dodać przesyłanie pliku
-
+        public IFormFile File { get; set; }
     }
 }

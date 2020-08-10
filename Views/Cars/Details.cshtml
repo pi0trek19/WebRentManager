@@ -59,9 +59,9 @@
                     <td></td>
                 </tr>
             </tbody>
-        </table><!--tabela z danymi samochódu-->
-        <a asp-action="edit" asp-controller="cars" asp-route-guid="@Model.Car.Id" class="btn btn-primary">Edytuj samochód</a>
-        <a asp-action="damages" asp-controller="cars" asp-route-guid="@Model.Car.Id" class="btn btn-primary">Uszkodzenia</a>
+        </table><!--tabela z danymi samochodu-->
+        <a asp-action="edit" asp-controller="cars" asp-route-id="@Model.Car.Id" class="btn btn-primary">Edytuj samochód</a>
+        <a asp-action="damages" asp-controller="cars" asp-route-id="@Model.Car.Id" class="btn btn-primary">Uszkodzenia</a>
         <!--<label id="Show" onclick="window.open('@Url.Action("PdfAsync", "Cars", new { id = @Model.Car.Id })', '_blank')">Show</label>-->
     </div>
     <div id="accordion">
@@ -250,7 +250,7 @@
             </div>
             <div id="collapseService" class="collapse hide" data-parent="#accordion">
                 <div class="card-body">
-                    <a asp-action="addservice" asp-controller="services" asp-route-guid="@Model.Car.Id" class="btn btn-primary">Dodaj serwis</a>
+                    <a asp-action="addservice" asp-controller="services" asp-route-id="@Model.Car.Id" class="btn btn-primary">Dodaj serwis</a>
                     <div class="row">
                         @if (Model.Services.Count() != 0)
                         {
@@ -273,6 +273,12 @@
                                             <td>@service.Date</td>
                                             <td>@service.Milage km</td>
                                             <td>@service.ServiceType.ToString()</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="5">
+                                                <vc:files-table controller-name="services" id="@service.Id">
+                                                </vc:files-table>
+                                            </td>
                                         </tr>
                                     }
                                 </tbody>
@@ -300,7 +306,7 @@
                 <div class="card-body">
                     @if (Model.TyreInfos.Count() < 2)
                     {
-                        <a asp-action="AddTyreInfo" asp-controller="TyreInfos" asp-route-carId="@Model.Car.Id" class="btn btn-primary">Dodaj opony</a>
+                        <a asp-action="AddTyreInfo" asp-controller="TyreInfos" asp-route-id="@Model.Car.Id" class="btn btn-primary">Dodaj opony</a>
                     }
                     <div class="row">
                         @foreach (var item in Model.TyreInfos)

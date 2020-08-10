@@ -10,6 +10,12 @@ namespace WebRentManager.Controllers
     public class InvoicesController : Controller
     {
         private readonly IInvoicesRepository _invoicesRepository;
+
+        public InvoicesController(IInvoicesRepository invoicesRepository)
+        {
+            _invoicesRepository = invoicesRepository;
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
