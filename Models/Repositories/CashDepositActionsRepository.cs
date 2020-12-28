@@ -21,15 +21,16 @@ namespace WebRentManager.Models.Repositories
             return cashDepositAction;
         }
 
+        public IEnumerable<CashDepositAction> GetActionsForDeposit(Guid id)
+        {
+            return context.CashDepositActions.Where(action => action.CashDepositId == id);
+        }
+
         public CashDepositAction GetCashDepositAction(Guid id)
         {
             return context.CashDepositActions.Find(id);
         }
 
-        public IEnumerable<CashDepositAction> GetCashDepositActions()
-        {
-            return context.CashDepositActions;
-        }
 
         public CashDepositAction Update(CashDepositAction cashDepositActionChanges)
         {

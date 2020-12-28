@@ -10,11 +10,34 @@ namespace WebRentManager.Controllers
     public class CashDepositController : Controller
     {
         private readonly ICashDepositActionsRepository _cashDepositActionsRepository;
+        private readonly ICashDepositsRepository _cashDepositsRepository;
+
+        public CashDepositController(ICashDepositActionsRepository cashDepositActionsRepository, ICashDepositsRepository cashDepositsRepository)
+        {
+            _cashDepositActionsRepository = cashDepositActionsRepository;
+            _cashDepositsRepository = cashDepositsRepository;
+        }
+
         //status kasy i 3 przyciski - wpłata, wypłata i aktualne saldo
         [HttpGet]
-        public IActionResult Index()
-        {
+        public ViewResult Index()
+        {           
             return View();
+        }
+        [HttpGet]
+        public ViewResult DepositDetails(Guid id)
+        {
+            CashDeposit deposit = _cashDepositsRepository.GetCashDeposit(id);
+            List<CashDepositAction> actions = _cashDepositActionsRepository.GetActionsForDeposit(id).ToList();
+            var model = new CashDepositDetailsViewModel
+            {
+                Id = deposit.Id,
+                CurrentAmount = deposit.CurrentAmount,
+                Description = deposit.Description,
+                Name = deposit.Name,
+                DepositActions = actions
+            };
+            return View(model);
         }
         [HttpGet]
         public ViewResult AddDepositAction(Guid id)
@@ -33,11 +56,11 @@ namespace WebRentManager.Controllers
                 {
                     Id = Guid.NewGuid(),
                     isPayment = model.isPayment,
-                    Amount=model.Amount,
-                    InvoiceNo=model.InvoiceNo,
-                    ActionDate=model.ActionDate,
-                    
-                }
+                    Amount = model.Amount,
+                    InvoiceNo = model.InvoiceNo,
+                    ActionDate = model.ActionDate,
+
+                };
             }
             return RedirectToAction("Index");
         }

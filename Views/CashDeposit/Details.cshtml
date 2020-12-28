@@ -1,0 +1,40 @@
+﻿@model CashDepositDetailsViewModel
+
+<div class="container">
+    <h1>@Model.Name</h1>
+    <h1>@Model.Description</h1>
+    <h1>@Model.CurrentAmount.ToString()</h1>
+    <table class="table-striped table-hover table-bordered">
+        <thead class="text-center text-dark">
+            <tr>
+                <td>Data</td>
+                <td>Numer dokumentu</td>
+                <td>Typ</td>
+                <td>Kwota</td>
+                <td>Kwota przed operacją</td>
+                <td>Kwota po operacji</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (CashDepositAction action in Model.DepositActions)
+	{
+            <tr>
+                <td>@action.ActionDate.ToString("dd-MM-yyyy")</td>
+                @if (action.isPayment)
+                {
+                    <td>@action.InvoiceNo</td>
+                    <td>Wypłata</td>
+                }
+                else
+                {
+                    <td></td>
+                    <td>Wpłata</td>
+                }
+                <td>@action.Amount.ToString()</td>
+                <td>@action.AmountBeforeAction.ToString()</td>
+                <td>@action.AmountAfterAction.ToString()</td>
+            </tr>
+	}
+        </tbody>
+    </table>
+</div>

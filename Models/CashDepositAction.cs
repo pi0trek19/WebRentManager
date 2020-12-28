@@ -8,6 +8,7 @@ namespace WebRentManager.Models
     public class CashDepositAction
     {
         public Guid Id { get; set; }
+        public Guid CashDepositId { get; set; }
         public DateTime ActionDate { get; set; }
         public bool isPayment { get; set; }
         public decimal Amount { get; set; }
