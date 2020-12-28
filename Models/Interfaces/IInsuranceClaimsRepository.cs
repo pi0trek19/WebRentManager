@@ -14,6 +14,7 @@ namespace WebRentManager.Models
         InsuranceClaim GetClaim(Guid id);
         List<InsuranceClaim> GetAllCarClaims(Guid id); //id samochodu
         List<InsuranceClaim> GetAllClaims();
+        InsuranceClaim Update(InsuranceClaim claimChanges);
         
     }
 }

@@ -35,6 +35,5 @@ namespace WebRentManager.ViewModels
         public ClaimType ClaimType { get; set; }
         [DisplayName("Status szkody")]
         public ClaimStatus ClaimStatus { get; set; }
-        public List<FileDescription> Files { get; set; }
     }
 }

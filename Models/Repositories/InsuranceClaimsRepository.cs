@@ -50,5 +50,13 @@ namespace WebRentManager.Models
         {
             throw new NotImplementedException();
         }
+
+        public InsuranceClaim Update(InsuranceClaim claimChanges)
+        {
+            var claim = context.InsuranceClaims.Attach(claimChanges);
+            claim.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            context.SaveChanges();
+            return claimChanges;
+        }
     }
 }

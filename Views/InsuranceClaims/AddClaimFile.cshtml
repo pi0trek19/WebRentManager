@@ -1,0 +1,27 @@
+﻿@model InsuranceClaimsAddClaimFileViewModel
+
+<h3> Dodaj plik:</h3>
+
+<form asp-action="addclaimfile" asp-controller="insuranceclaims" method="post" enctype="multipart/form-data">
+    <input hidden asp-for="Id" value="@Model.Id" />
+    <div class=" form-group row">
+        <label class="col-sm-2 col-form-label">Dodaj plik</label>
+        <div class="col-sm-10">
+        <input asp-for="File" type="file"/>
+        </div>   
+     
+    </div>
+    <div class="form-group row">
+        <label asp-for="FileType" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <select asp-for="FileType" asp-items="@Html.GetEnumSelectList<FileType>()"></select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Descrption" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Descrption" class="form-control" placeholder="Dodaj opis (opcjonalne)" />
+        </div>
+    </div>
+    <button type="submit">Dodaj</button>
+</form>
