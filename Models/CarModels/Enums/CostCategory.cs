@@ -12,9 +12,7 @@ namespace WebRentManager.Models
         Przegląd,
         Serwis,
         Naprawa,
-        [DisplayName("Zakup opon")]
         ZakupOpon,
-        [DisplayName("Wymiana opon")]
         WymianaOpon,
     }
 }

@@ -10,6 +10,7 @@ namespace WebRentManager.Models
         CashDepositAction Add(CashDepositAction cashDepositAction);
         CashDepositAction GetCashDepositAction(Guid id);
         IEnumerable<CashDepositAction> GetActionsForDeposit(Guid id);
+        IEnumerable<CashDepositAction> GetActionsForDepositBetweenDates(Guid id, DateTime from, DateTime to);
         CashDepositAction Update(CashDepositAction cashDepositActionChanges);
     }
 }

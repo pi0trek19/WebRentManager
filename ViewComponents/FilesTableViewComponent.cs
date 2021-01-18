@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebRentManager.Models;
+using WebRentManager.ViewModels;
 
 namespace WebRentManager.ViewComponents
 {
@@ -33,35 +34,37 @@ namespace WebRentManager.ViewComponents
             _insuranceClaimFilesRepository = insuranceClaimFilesRepository;
         }
 
-        public IViewComponentResult Invoke(string controllerName, Guid id)
+        public IViewComponentResult Invoke(string controllerName,string actionName, Guid id)
         {
-            
-            var model = new List<Tuple<FileDescription,string,Guid>>(); //string musi być nazwą kontrolera
+            FilesTableViewModel model = new FilesTableViewModel(); //string musi być nazwą kontrolera
             switch (controllerName)
             {
                 case "cars":
-                    model = GetCarFiles(id);
+                    model.List = GetCarFiles(id);
                     break;
                 case "carexpenses":
-                    model = GetCarExpenseFiles(id);
+                    model.List = GetCarExpenseFiles(id);
                     break;
                 case "insuranceclaims":
-                    model = GetInsuranceClaimFiles(id);
+                    model.List = GetInsuranceClaimFiles(id);
                     break;
                 case "services":
-                    model = GetServiceFiles(id);
+                    model.List = GetServiceFiles(id);
                     break;
                 case "rents":
-                    model = GetRentFiles(id);
+                    model.List = GetRentFiles(id);
                     break;
                 case "clients":
-                    model = GetClientFiles(id);
+                    model.List = GetClientFiles(id);
                     break;
                 default:
-                    model = null;
+                    model.List = null;
                     break;
             }
-            model = model.OrderBy(m => m.Item1.DateAdded).ToList();
+            model.List = model.List.OrderBy(m => m.Item1.DateAdded).ToList();
+            model.Controller = controllerName;
+            model.ItemId = id;
+            model.Action = actionName;
             return View("Table", model);
         }
         public List<Tuple<FileDescription, string, Guid>> GetCarFiles(Guid id)

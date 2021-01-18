@@ -162,6 +162,50 @@ namespace WebRentManager.Migrations
                     b.ToTable("CarFile");
                 });
 
+            modelBuilder.Entity("WebRentManager.Models.CashDeposit", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<decimal>("CurrentAmount");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CashDeposits");
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.CashDepositAction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("ActionDate");
+
+                    b.Property<decimal>("Amount");
+
+                    b.Property<decimal>("AmountAfterAction");
+
+                    b.Property<decimal>("AmountBeforeAction");
+
+                    b.Property<Guid>("CashDepositId");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("InvoiceNo");
+
+                    b.Property<bool>("isPayment");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CashDepositId");
+
+                    b.ToTable("CashDepositActions");
+                });
+
             modelBuilder.Entity("WebRentManager.Models.Client", b =>
                 {
                     b.Property<Guid>("Id")
@@ -733,6 +777,14 @@ namespace WebRentManager.Migrations
                     b.HasOne("WebRentManager.Models.FileDescription", "FileDescription")
                         .WithMany("CarFiles")
                         .HasForeignKey("FileDescriptionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WebRentManager.Models.CashDepositAction", b =>
+                {
+                    b.HasOne("WebRentManager.Models.CashDeposit")
+                        .WithMany("DepositActions")
+                        .HasForeignKey("CashDepositId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

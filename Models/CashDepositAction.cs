@@ -15,6 +15,7 @@ namespace WebRentManager.Models
         public decimal AmountBeforeAction { get; set; }
         public decimal AmountAfterAction { get; set; }
         public string InvoiceNo { get; set; }
+        public string Description { get; set; }
 
     }
 }

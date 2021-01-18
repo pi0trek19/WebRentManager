@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebRentManager.Models.Repositories
+namespace WebRentManager.Models
 {
     public class CashDepositActionsRepository : ICashDepositActionsRepository
     {
@@ -24,6 +24,11 @@ namespace WebRentManager.Models.Repositories
         public IEnumerable<CashDepositAction> GetActionsForDeposit(Guid id)
         {
             return context.CashDepositActions.Where(action => action.CashDepositId == id);
+        }
+
+        public IEnumerable<CashDepositAction> GetActionsForDepositBetweenDates(Guid id, DateTime from, DateTime to)
+        {
+            return context.CashDepositActions.Where(action => action.ActionDate >= from && action.ActionDate <= to && action.CashDepositId == id);
         }
 
         public CashDepositAction GetCashDepositAction(Guid id)

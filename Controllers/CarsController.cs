@@ -477,5 +477,10 @@ namespace WebRentManager.Controllers
             }
             return RedirectToAction("edit", "cars", new { id = viewModel.Id });
         }
+        [HttpGet]
+        public ViewResult AddCarFile(Guid id)
+        {
+            return View();
+        }
     }
 }

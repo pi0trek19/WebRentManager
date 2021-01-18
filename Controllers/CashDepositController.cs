@@ -17,11 +17,14 @@ namespace WebRentManager.Controllers
             _cashDepositActionsRepository = cashDepositActionsRepository;
             _cashDepositsRepository = cashDepositsRepository;
         }
-
-        //status kasy i 3 przyciski - wpłata, wypłata i aktualne saldo
         [HttpGet]
         public ViewResult Index()
-        {           
+        {
+            return View(_cashDepositsRepository.GetCashDeposits().ToList());
+        }
+        [HttpGet]
+        public ViewResult GetReport(Guid id)
+        {
             return View();
         }
         [HttpGet]
@@ -42,8 +45,12 @@ namespace WebRentManager.Controllers
         [HttpGet]
         public ViewResult AddDepositAction(Guid id)
         {
-            var model = new CashDepositAddActionViewModel { DepositId = id };
-
+            var deposit = _cashDepositsRepository.GetCashDeposit(id);
+            var model = new CashDepositAddActionViewModel 
+            { 
+                DepositId = id,
+                CurrentAmount=deposit.CurrentAmount
+            };
             return View(model);
         }
         [HttpPost]
@@ -51,7 +58,16 @@ namespace WebRentManager.Controllers
         {
             if (ModelState.IsValid)
             {
-
+                decimal before = model.CurrentAmount;
+                decimal after = 0.00m;
+                if (model.isPayment)
+                {
+                     after = before - model.Amount;
+                }
+                else
+                {
+                     after = before + model.Amount;
+                }
                 CashDepositAction action = new CashDepositAction
                 {
                     Id = Guid.NewGuid(),
@@ -59,8 +75,16 @@ namespace WebRentManager.Controllers
                     Amount = model.Amount,
                     InvoiceNo = model.InvoiceNo,
                     ActionDate = model.ActionDate,
-
+                    AmountBeforeAction = before,
+                    AmountAfterAction=after,
+                    CashDepositId=model.DepositId,
+                    Description=model.Description
                 };
+                CashDeposit deposit = _cashDepositsRepository.GetCashDeposit(model.DepositId);
+                deposit.CurrentAmount = after;
+                _cashDepositsRepository.Update(deposit);
+                _cashDepositActionsRepository.Add(action);
+                return RedirectToAction("DepositDetails", new { id = model.DepositId });
             }
             return RedirectToAction("Index");
         }

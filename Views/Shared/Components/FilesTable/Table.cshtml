@@ -1,6 +1,9 @@
-﻿@model List<Tuple<FileDescription, string, Guid>>
+﻿@model FilesTableViewModel
+<br />
+<a asp-action="AddFile" asp-controller="FileHandler" asp-route-id="@Model.ItemId" asp-route-controller="@Model.Controller" asp-route-action="@Model.Action" class="btn btn-primary">Dodaj Plik</a>
+<br />
 
-@if (Model.Count == 0 || Model == null)
+@if (Model.List.Count == 0 || Model.List == null)
 {
     <p>Brak plików do wyświetlenia</p>
 }
@@ -17,7 +20,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.List)
             {
             <tr>
                 <td class="text-center">@counter.</td>

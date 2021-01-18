@@ -73,6 +73,7 @@
             </div>
             <div id="collapseFiles" class="collapse hide" data-parent="#accordion">
                 <div class="card-body">
+                    <a asp-action="AddFile" asp-controller="cars" asp-route-id="@Model.Car.Id" class="btn btn-primary">Dodaj plik</a>
                     <vc:files-table controller-name="cars" id="@Model.Car.Id">
                     </vc:files-table>
                 </div>

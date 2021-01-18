@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -11,7 +12,6 @@ using Microsoft.Extensions.DependencyInjection;
 using WebRentManager.Models;
 using DinkToPdf;
 using DinkToPdf.Contracts;
-using Microsoft.AspNetCore.Mvc.Razor;
 
 namespace WebRentManager
 {
@@ -19,7 +19,7 @@ namespace WebRentManager
     {
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        private IConfiguration _config;
+        public IConfiguration _config { get; }
 
         public Startup(IConfiguration config)
         {
@@ -28,12 +28,11 @@ namespace WebRentManager
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllersWithViews();
             services.AddScoped<ITemplateService,TemplateService>();
             services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
             services.AddDbContextPool<AppDbContext>(
             options => options.UseSqlServer(_config.GetConnectionString("RentManagerConnection")));
-
-            services.AddMvc();
             services.AddScoped<ICarsRepository, CarsRepository>();
             services.AddScoped<IServicesRepository, ServicesRepository>();
             services.AddScoped<ITyreInfosRepository, TyreInfosRepository>();
@@ -47,6 +46,8 @@ namespace WebRentManager
             services.AddScoped<IHandoverDocumentsRepository,HandoverDocumentsRepository>();
             services.AddScoped<IMailMessagesRepository, MailMessagesRepository>();
             services.AddScoped<IInsurancePoliciesRepository, InsurancePoliciesRepository>();
+            services.AddScoped<ICashDepositActionsRepository, CashDepositActionsRepository>();
+            services.AddScoped<ICashDepositsRepository, CashDepositsRepository>();
             //pliki
             services.AddScoped<IFileDescriptionsRepository, FileDescriptionsRepository>();
             //tabele many to many
@@ -64,16 +65,21 @@ namespace WebRentManager
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app.UseStaticFiles();
-            app.UseMvc(
-                routes => { routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}"); }
-                );
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
         }
     }
 }
