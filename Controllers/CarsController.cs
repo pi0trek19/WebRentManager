@@ -4,8 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using DinkToPdf;
-using DinkToPdf.Contracts;
+
 using Microsoft.AspNetCore.Mvc;
 using MimeKit;
 using WebRentManager.Models;
@@ -30,9 +29,8 @@ namespace WebRentManager.Controllers
         private readonly IInsurancePoliciesRepository _insurancePoliciesRepository;
         //testowe interfejsy do wyrzucenia po sprawdzeniu
         private readonly ITemplateService _templateService;
-        private readonly IConverter _converter;
 
-        public CarsController(ICarsRepository carsrepository, IServicesRepository sevicesRepository, ITyreInfosRepository tyreInfosRepository, ITyreShopsRepository tyreShopsRepository, IFinancialInfosRepository financialInfosRepository, IMilageRecordsRepository milageRecordsRepository, ICarDamagesRepository carDamagesRepository, IFileDescriptionsRepository fileDescriptionsRepository, IRentsRepository rentsRepository, IHandoverDocumentsRepository handoverDocumentsRepository, IClientsRepository clientsRepository, ICarFilesRepository carFilesRepository, IInsurancePoliciesRepository insurancePoliciesRepository, ITemplateService templateService, IConverter converter)
+        public CarsController(ICarsRepository carsrepository, IServicesRepository sevicesRepository, ITyreInfosRepository tyreInfosRepository, ITyreShopsRepository tyreShopsRepository, IFinancialInfosRepository financialInfosRepository, IMilageRecordsRepository milageRecordsRepository, ICarDamagesRepository carDamagesRepository, IFileDescriptionsRepository fileDescriptionsRepository, IRentsRepository rentsRepository, IHandoverDocumentsRepository handoverDocumentsRepository, IClientsRepository clientsRepository, ICarFilesRepository carFilesRepository, IInsurancePoliciesRepository insurancePoliciesRepository, ITemplateService templateService)
         {
             _carsrepository = carsrepository;
             _sevicesRepository = sevicesRepository;
@@ -48,7 +46,6 @@ namespace WebRentManager.Controllers
             _carFilesRepository = carFilesRepository;
             _insurancePoliciesRepository = insurancePoliciesRepository;
             _templateService = templateService;
-            _converter = converter;
         }
 
         public ViewResult List(string sortOrder)
@@ -73,67 +70,70 @@ namespace WebRentManager.Controllers
             }
             return View(model);
         }
-        [HttpGet]
-        public async Task<ActionResult> PDFAsync(Guid id)
-        {
-            List<CarDamage> carDamages = new List<CarDamage>();
-            CarDamage damage = new CarDamage
-            {
-                OffsetX = 347,
-                OffsetY = 374
-            };
-            carDamages = _carDamagesRepository.GetCarDamages(id).ToList();
-            carDamages.Add(damage);
-            HandoverPDFTemplateViewModel templateModel = new HandoverPDFTemplateViewModel
-            {
-                CarMake = "marka",
-                CarModel = "model",
-                CarReg = "rej",
-                ClientName = "klient",
-                UserMail = "user@mail",
-                UserPhone = "userPh",
-                CarDamages = carDamages
-            };
-            string templatedocument = await _templateService.RenderTemplateAsync("Templates/HandoverDocumentPDFTemplate", templateModel);
-            var objectSettings = new ObjectSettings
-            {
-                HtmlContent = templatedocument,
-                WebSettings = { DefaultEncoding = "utf-8"},
-            };
-            var globalSettings = new GlobalSettings
-            {
-                ColorMode = ColorMode.Color,
-                Orientation = Orientation.Portrait,
-                PaperSize = PaperKind.A4,
-                Margins = new MarginSettings { Top = 10 },
-                DocumentTitle = "Test",
-                //Out = @"C:\PDFCreator\Test.pdf"
-            };
-            var pdf = new HtmlToPdfDocument
-            {
-                GlobalSettings = globalSettings,
-                
-                Objects = { objectSettings }
-            };
+        //[HttpGet]
+        //public async Task<ActionResult> PDFAsync(Guid id)
+        //{
+        //    List<CarDamage> carDamages = new List<CarDamage>();
+        //    CarDamage damage = new CarDamage
+        //    {
+        //        OffsetX = 347,
+        //        OffsetY = 374
+        //    };
+        //    carDamages = _carDamagesRepository.GetCarDamages(id).ToList();
+        //    carDamages.Add(damage);
+        //    HandoverPDFTemplateViewModel templateModel = new HandoverPDFTemplateViewModel
+        //    {
+        //        CarMake = "marka",
+        //        CarModel = "model",
+        //        CarReg = "rej",
+        //        ClientName = "klient",
+        //        UserMail = "user@mail",
+        //        UserPhone = "userPh",
+        //        CarDamages = carDamages
+        //    };
+        //    string templatedocument = await _templateService.RenderTemplateAsync("Templates/HandoverDocumentPDFTemplate", templateModel);
+        //    var objectSettings = new ObjectSettings
+        //    {
+        //        HtmlContent = templatedocument,
+        //        WebSettings = { DefaultEncoding = "utf-8" },
+        //    };
+        //    var globalSettings = new GlobalSettings
+        //    {
+        //        ColorMode = ColorMode.Color,
+        //        Orientation = Orientation.Portrait,
+        //        PaperSize = PaperKind.A4,
+        //        Margins = new MarginSettings { Top = 10 },
+        //        DocumentTitle = "Test",
+        //        //Out = @"C:\PDFCreator\Test.pdf"
+        //    };
+        //    var pdf = new HtmlToPdfDocument
+        //    {
+        //        GlobalSettings = globalSettings,
 
-            var output = _converter.Convert(pdf);
-            //var output = _converter.Convert(new HtmlToPdfDocument()
-            //{
-            //    GlobalSettings = new GlobalSettings
-            //    {
-            //        ColorMode = ColorMode.Color,
-            //        Orientation = Orientation.Portrait,
-            //        PaperSize = PaperKind.A4,
-            //        Margins = new MarginSettings { Top = 10 },
-            //        DocumentTitle = "Test",
-            //        Out = @"C:\PDFCreator\Test.pdf"
-            //    },
-            //    Objects = {new ObjectSettings() { HtmlContent= templatedocument} },
-            //}) ;
+        //        Objects = { objectSettings }
+        //    };
 
-            return File(output,"application/pdf");
+        //    var output = _converter.Convert(pdf);
+        //    //var output = _converter.Convert(new HtmlToPdfDocument()
+        //    //{
+        //    //    GlobalSettings = new GlobalSettings
+        //    //    {
+        //    //        ColorMode = ColorMode.Color,
+        //    //        Orientation = Orientation.Portrait,
+        //    //        PaperSize = PaperKind.A4,
+        //    //        Margins = new MarginSettings { Top = 10 },
+        //    //        DocumentTitle = "Test",
+        //    //        Out = @"C:\PDFCreator\Test.pdf"
+        //    //    },
+        //    //    Objects = {new ObjectSettings() { HtmlContent= templatedocument} },
+        //    //}) ;
 
-        }
+        //    return File(output, "application/pdf");
+
+        //}
+
+
+
         [HttpGet]
         public ViewResult HandoverDocumentPDFTemplate()
         {
@@ -145,16 +145,16 @@ namespace WebRentManager.Controllers
                 CarReg = "rej",
                 ClientName = "klient",
                 UserMail = "user@mail",
-                UserPhone = "userPh",                
-                CarDamages=damages
+                UserPhone = "userPh",
+                CarDamages = damages
             };
             return View("HandoverDocumentPDFTemplate", templateModel);
         }
-        [HttpGet]        
+        [HttpGet]
         public ViewResult Details(Guid id)
         {
             //Task<IActionResult> task = Task.Run(async () => await PDFAsync());           
-            
+
             Car car = _carsrepository.GetCar(id);
             //FileDescription file1 = new FileDescription
             //{
@@ -190,10 +190,10 @@ namespace WebRentManager.Controllers
             //dane dla skończonych wynajmów - id klienta,nazwa klienta, użytkownik,tel,mail, od, do, przebieg start, przebieg koniec, id wynajmu
             List<Rent> rents = _rentsRepository.GetAllRentsByCar(id).ToList();
             Rent currentRent = null;
-            var finishedRents = new List<Tuple<Guid,string, string, string, string, DateTime, DateTime, Tuple<int, int,Guid>>>();
+            var finishedRents = new List<Tuple<Guid, string, string, string, string, DateTime, DateTime, Tuple<int, int, Guid>>>();
             string clientName = "";
-            if (rents!=null)
-            {                
+            if (rents != null)
+            {
                 foreach (var rent in rents)
                 {
                     if (rent.IsFinished)
@@ -201,7 +201,7 @@ namespace WebRentManager.Controllers
                         HandoverDocument document = _handoverDocumentsRepository.GetHandoverByRent(rent.Id);
                         var milage = Tuple.Create(document.StartMilage, document.EndMilage, rent.Id);
                         var finishedrent = new Tuple<Guid, string, string, string, string, DateTime, DateTime, Tuple<int, int, Guid>>
-                            (rent.ClientId,_clientsRepository.GetClient(rent.ClientId).Name, rent.UserName, rent.UserPhone, rent.UserMail, rent.StartDate, rent.EndDate, milage);
+                            (rent.ClientId, _clientsRepository.GetClient(rent.ClientId).Name, rent.UserName, rent.UserPhone, rent.UserMail, rent.StartDate, rent.EndDate, milage);
                         finishedRents.Add(finishedrent);
                     }
                     else
@@ -212,26 +212,26 @@ namespace WebRentManager.Controllers
                             clientName = _clientsRepository.GetClient(rent.ClientId).Name;
                         }
                     }
-                    
+
                 }
             }
             Service lastService = null;
             IEnumerable<Service> services = _sevicesRepository.GetAllbyCar(car.Id);
-            if (services.Count()>0)
+            if (services.Count() > 0)
             {
                 lastService = services.First();
                 foreach (var item in services)
                 {
                     item.Client = _clientsRepository.GetClient(item.ClientId);
-                    if (item.Date>lastService.Date)
+                    if (item.Date > lastService.Date)
                     {
                         lastService = item;
                     }
                 }
             }
             DateTime nextServiceDate = car.RegistrationDate.AddYears(car.YearsServiceInterval);
-            int daysToNextService = (nextServiceDate -DateTime.Now.Date).Days;
-            if (lastService!=null)
+            int daysToNextService = (nextServiceDate - DateTime.Now.Date).Days;
+            if (lastService != null)
             {
                 nextServiceDate = lastService.Date.AddYears(car.YearsServiceInterval);
                 daysToNextService = (DateTime.Now.Date - nextServiceDate).Days;
@@ -241,7 +241,7 @@ namespace WebRentManager.Controllers
             IEnumerable<TyreInfo> tyres = _tyreInfosRepository.GetAllByCar(car.Id);
             foreach (var item in tyres)
             {
-                if (item.TyreShopId!=Guid.Empty)
+                if (item.TyreShopId != Guid.Empty)
                 {
                     item.TyreShop = _tyreShopsRepository.GetTyreShop(item.TyreShopId);
                 }
@@ -295,7 +295,7 @@ namespace WebRentManager.Controllers
                 CarDamages = _carDamagesRepository.GetCarDamages(id).ToList(),
                 Guids = guids
             };
-                
+
             return View(model);
         }
 
@@ -380,13 +380,13 @@ namespace WebRentManager.Controllers
                     GearboxType = viewModel.GearboxType,
                     Milage = viewModel.Milage,
                     NextTechCheckDate = viewModel.RegistrationDate.AddYears(3),
-                    PowerHP=viewModel.PowerHP,
-                    PowerkW=viewModel.PowerkW,
-                    RegistrationDate=viewModel.RegistrationDate,
-                    ServiceInterval=viewModel.ServiceInterval,
-                    SpecType=viewModel.SpecType,
-                    VIN=viewModel.VIN,
-                    NextServiceMilage=viewModel.ServiceInterval,                                       
+                    PowerHP = viewModel.PowerHP,
+                    PowerkW = viewModel.PowerkW,
+                    RegistrationDate = viewModel.RegistrationDate,
+                    ServiceInterval = viewModel.ServiceInterval,
+                    SpecType = viewModel.SpecType,
+                    VIN = viewModel.VIN,
+                    NextServiceMilage = viewModel.ServiceInterval,
                 };
                 _carsrepository.Add(newcar);
                 return RedirectToAction("details", new { id = newcar.Id });

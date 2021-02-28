@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using DinkToPdf.Contracts;
+
 using Microsoft.AspNetCore.Mvc;
 using WebRentManager.Models;
 using WebRentManager.ViewModels;
@@ -19,11 +19,11 @@ namespace WebRentManager.Controllers
         private readonly IMilageRecordsRepository _milageRecordsRepository;
         private readonly IHandoverDocumentsRepository _handoverDocumentsRepository;
         private ITemplateService _templateService;
-        private IConverter _converter;
+
 
         public RentsController(ICarsRepository carsRepository, IRentsRepository rentsRepository, IClientsRepository clientsRepository, 
             ICarDamagesRepository carDamagesRepository, IMilageRecordsRepository milageRecordsRepository, 
-            IHandoverDocumentsRepository handoverDocumentsRepository, ITemplateService templateService, IConverter converter)
+            IHandoverDocumentsRepository handoverDocumentsRepository, ITemplateService templateService)
         {
             _carsRepository = carsRepository;
             _rentsRepository = rentsRepository;
@@ -32,7 +32,7 @@ namespace WebRentManager.Controllers
             _milageRecordsRepository = milageRecordsRepository;
             _handoverDocumentsRepository = handoverDocumentsRepository;
             _templateService = templateService;
-            _converter = converter;
+
         }
 
         [HttpGet]

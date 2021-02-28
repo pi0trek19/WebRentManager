@@ -10,8 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WebRentManager.Models;
-using DinkToPdf;
-using DinkToPdf.Contracts;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebRentManager
 {
@@ -28,11 +27,58 @@ namespace WebRentManager
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddScoped<ITemplateService,TemplateService>();
-            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+            //services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
             services.AddDbContextPool<AppDbContext>(
             options => options.UseSqlServer(_config.GetConnectionString("RentManagerConnection")));
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                //-------------------------Wymagania testowe-----------------------------------
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 4;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredUniqueChars = 0;
+                options.Password.RequireUppercase = false;
+
+                //------------------Wymagania produkcyjne-----------------------------------
+
+                // Password settings.
+                //options.Password.RequireDigit = true;
+                //options.Password.RequireLowercase = true;
+                //options.Password.RequireNonAlphanumeric = true;
+                //options.Password.RequireUppercase = true;
+                //options.Password.RequiredLength = 6;
+                //options.Password.RequiredUniqueChars = 1;
+
+                //Lockout settings.
+                //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                //options.Lockout.MaxFailedAccessAttempts = 5;
+                //options.Lockout.AllowedForNewUsers = true;
+
+                //User settings.
+                //options.User.AllowedUserNameCharacters =
+                //"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                //options.User.RequireUniqueEmail = false;
+
+            }
+            );
+            services.ConfigureApplicationCookie(options =>
+            {
+                //// Cookie settings
+                //options.Cookie.HttpOnly = true;
+                //options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+
+                //options.LoginPath = "/Accounts/Login";
+                //options.AccessDeniedPath = "/Accounts/AccessDenied";
+                //options.SlidingExpiration = true;
+            });
+
             services.AddScoped<ICarsRepository, CarsRepository>();
             services.AddScoped<IServicesRepository, ServicesRepository>();
             services.AddScoped<ITyreInfosRepository, TyreInfosRepository>();
@@ -72,10 +118,13 @@ namespace WebRentManager
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseBrowserLink();
             }
 
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");

@@ -1,0 +1,13 @@
+﻿@model List<IdentityUser>;
+
+<h1>Ilość userów: @Model.Count</h1>
+
+<table>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.UserName</td>
+            <td>@item.PasswordHash</td>
+        </tr>
+    }
+</table>

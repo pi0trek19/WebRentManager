@@ -15,58 +15,277 @@ namespace WebRentManager.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
+                .HasAnnotation("ProductVersion", "3.1.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedName")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens");
+                });
 
             modelBuilder.Entity("WebRentManager.Models.Car", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("BodyType");
+                    b.Property<int>("BodyType")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Color");
+                    b.Property<string>("Color")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("EngineSize");
+                    b.Property<int>("EngineSize")
+                        .HasColumnType("int");
 
-                    b.Property<int>("FuelType");
+                    b.Property<int>("FuelType")
+                        .HasColumnType("int");
 
-                    b.Property<int>("GearboxType");
+                    b.Property<int>("GearboxType")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("IsAvailable");
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("IsReserved");
+                    b.Property<bool>("IsReserved")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("Make");
+                    b.Property<string>("Make")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Milage");
+                    b.Property<int>("Milage")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Model");
+                    b.Property<string>("Model")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NextServiceMilage");
+                    b.Property<int>("NextServiceMilage")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("NextTechCheckDate");
+                    b.Property<DateTime>("NextTechCheckDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("PowerHP");
+                    b.Property<int>("PowerHP")
+                        .HasColumnType("int");
 
-                    b.Property<int>("PowerkW");
+                    b.Property<int>("PowerkW")
+                        .HasColumnType("int");
 
-                    b.Property<int>("ProductionYear");
+                    b.Property<int>("ProductionYear")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("RegistrationDate");
+                    b.Property<DateTime>("RegistrationDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("RegistrationNumber");
+                    b.Property<string>("RegistrationNumber")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ReservedUntil");
+                    b.Property<DateTime>("ReservedUntil")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("ServiceInterval");
+                    b.Property<int>("ServiceInterval")
+                        .HasColumnType("int");
 
-                    b.Property<string>("SpecType");
+                    b.Property<string>("SpecType")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("VIN");
+                    b.Property<string>("VIN")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("YearsServiceInterval");
+                    b.Property<int>("YearsServiceInterval")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -76,23 +295,32 @@ namespace WebRentManager.Migrations
             modelBuilder.Entity("WebRentManager.Models.CarDamage", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CarId");
+                    b.Property<Guid>("CarId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("DamageType");
+                    b.Property<int>("DamageType")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("DateMarked");
+                    b.Property<DateTime>("DateMarked")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsEndDamage");
+                    b.Property<bool>("IsEndDamage")
+                        .HasColumnType("bit");
 
-                    b.Property<double>("OffsetX");
+                    b.Property<double>("OffsetX")
+                        .HasColumnType("float");
 
-                    b.Property<double>("OffsetY");
+                    b.Property<double>("OffsetY")
+                        .HasColumnType("float");
 
-                    b.Property<Guid>("RentId");
+                    b.Property<Guid>("RentId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -103,9 +331,11 @@ namespace WebRentManager.Migrations
 
             modelBuilder.Entity("WebRentManager.Models.CarDamageFile", b =>
                 {
-                    b.Property<Guid>("CarDamageId");
+                    b.Property<Guid>("CarDamageId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("FileDescriptionId");
+                    b.Property<Guid>("FileDescriptionId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("CarDamageId", "FileDescriptionId");
 
@@ -117,19 +347,26 @@ namespace WebRentManager.Migrations
             modelBuilder.Entity("WebRentManager.Models.CarExpense", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("Amount");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid>("CarId");
+                    b.Property<Guid>("CarId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("CostCategory");
+                    b.Property<int>("CostCategory")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("Date");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Decription");
+                    b.Property<string>("Decription")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("FacilityId");
+                    b.Property<Guid>("FacilityId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -138,9 +375,11 @@ namespace WebRentManager.Migrations
 
             modelBuilder.Entity("WebRentManager.Models.CarExpenseFile", b =>
                 {
-                    b.Property<Guid>("CarExpenseId");
+                    b.Property<Guid>("CarExpenseId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("FileDescriptionId");
+                    b.Property<Guid>("FileDescriptionId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("CarExpenseId", "FileDescriptionId");
 
@@ -151,9 +390,11 @@ namespace WebRentManager.Migrations
 
             modelBuilder.Entity("WebRentManager.Models.CarFile", b =>
                 {
-                    b.Property<Guid>("CarId");
+                    b.Property<Guid>("CarId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("FileDescriptionId");
+                    b.Property<Guid>("FileDescriptionId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("CarId", "FileDescriptionId");
 
@@ -165,13 +406,17 @@ namespace WebRentManager.Migrations
             modelBuilder.Entity("WebRentManager.Models.CashDeposit", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("CurrentAmount");
+                    b.Property<decimal>("CurrentAmount")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -181,23 +426,32 @@ namespace WebRentManager.Migrations
             modelBuilder.Entity("WebRentManager.Models.CashDepositAction", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("ActionDate");
+                    b.Property<DateTime>("ActionDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<decimal>("Amount");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("AmountAfterAction");
+                    b.Property<decimal>("AmountAfterAction")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("AmountBeforeAction");
+                    b.Property<decimal>("AmountBeforeAction")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid>("CashDepositId");
+                    b.Property<Guid>("CashDepositId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("InvoiceNo");
+                    b.Property<string>("InvoiceNo")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("isPayment");
+                    b.Property<bool>("isPayment")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -209,29 +463,41 @@ namespace WebRentManager.Migrations
             modelBuilder.Entity("WebRentManager.Models.Client", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("City");
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ClientType");
+                    b.Property<int>("ClientType")
+                        .HasColumnType("int");
 
-                    b.Property<string>("IdNumber1");
+                    b.Property<string>("IdNumber1")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("IdNumber2");
+                    b.Property<string>("IdNumber2")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("IdNumber3");
+                    b.Property<string>("IdNumber3")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RepMail");
+                    b.Property<string>("RepMail")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RepName");
+                    b.Property<string>("RepName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RepPhone");
+                    b.Property<string>("RepPhone")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Street");
+                    b.Property<string>("Street")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Zip");
+                    b.Property<string>("Zip")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -240,9 +506,11 @@ namespace WebRentManager.Migrations
 
             modelBuilder.Entity("WebRentManager.Models.ClientFile", b =>
                 {
-                    b.Property<Guid>("ClientId");
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("FileDescriptionId");
+                    b.Property<Guid>("FileDescriptionId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ClientId", "FileDescriptionId");
 
@@ -254,21 +522,29 @@ namespace WebRentManager.Migrations
             modelBuilder.Entity("WebRentManager.Models.FileDescription", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("BackblazeFileId");
+                    b.Property<string>("BackblazeFileId")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateAdded");
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Enabled");
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("Ext");
+                    b.Property<string>("Ext")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FileName");
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("FileType");
+                    b.Property<int>("FileType")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -278,27 +554,38 @@ namespace WebRentManager.Migrations
             modelBuilder.Entity("WebRentManager.Models.FinancialInfo", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("BankName");
+                    b.Property<string>("BankName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("CarId");
+                    b.Property<Guid>("CarId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Company");
+                    b.Property<string>("Company")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("EndBuyoutNetPrice");
+                    b.Property<decimal>("EndBuyoutNetPrice")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime>("LeaseEndDate");
+                    b.Property<DateTime>("LeaseEndDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("LeaseStartDate");
+                    b.Property<DateTime>("LeaseStartDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("LeaseTime");
+                    b.Property<int>("LeaseTime")
+                        .HasColumnType("int");
 
-                    b.Property<string>("LeaseType");
+                    b.Property<string>("LeaseType")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("MonthlyLeaseFee");
+                    b.Property<decimal>("MonthlyLeaseFee")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("StartNetPrice");
+                    b.Property<decimal>("StartNetPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -311,63 +598,92 @@ namespace WebRentManager.Migrations
             modelBuilder.Entity("WebRentManager.Models.HandoverDocument", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CarId");
+                    b.Property<Guid>("CarId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ClientId");
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("EndClientSignature");
+                    b.Property<string>("EndClientSignature")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EndCompanySignature");
+                    b.Property<string>("EndCompanySignature")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("EndDate");
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<bool>("EndFireEx");
+                    b.Property<bool>("EndFireEx")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("EndFuel");
+                    b.Property<int>("EndFuel")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("EndManual");
+                    b.Property<bool>("EndManual")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("EndMilage");
+                    b.Property<int>("EndMilage")
+                        .HasColumnType("int");
 
-                    b.Property<string>("EndNotes");
+                    b.Property<string>("EndNotes")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("EndRepairSet");
+                    b.Property<bool>("EndRepairSet")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("EndService");
+                    b.Property<bool>("EndService")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("EndSpare");
+                    b.Property<bool>("EndSpare")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("EndTriangle");
+                    b.Property<bool>("EndTriangle")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("IsTermAccepted");
+                    b.Property<bool>("IsTermAccepted")
+                        .HasColumnType("bit");
 
-                    b.Property<Guid>("RentId");
+                    b.Property<Guid>("RentId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("StartCientSignature");
+                    b.Property<string>("StartCientSignature")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("StartCompanySignature");
+                    b.Property<string>("StartCompanySignature")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("StartDate");
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<bool>("StartFireEx");
+                    b.Property<bool>("StartFireEx")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("StartFuel");
+                    b.Property<int>("StartFuel")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("StartManual");
+                    b.Property<bool>("StartManual")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("StartMilage");
+                    b.Property<int>("StartMilage")
+                        .HasColumnType("int");
 
-                    b.Property<string>("StartNotes");
+                    b.Property<string>("StartNotes")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("StartRepairSet");
+                    b.Property<bool>("StartRepairSet")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("StartService");
+                    b.Property<bool>("StartService")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("StartSpare");
+                    b.Property<bool>("StartSpare")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("StartTriangle");
+                    b.Property<bool>("StartTriangle")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -376,9 +692,11 @@ namespace WebRentManager.Migrations
 
             modelBuilder.Entity("WebRentManager.Models.HandoverDocumentFile", b =>
                 {
-                    b.Property<Guid>("HandoverDocumentId");
+                    b.Property<Guid>("HandoverDocumentId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("FileDescriptionId");
+                    b.Property<Guid>("FileDescriptionId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("HandoverDocumentId", "FileDescriptionId");
 
@@ -390,19 +708,26 @@ namespace WebRentManager.Migrations
             modelBuilder.Entity("WebRentManager.Models.Income", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("Amount");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid?>("CarId");
+                    b.Property<Guid?>("CarId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ClientId");
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("Date");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("IncomeType");
+                    b.Property<int>("IncomeType")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("InvoiceId");
+                    b.Property<Guid>("InvoiceId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -418,27 +743,38 @@ namespace WebRentManager.Migrations
             modelBuilder.Entity("WebRentManager.Models.InsuranceClaim", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CarId");
+                    b.Property<Guid>("CarId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("ClaimDate");
+                    b.Property<DateTime>("ClaimDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("ClaimNo");
+                    b.Property<string>("ClaimNo")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ClaimStatus");
+                    b.Property<int>("ClaimStatus")
+                        .HasColumnType("int");
 
-                    b.Property<int>("ClaimType");
+                    b.Property<int>("ClaimType")
+                        .HasColumnType("int");
 
-                    b.Property<string>("InsuranceCompany");
+                    b.Property<string>("InsuranceCompany")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ReportDate");
+                    b.Property<DateTime>("ReportDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("RepresentativeMail");
+                    b.Property<string>("RepresentativeMail")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RepresentativeName");
+                    b.Property<string>("RepresentativeName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RepresentativePhone");
+                    b.Property<string>("RepresentativePhone")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -447,9 +783,11 @@ namespace WebRentManager.Migrations
 
             modelBuilder.Entity("WebRentManager.Models.InsuranceClaimFile", b =>
                 {
-                    b.Property<Guid>("InsuranceClaimId");
+                    b.Property<Guid>("InsuranceClaimId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("FileDescriptionId");
+                    b.Property<Guid>("FileDescriptionId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("InsuranceClaimId", "FileDescriptionId");
 
@@ -461,21 +799,29 @@ namespace WebRentManager.Migrations
             modelBuilder.Entity("WebRentManager.Models.InsurancePolicy", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CarId");
+                    b.Property<Guid>("CarId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("Cost");
+                    b.Property<decimal>("Cost")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("InsuranceCompany");
+                    b.Property<string>("InsuranceCompany")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("Number");
+                    b.Property<string>("Number")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ValidFrom");
+                    b.Property<DateTime>("ValidFrom")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("ValidTo");
+                    b.Property<DateTime>("ValidTo")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -486,9 +832,11 @@ namespace WebRentManager.Migrations
 
             modelBuilder.Entity("WebRentManager.Models.InsurancePolicyFile", b =>
                 {
-                    b.Property<Guid>("InsurancePolicyId");
+                    b.Property<Guid>("InsurancePolicyId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("FileDescriptionId");
+                    b.Property<Guid>("FileDescriptionId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("InsurancePolicyId", "FileDescriptionId");
 
@@ -500,19 +848,26 @@ namespace WebRentManager.Migrations
             modelBuilder.Entity("WebRentManager.Models.Invoice", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("Amount");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid>("ClientId");
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("Date");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
-                    b.Property<Guid>("FileDescriptionId");
+                    b.Property<Guid>("FileDescriptionId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("InvoiceType");
+                    b.Property<int>("InvoiceType")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Number");
+                    b.Property<string>("Number")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -526,15 +881,20 @@ namespace WebRentManager.Migrations
             modelBuilder.Entity("WebRentManager.Models.MailMessage", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Content");
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Desc");
+                    b.Property<string>("Desc")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Enabled");
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("Subject");
+                    b.Property<string>("Subject")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -544,13 +904,17 @@ namespace WebRentManager.Migrations
             modelBuilder.Entity("WebRentManager.Models.MilageRecord", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CarId");
+                    b.Property<Guid>("CarId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("Date");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("Milage");
+                    b.Property<int>("Milage")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -562,53 +926,77 @@ namespace WebRentManager.Migrations
             modelBuilder.Entity("WebRentManager.Models.Rent", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("AssistanceIncluded");
+                    b.Property<bool>("AssistanceIncluded")
+                        .HasColumnType("bit");
 
-                    b.Property<Guid>("CarId");
+                    b.Property<Guid>("CarId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ClientId");
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("DamageFee");
+                    b.Property<int>("DamageFee")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("EndDate");
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<Guid>("HandoverDocumentId");
+                    b.Property<Guid>("HandoverDocumentId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("HandoverDocumentId1");
+                    b.Property<Guid?>("HandoverDocumentId1")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("InitialPayment");
+                    b.Property<decimal>("InitialPayment")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("IsEndDateSet");
+                    b.Property<bool>("IsEndDateSet")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("IsFinished");
+                    b.Property<bool>("IsFinished")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("MilageLimit");
+                    b.Property<int>("MilageLimit")
+                        .HasColumnType("int");
 
-                    b.Property<decimal>("OverMilageFee");
+                    b.Property<decimal>("OverMilageFee")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("RentFee");
+                    b.Property<decimal>("RentFee")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("RentType");
+                    b.Property<int>("RentType")
+                        .HasColumnType("int");
 
-                    b.Property<int>("RentingCompany");
+                    b.Property<int>("RentingCompany")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("ReplacementCarIncluded");
+                    b.Property<bool>("ReplacementCarIncluded")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("ServiceIncluded");
+                    b.Property<bool>("ServiceIncluded")
+                        .HasColumnType("bit");
 
-                    b.Property<DateTime>("StartDate");
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<bool>("TyresIncluded");
+                    b.Property<bool>("TyresIncluded")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("UserMail");
+                    b.Property<string>("UserMail")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserName");
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserPhone");
+                    b.Property<string>("UserPhone")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -619,9 +1007,11 @@ namespace WebRentManager.Migrations
 
             modelBuilder.Entity("WebRentManager.Models.RentFile", b =>
                 {
-                    b.Property<Guid>("RentId");
+                    b.Property<Guid>("RentId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("FileDescriptionId");
+                    b.Property<Guid>("FileDescriptionId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("RentId", "FileDescriptionId");
 
@@ -633,21 +1023,29 @@ namespace WebRentManager.Migrations
             modelBuilder.Entity("WebRentManager.Models.Service", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CarId");
+                    b.Property<Guid>("CarId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ClientId");
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("Cost");
+                    b.Property<decimal>("Cost")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime>("Date");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
-                    b.Property<Guid>("InvoiceId");
+                    b.Property<Guid>("InvoiceId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Milage");
+                    b.Property<int>("Milage")
+                        .HasColumnType("int");
 
-                    b.Property<int>("ServiceType");
+                    b.Property<int>("ServiceType")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -662,9 +1060,11 @@ namespace WebRentManager.Migrations
 
             modelBuilder.Entity("WebRentManager.Models.ServiceFile", b =>
                 {
-                    b.Property<Guid>("ServiceId");
+                    b.Property<Guid>("ServiceId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("FileDescriptionId");
+                    b.Property<Guid>("FileDescriptionId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ServiceId", "FileDescriptionId");
 
@@ -676,27 +1076,38 @@ namespace WebRentManager.Migrations
             modelBuilder.Entity("WebRentManager.Models.TyreInfo", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CarId");
+                    b.Property<Guid>("CarId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Diameter");
+                    b.Property<int>("Diameter")
+                        .HasColumnType("int");
 
-                    b.Property<int>("Dot");
+                    b.Property<int>("Dot")
+                        .HasColumnType("int");
 
-                    b.Property<int>("Profile");
+                    b.Property<int>("Profile")
+                        .HasColumnType("int");
 
-                    b.Property<string>("SpeedIndex");
+                    b.Property<string>("SpeedIndex")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TyreName");
+                    b.Property<string>("TyreName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("TyreShopId");
+                    b.Property<Guid>("TyreShopId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("TyreStatus");
+                    b.Property<int>("TyreStatus")
+                        .HasColumnType("int");
 
-                    b.Property<int>("TyreType");
+                    b.Property<int>("TyreType")
+                        .HasColumnType("int");
 
-                    b.Property<int>("Width");
+                    b.Property<int>("Width")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -710,27 +1121,87 @@ namespace WebRentManager.Migrations
             modelBuilder.Entity("WebRentManager.Models.TyreShop", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("City");
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhoneNumber");
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SaturdayHours");
+                    b.Property<string>("SaturdayHours")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Street");
+                    b.Property<string>("Street")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SundayHours");
+                    b.Property<string>("SundayHours")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("WeekHours");
+                    b.Property<string>("WeekHours")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ZipCode");
+                    b.Property<string>("ZipCode")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("TyreShops");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WebRentManager.Models.CarDamage", b =>
@@ -738,7 +1209,8 @@ namespace WebRentManager.Migrations
                     b.HasOne("WebRentManager.Models.Car", "Car")
                         .WithMany()
                         .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WebRentManager.Models.CarDamageFile", b =>
@@ -746,12 +1218,14 @@ namespace WebRentManager.Migrations
                     b.HasOne("WebRentManager.Models.CarDamage", "CarDamage")
                         .WithMany("CarDamageFiles")
                         .HasForeignKey("CarDamageId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebRentManager.Models.FileDescription", "FileDescription")
                         .WithMany("CarDamageFiles")
                         .HasForeignKey("FileDescriptionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WebRentManager.Models.CarExpenseFile", b =>
@@ -759,12 +1233,14 @@ namespace WebRentManager.Migrations
                     b.HasOne("WebRentManager.Models.CarExpense", "CarExpense")
                         .WithMany("CarExpenseFiles")
                         .HasForeignKey("CarExpenseId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebRentManager.Models.FileDescription", "FileDescription")
                         .WithMany("CarExpenseFiles")
                         .HasForeignKey("FileDescriptionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WebRentManager.Models.CarFile", b =>
@@ -772,20 +1248,23 @@ namespace WebRentManager.Migrations
                     b.HasOne("WebRentManager.Models.Car", "Car")
                         .WithMany("CarFiles")
                         .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebRentManager.Models.FileDescription", "FileDescription")
                         .WithMany("CarFiles")
                         .HasForeignKey("FileDescriptionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WebRentManager.Models.CashDepositAction", b =>
                 {
-                    b.HasOne("WebRentManager.Models.CashDeposit")
+                    b.HasOne("WebRentManager.Models.CashDeposit", null)
                         .WithMany("DepositActions")
                         .HasForeignKey("CashDepositId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WebRentManager.Models.ClientFile", b =>
@@ -793,20 +1272,23 @@ namespace WebRentManager.Migrations
                     b.HasOne("WebRentManager.Models.Client", "Client")
                         .WithMany("ClientFiles")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebRentManager.Models.FileDescription", "FileDescription")
                         .WithMany("ClientFiles")
                         .HasForeignKey("FileDescriptionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WebRentManager.Models.FinancialInfo", b =>
                 {
-                    b.HasOne("WebRentManager.Models.Car")
+                    b.HasOne("WebRentManager.Models.Car", null)
                         .WithOne("FinancialInfo")
                         .HasForeignKey("WebRentManager.Models.FinancialInfo", "CarId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WebRentManager.Models.HandoverDocumentFile", b =>
@@ -814,12 +1296,14 @@ namespace WebRentManager.Migrations
                     b.HasOne("WebRentManager.Models.FileDescription", "FileDescription")
                         .WithMany("HandoverDocumentFiles")
                         .HasForeignKey("FileDescriptionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebRentManager.Models.HandoverDocument", "HandoverDocument")
                         .WithMany("HandoverDocumentFiles")
                         .HasForeignKey("HandoverDocumentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WebRentManager.Models.Income", b =>
@@ -831,12 +1315,14 @@ namespace WebRentManager.Migrations
                     b.HasOne("WebRentManager.Models.Client", "Client")
                         .WithMany()
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebRentManager.Models.Invoice", "Invoice")
                         .WithMany()
                         .HasForeignKey("InvoiceId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WebRentManager.Models.InsuranceClaimFile", b =>
@@ -844,12 +1330,14 @@ namespace WebRentManager.Migrations
                     b.HasOne("WebRentManager.Models.FileDescription", "FileDescription")
                         .WithMany("InsuranceClaimFiles")
                         .HasForeignKey("FileDescriptionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebRentManager.Models.InsuranceClaim", "InsuranceClaim")
                         .WithMany("InsuranceClaimFiles")
                         .HasForeignKey("InsuranceClaimId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WebRentManager.Models.InsurancePolicy", b =>
@@ -857,7 +1345,8 @@ namespace WebRentManager.Migrations
                     b.HasOne("WebRentManager.Models.Car", "Car")
                         .WithMany()
                         .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WebRentManager.Models.InsurancePolicyFile", b =>
@@ -865,12 +1354,14 @@ namespace WebRentManager.Migrations
                     b.HasOne("WebRentManager.Models.FileDescription", "FileDescription")
                         .WithMany("InsurancePolicyFiles")
                         .HasForeignKey("FileDescriptionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebRentManager.Models.InsurancePolicy", "InsurancePolicy")
                         .WithMany("InsurancePolicyFiles")
                         .HasForeignKey("InsurancePolicyId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WebRentManager.Models.Invoice", b =>
@@ -878,20 +1369,23 @@ namespace WebRentManager.Migrations
                     b.HasOne("WebRentManager.Models.Client", "Client")
                         .WithMany()
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebRentManager.Models.FileDescription", "FileDescription")
                         .WithMany()
                         .HasForeignKey("FileDescriptionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WebRentManager.Models.MilageRecord", b =>
                 {
-                    b.HasOne("WebRentManager.Models.Car")
+                    b.HasOne("WebRentManager.Models.Car", null)
                         .WithMany("MilageHistory")
                         .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WebRentManager.Models.Rent", b =>
@@ -906,12 +1400,14 @@ namespace WebRentManager.Migrations
                     b.HasOne("WebRentManager.Models.FileDescription", "FileDescription")
                         .WithMany("RentFiles")
                         .HasForeignKey("FileDescriptionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebRentManager.Models.Rent", "Rent")
                         .WithMany("RentFiles")
                         .HasForeignKey("RentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WebRentManager.Models.Service", b =>
@@ -919,17 +1415,20 @@ namespace WebRentManager.Migrations
                     b.HasOne("WebRentManager.Models.Car", "Car")
                         .WithMany("Services")
                         .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebRentManager.Models.Client", "Client")
                         .WithMany()
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebRentManager.Models.Invoice", "Invoice")
                         .WithMany()
                         .HasForeignKey("InvoiceId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WebRentManager.Models.ServiceFile", b =>
@@ -937,12 +1436,14 @@ namespace WebRentManager.Migrations
                     b.HasOne("WebRentManager.Models.FileDescription", "FileDescription")
                         .WithMany("ServiceFiles")
                         .HasForeignKey("FileDescriptionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebRentManager.Models.Service", "Service")
                         .WithMany("ServiceFiles")
                         .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WebRentManager.Models.TyreInfo", b =>
@@ -950,12 +1451,14 @@ namespace WebRentManager.Migrations
                     b.HasOne("WebRentManager.Models.Car", "Car")
                         .WithMany("TyreInfos")
                         .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebRentManager.Models.TyreShop", "TyreShop")
                         .WithMany()
                         .HasForeignKey("TyreShopId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
