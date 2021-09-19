@@ -21,10 +21,10 @@ namespace WebRentManager
                 // For demo-purposes, accept all SSL certificates (in case the server supports STARTTLS)
                 client.ServerCertificateValidationCallback = (s, c, h, e) => true;
 
-                client.Connect("smtp.rent2auto.pl", 587, false);  // TODO Dodać nazwę serwera wychodzącego
+                client.Connect("", 587, false);  // TODO Dodać nazwę serwera wychodzącego
 
                 // Note: only needed if the SMTP server requires authentication
-                client.Authenticate("media@rent2auto.pl", "Rent2@autoyt");  // Login i hasło do poczty wychodzącej
+                client.Authenticate("", "");  // Login i hasło do poczty wychodzącej
 
                 client.Send(message);
                 client.Disconnect(true);
@@ -59,8 +59,8 @@ namespace WebRentManager
         public void SendTestMail()
         {
             var message = new MimeMessage();
-            message.To.Add(new MailboxAddress("Piotr Kacprzak", "piotr.kacprzak@rent2auto.pl"));
-            message.From.Add(new MailboxAddress("Media", "media@rent2auto.pl"));
+            message.To.Add(new MailboxAddress("", ""));
+            message.From.Add(new MailboxAddress("", ""));
             message.Subject = "Testowa wiadomość";
 
             message.Body = new TextPart("plain")

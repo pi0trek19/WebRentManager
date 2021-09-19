@@ -40,7 +40,7 @@ namespace WebRentManager.Controllers
             {
                 item.Car = _carsrepository.GetCar(item.CarId);
                 item.Client = _clientsRepository.GetClient(item.ClientId);
-                item.Invoice = _invoicesRepository.GetInvoice(item.InvoiceId);
+                //item.Invoice = _invoicesRepository.GetInvoice(item.InvoiceId);
             }
             return View(services);
         }
@@ -92,33 +92,33 @@ namespace WebRentManager.Controllers
                     Date = service.Date,
                     Milage = service.Milage,
                     Id = Guid.NewGuid()
-                };
-                _milageRecordsRepository.Add(record);
+                };                
                 Guid fileid = Guid.Empty;
-                if (model.IsInvoiceAdded)
-                {
-                    FileHandler fileHandler = new FileHandler();
-                    FileDescription fileDescription = fileHandler.UploadSingleFile(model.File, FileType.Serwis, car.RegistrationNumber,model.Date);
-                    _fileDescriptionsRepository.Create(fileDescription);                    
-                    Invoice invoice = new Invoice
-                    {
-                        Id = Guid.NewGuid(),
-                        Number = model.Number,
-                        Date = model.Date,
-                        Amount = model.Cost,
-                        ClientId = model.ServiceFacilityId,
-                        InvoiceType = InvoiceType.Koszt,
-                        FileDescriptionId=fileDescription.Id
-                    };
-                    _invoicesRepository.Add(invoice);
-                    service.InvoiceId = invoice.Id;
-                    fileid = fileDescription.Id;
-                }
+                //if (model.IsInvoiceAdded)
+                //{
+                //    FileHandler fileHandler = new FileHandler();
+                //    FileDescription fileDescription = fileHandler.UploadSingleFile(model.File, FileType.Serwis, car.RegistrationNumber,model.Date);
+                //    _fileDescriptionsRepository.Create(fileDescription);                    
+                //    Invoice invoice = new Invoice
+                //    {
+                //        Id = Guid.NewGuid(),
+                //        Number = model.Number,
+                //        Date = model.Date,
+                //        Amount = model.Cost,
+                //        ClientId = model.ServiceFacilityId,
+                //        InvoiceType = InvoiceType.Koszt,
+                //        FileDescriptionId=fileDescription.Id
+                //    };
+                //    _invoicesRepository.Add(invoice);
+                //    service.InvoiceId = invoice.Id;
+                //    fileid = fileDescription.Id;
+                //}
 
                 car.Milage = model.Milage;
                 car.NextServiceMilage = model.Milage + car.ServiceInterval;
                 _carsrepository.Update(car);
                 _sevicesRepository.Add(service);
+                _milageRecordsRepository.Add(record);
                 if (model.IsInvoiceAdded)
                 {
                     ServiceFile serviceFile = new ServiceFile
@@ -157,7 +157,7 @@ namespace WebRentManager.Controllers
                     InvoiceType = InvoiceType.Koszt
                 };
                 _invoicesRepository.Add(invoice);
-                service.InvoiceId = invoice.Id;
+                //service.InvoiceId = invoice.Id;
                 _sevicesRepository.Upadate(service);
                 return RedirectToAction("details", "services", new { id = model.ServiceId });
             }

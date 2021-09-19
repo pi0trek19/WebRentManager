@@ -21,11 +21,11 @@ namespace WebRentManager.Controllers
             _tyreInfosRepository = tyreInfosRepository;
         }
         [HttpGet]
-        public ViewResult AddTyreInfo(Guid carId)
+        public ViewResult AddTyreInfo(Guid id)
         {
             TyreInfoAddViewModel viewModel = new TyreInfoAddViewModel
             {
-                CarId = carId,
+                CarId = id,
                 TyreShops = _tyreShopsRepository.GetAll().ToList()
             };
             return View(viewModel);
@@ -38,7 +38,7 @@ namespace WebRentManager.Controllers
                 TyreInfo info = new TyreInfo
                 {
                     CarId = model.CarId,
-                    TyreName = model.TyreName,                    
+                    TyreName = model.TyreName,
                     Diameter = model.Diameter,
                     Profile = model.Profile,
                     Width = model.Width,
@@ -46,7 +46,7 @@ namespace WebRentManager.Controllers
                     Dot = model.Dot,
                     TyreType = model.TyreType,
                     TyreStatus = model.TyreStatus,
-                    Id=new Guid()
+                    Id = Guid.NewGuid()
                 };
                 if (info.TyreStatus == TyreStatus.Samochód || info.TyreStatus == TyreStatus.Brak)
                 {

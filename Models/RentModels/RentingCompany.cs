@@ -7,6 +7,6 @@ namespace WebRentManager.Models
 {
     public enum RentingCompany
     {
-        Lease2,SayRent
+        Temp1,Temp2
     }
 }

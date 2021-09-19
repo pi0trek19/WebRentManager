@@ -1038,9 +1038,6 @@ namespace WebRentManager.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("InvoiceId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("Milage")
                         .HasColumnType("int");
 
@@ -1052,8 +1049,6 @@ namespace WebRentManager.Migrations
                     b.HasIndex("CarId");
 
                     b.HasIndex("ClientId");
-
-                    b.HasIndex("InvoiceId");
 
                     b.ToTable("Services");
                 });
@@ -1421,12 +1416,6 @@ namespace WebRentManager.Migrations
                     b.HasOne("WebRentManager.Models.Client", "Client")
                         .WithMany()
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebRentManager.Models.Invoice", "Invoice")
-                        .WithMany()
-                        .HasForeignKey("InvoiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
